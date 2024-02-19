@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthHelper {
 
+  //start sign up process method
    Future<bool> startSignUp(String username, String email, String password) async {
     bool isSuccess = false;
     try {
@@ -37,6 +38,7 @@ class AuthHelper {
     return isSuccess;
   }
 
+  //start login process method
   Future<bool> startLogin(String email, String password) async{
      bool isSuccess = false;
     try {

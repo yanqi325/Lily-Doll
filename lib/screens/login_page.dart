@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_lily/Data/DbHelper.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/forgot_password.dart';
 import 'package:project_lily/screens/home_page.dart';
@@ -90,6 +92,8 @@ class _LoginScreenState extends State<LoginPage> {
                       AuthHelper authHelper = new AuthHelper();
                       bool success = await authHelper.startLogin(email!, password!);
                       if(success){
+                        DbHelper dbHelper = new DbHelper();
+                        dbHelper.getUserDataFromFirestore(FirebaseAuth.instance.currentUser!.uid);
                         Navigator.pushNamed(context, HomePage.id);
                       }else{
                         //show error code here

@@ -5,8 +5,10 @@ import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/login_page.dart';
 import 'package:project_lily/screens/user_page.dart';
 import '../Data/AuthHelper.dart';
+import '../Data/DbHelper.dart';
 import '../component/TextField.dart';
 import '../component/ElevatedButton.dart';
+import 'home_page.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = 'signup_page';
@@ -117,7 +119,14 @@ class _SignupScreenState extends State<SignUpPage> {
                   onPressed: () async {
                     //start signup process
                     AuthHelper authHelper = new AuthHelper();
-                    authHelper.startSignUp(username!,email!, password!);
+                    bool success = await authHelper.startSignUp(username!,email!, password!);
+                    if(success){
+                      DbHelper dbHelper = new DbHelper();
+                      dbHelper.getUserDataFromFirestore(FirebaseAuth.instance.currentUser!.uid);
+                      Navigator.pushNamed(context, HomePage.id);
+                    }else{
+                      //show error code here
+                    }
                   },
                 ),
               ), //add onPress
