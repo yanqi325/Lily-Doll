@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/forgot_password.dart';
 import 'package:project_lily/screens/home_page.dart';
 import 'package:project_lily/screens/user_page.dart';
+import '../Data/AuthHelper.dart';
 import '../component/TextField.dart';
 import '../component/ElevatedButton.dart';
 
@@ -83,8 +85,16 @@ class _LoginScreenState extends State<LoginPage> {
                     color:purple1,
                     fontSize: 15,
                     fontColor: Colors.white,
-                    onPressed: (){
-                      Navigator.pushNamed(context, HomePage.id);
+                    onPressed: () async {
+                      //login process
+                      AuthHelper authHelper = new AuthHelper();
+                      bool success = await authHelper.startLogin(email!, password!);
+                      if(success){
+                        Navigator.pushNamed(context, HomePage.id);
+                      }else{
+                        //show error code here
+                      }
+                      //
                     },
                   ),
               ), //add onPress

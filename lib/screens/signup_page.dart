@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/login_page.dart';
 import 'package:project_lily/screens/user_page.dart';
+import '../Data/AuthHelper.dart';
 import '../component/TextField.dart';
 import '../component/ElevatedButton.dart';
 
@@ -112,7 +114,11 @@ class _SignupScreenState extends State<SignUpPage> {
                   color:purple1,
                   fontSize: 15,
                   fontColor: Colors.white,
-                  onPressed: (){},
+                  onPressed: () async {
+                    //start signup process
+                    AuthHelper authHelper = new AuthHelper();
+                    authHelper.startSignUp(username!,email!, password!);
+                  },
                 ),
               ), //add onPress
               SizedBox(height: 5,),
@@ -123,8 +129,9 @@ class _SignupScreenState extends State<SignUpPage> {
                       style: signUpTextStyle
                   ),
                   InkWell(
-                    onTap: (){
-                      //print('Sign up pressed');
+                    onTap: () async {
+
+                      // print('Sign up pressed');
                       Navigator.pushNamed(context, LoginPage.id);
                     },
                     child: Text('Sign In',
