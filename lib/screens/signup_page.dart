@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/login_page.dart';
 import 'package:project_lily/screens/user_page.dart';
-import '../Data/AuthHelper.dart';
-import '../Data/DbHelper.dart';
 import '../component/TextField.dart';
 import '../component/ElevatedButton.dart';
+import '../helperMethods/AuthHelper.dart';
+import '../helperMethods/DbHelper.dart';
 import 'home_page.dart';
 
 class SignUpPage extends StatefulWidget {

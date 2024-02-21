@@ -58,4 +58,13 @@ class AuthHelper {
     }
     return isSuccess;
   }
+
+  //get user uid
+   Future<String?> getCurrentUserId() async {
+     // Get the current user from FirebaseAuth
+     User? user = FirebaseAuth.instance.currentUser;
+
+     // Return the user ID if the user is not null
+     return user?.uid;
+   }
 }

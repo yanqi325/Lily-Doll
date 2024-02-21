@@ -8,6 +8,7 @@ import 'package:project_lily/educator_screen/enrollment.dart';
 import 'package:project_lily/educator_screen/manage_courses_detail.dart';
 import 'package:project_lily/educator_screen/student_details.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
+import 'package:project_lily/helperMethods/DollDataAnalyzeHelper.dart';
 import 'package:project_lily/screens/chat.dart';
 import 'package:project_lily/screens/chatroom.dart';
 import 'package:project_lily/screens/course_video.dart';
@@ -37,6 +38,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+
+
   WidgetsFlutterBinding.ensureInitialized();
   //initialize firebase
   await Firebase.initializeApp(
@@ -46,6 +49,10 @@ void main() async {
       .then((_) {
     runApp(MyApp());
   });
+  //testing
+  DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
+  db.decodeDollData();
+
 }
 
 class MyApp extends StatelessWidget {

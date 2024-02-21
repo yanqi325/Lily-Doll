@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_lily/Data/DbHelper.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/forgot_password.dart';
 import 'package:project_lily/screens/home_page.dart';
 import 'package:project_lily/screens/user_page.dart';
-import '../Data/AuthHelper.dart';
 import '../component/TextField.dart';
 import '../component/ElevatedButton.dart';
+import '../helperMethods/AuthHelper.dart';
+import '../helperMethods/DbHelper.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = 'login_page';
