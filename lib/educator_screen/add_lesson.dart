@@ -119,13 +119,11 @@ class _AddLessonScreenState extends State<AddLesson> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Attachment',
-                                    style: appLabelTextStyle.copyWith(
-                                        fontSize: 15, color: Colors.black),
+                                  educator_textField(
+                                    title: 'Video Link',
+                                    hintText: 'Enter course video link',
                                   ),
-                                  SizedBox(height: 2,),
-                                  AddAttachment(title: 'Add File', onPressed: (){},)
+                                  SizedBox(height: 3,),
                                 ],
                               ),
                             ),
