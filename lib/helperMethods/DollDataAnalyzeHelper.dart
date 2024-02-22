@@ -28,8 +28,9 @@ class DollDataAnalyzeHelper {
       if(singleEntry.isNotEmpty && singleEntry.length ==3){
         var date = DateTime.fromMillisecondsSinceEpoch(
             int.parse(singleEntry[2]) * 1000);
+        var hour = date.hour;
         SqueezeTouchData st = new SqueezeTouchData(
-            singleEntry[0], double.parse(singleEntry[1]), date);
+            singleEntry[0], double.parse(singleEntry[1]), date,hour);
         datalist.add(st);
       }
     }
@@ -50,7 +51,7 @@ class DollDataAnalyzeHelper {
     //save objects into firebase
     DbHelper dbHelper = new DbHelper();
     SqueezeTouchDataList.forEach((element) {
-      dbHelper.saveDataToFirestore(element);
+      dbHelper.addDocumentToDateSubcollection(element);
     });
 
 

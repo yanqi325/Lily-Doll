@@ -7,9 +7,10 @@ class SqueezeTouchData{
   DateTime timestamp;
   bool isSqueeze = false;
   bool isTouch = false;
+  int hour;
   static double touchThreshold = 50.0;
 
-  SqueezeTouchData(this.sensorPartName, this.pressure, this.timestamp){
+  SqueezeTouchData(this.sensorPartName, this.pressure, this.timestamp,this.hour){
     determineType();
   }
 

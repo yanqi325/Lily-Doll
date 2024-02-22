@@ -49,9 +49,7 @@ void main() async {
       .then((_) {
     runApp(MyApp());
   });
-  //testing
-  DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
-  db.decodeDollData();
+
 
 }
 

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:project_lily/Data/SqueezeTouchData.dart';
 import 'package:project_lily/helperMethods/AuthHelper.dart';
 
@@ -30,12 +31,15 @@ class DbHelper{
     }
   }
 
-  //save doll data in firebase
-
-  Future<void> saveDataToFirestore(SqueezeTouchData data) async {
+  //add squeeze touch data to usersExtended
+  Future<void> addDocumentToDateSubcollection(SqueezeTouchData data) async {
     try {
+
+      AuthHelper authHelper = new AuthHelper();
+      String? userid = await authHelper.getCurrentUserId();
+
       // Access Firestore instance
-      FirebaseFirestore db = FirebaseFirestore.instance;
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       final squeezeTouchData = <String,String>{
         "SensorPartName":data.sensorPartName.toString(),
@@ -44,37 +48,31 @@ class DbHelper{
         "IsTouch":data.isTouch.toString(),
         "IsSqueeze":data.isSqueeze.toString(),
       };
-      AuthHelper authHelper = new AuthHelper();
-      String? userid = await authHelper.getCurrentUserId();
 
-      // // Reference to a collection
-      // CollectionReference mainCollectionRef = db.collection('squeezeTouches');
-      //
-      // // Data for the main document
-      // Map<String, dynamic> mainDocumentData = {
-      //
-      // };
-      //
-      // // Add a document to the main collection
-      // await mainCollectionRef.doc(userid!).set(mainDocumentData);
-      //
-      // DocumentReference mainDocumentRef = mainCollectionRef;
-      //
-      // CollectionReference subCollectionRef = mainDocumentRef.collection('sub_collection');
+      // Reference to the 'usersExtended' collection
+      CollectionReference usersExtendedCollectionRef = firestore.collection('usersExtended');
 
-      db
-          .collection("squeezeTouches")
-          .doc(userid!)
-          .collection("data")
-          .doc()
-          .set(squeezeTouchData);
+      // Reference to the 'SquuezeTouches' document within 'usersExtended'
+      DocumentReference userDocumentRef = usersExtendedCollectionRef.doc(userid!);
 
-      print('Data saved successfully!');
+      CollectionReference squeezeTouchesDocumentRef = userDocumentRef.collection('SquuezeTouches');
+
+
+      var date = DateFormat('d-M-y').format(DateTime.now());
+      // Reference to the 'date' subcollection within 'SquuezeTouches' document
+      DocumentReference dateSubcollectionRef = squeezeTouchesDocumentRef.doc(date);
+
+      // Add a document to the 'date' subcollection with a custom ID
+      CollectionReference hourRef = dateSubcollectionRef.collection(data.hour.toString());
+
+      await hourRef.add(squeezeTouchData);
+
+      print('Document added successfully to the date subcollection');
     } catch (e) {
-      print('Error saving data: $e');
+      print('Error adding document to the date subcollection: $e');
     }
   }
 
-  // //add details to custom 'user' db
+  //
 
 }

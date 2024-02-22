@@ -10,6 +10,7 @@ import '../component/TextField.dart';
 import '../component/ElevatedButton.dart';
 import '../helperMethods/AuthHelper.dart';
 import '../helperMethods/DbHelper.dart';
+import '../helperMethods/DollDataAnalyzeHelper.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = 'login_page';
@@ -95,6 +96,9 @@ class _LoginScreenState extends State<LoginPage> {
                         DbHelper dbHelper = new DbHelper();
                         dbHelper.getUserDataFromFirestore(FirebaseAuth.instance.currentUser!.uid);
                         Navigator.pushNamed(context, HomePage.id);
+                        //testing
+                        DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
+                        db.decodeDollData();
                       }else{
                         //show error code here
                       }
