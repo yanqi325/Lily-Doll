@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_lily/constants.dart';
+import 'package:project_lily/screens/SignUp_user_page.dart';
 import 'package:project_lily/screens/login_page.dart';
 import 'package:project_lily/screens/user_page.dart';
 import '../component/ElevatedButton.dart';
@@ -40,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
                   fontSize: 15,
                   fontColor: Colors.white,
                   onPressed:(){
-                    Navigator.pushNamed(context, LoginPage.id);
+                    Navigator.pushNamed(context, UserPage.id);
                   }
                   ), //add onPress
               SizedBox(height: 5,),
@@ -53,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
                   InkWell(
                     onTap: (){
                       //print('Sign up pressed');
-                      Navigator.pushNamed(context, UserPage.id);
+                      Navigator.pushNamed(context, SignUpUserPage.id);
                     },
                     child: Text('Sign Up',
                       style: signUpButtonTextStyle,
