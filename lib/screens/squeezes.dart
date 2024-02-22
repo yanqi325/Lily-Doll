@@ -95,7 +95,7 @@ class _SqueezesScreenState extends State<Squeezes> {
                                   color: Colors.white, fontSize: 13),
                             ),
                             Text(
-                              'SPM XXX',
+                              'SPH XXX',
                               style: appLabelTextStyle.copyWith(
                                   color: Colors.white, fontSize: 13),
                             ),
