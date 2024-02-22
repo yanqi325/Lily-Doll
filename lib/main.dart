@@ -35,7 +35,9 @@ import 'package:project_lily/screens/web_view.dart';
 import 'package:project_lily/screens/welcome_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'Data/SqueezeTouchData.dart';
 import 'firebase_options.dart';
+import 'helperMethods/DbHelper.dart';
 
 void main() async {
 
@@ -50,6 +52,12 @@ void main() async {
     runApp(MyApp());
   });
 
+  // testing
+  DbHelper dbHelper = new DbHelper();
+  List<SqueezeTouchData>? dataList = await dbHelper.getDataFromAllDateSubcollections("1-1-2000");
+  dataList!.forEach((element) {
+    print(element.pressure);
+  });
 
 }
 

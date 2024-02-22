@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_lily/Data/SqueezeTouchData.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/forgot_password.dart';
 import 'package:project_lily/screens/home_page.dart';
@@ -99,6 +100,10 @@ class _LoginScreenState extends State<LoginPage> {
                         //testing
                         DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
                         db.decodeDollData();
+                        List<SqueezeTouchData>? dataList = await dbHelper.getDataFromAllDateSubcollections("22-2-2024");
+                        dataList!.forEach((element) {
+                          print(element.pressure);
+                        });
                       }else{
                         //show error code here
                       }

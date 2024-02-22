@@ -30,7 +30,8 @@ class DollDataAnalyzeHelper {
             int.parse(singleEntry[2]) * 1000);
         var hour = date.hour;
         SqueezeTouchData st = new SqueezeTouchData(
-            singleEntry[0], double.parse(singleEntry[1]), date,hour);
+            singleEntry[0], double.parse(singleEntry[1]), date);
+        st.hour = hour;
         datalist.add(st);
       }
     }
