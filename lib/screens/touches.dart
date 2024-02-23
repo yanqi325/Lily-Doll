@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:project_lily/Data/Users.dart';
-import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/constants.dart';
-import 'package:project_lily/screens/courses_chapter.dart';
-import 'package:project_lily/screens/profile_page.dart';
-import '../Data/Courses.dart';
 import '../component/AppBar.dart';
-import '../component/CoursesCard.dart';
-import '../component/IconButton.dart';
-import '../component/NavigationBar.dart';
-import '../component/PageLabel.dart';
 import '../component/TouchesPart.dart';
 
 class Touches extends StatefulWidget {
@@ -37,13 +27,12 @@ class _TouchesScreenState extends State<Touches> {
                 padding: const EdgeInsets.only(top: 28.0),
                 child: Center(
                   child: Container(
-                    child: Image.asset('images/lilydoll2.png', scale: 1.8,),
+                    child: Image.asset('images/bunny.png', scale: 2.5,),
                   ),
                 ),
               ),
-              SizedBox(height: 18,),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 3.0, bottom: 30),
                 child: Container(
                   decoration: BoxDecoration(
                   color: Colors.white,

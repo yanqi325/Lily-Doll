@@ -96,20 +96,16 @@ class _HomePageScreenState extends State<HomePage> {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(25.0),
+                      padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 25, bottom: 0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             child: Image.asset(
-                              'images/lilydoll.png',
-                              width: 290,
-                              height: 300,
+                              'images/bunny.png',
+                              width: 300,
+                              height: 340,
                             ),
-                          ),
-                          SizedBox(
-                            height: 15,
                           ),
                           Row(
                             children: [
