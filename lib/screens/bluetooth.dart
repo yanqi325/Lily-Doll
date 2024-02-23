@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:project_lily/component/Avatar.dart';
 import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/constants.dart';
@@ -21,6 +22,34 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
   bool isPressed = false;
   bool isConnect = false;
   String isConnectLabel = '';
+
+  List<BluetoothDevice> devices = [];
+  final FlutterBlue flutterBlue = FlutterBlue.instance;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _startScan();
+  }
+
+  void _startScan() {
+    flutterBlue.scanResults.listen((List<ScanResult> scanResults) {
+      for (ScanResult scanResult in scanResults) {
+        if (!devices.contains(scanResult.device)) {
+          setState(() {
+            devices.add(scanResult.device);
+          });
+        }
+      }
+    });
+    flutterBlue.startScan();
+  }
+
+  void _connectToDevice(BluetoothDevice device) async {
+    await device.connect();
+    // Connection established, now you can exchange data
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,18 +138,31 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
                     borderRadius: BorderRadius.circular(13),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'LilyDoll',
-                      style: appBarLabel.copyWith(color: Colors.black, fontSize: 16),
-                    ),
-                    SizedBox(width: 50),
-                    Text(
-                      '$isConnectLabel',style: appLabelTextStyle.copyWith(color: Colors.lightGreen),
-                    ),
-                  ],
+                child:
+    ListView.builder(
+    itemCount: devices.length,
+    shrinkWrap: true,
+    itemBuilder: (BuildContext context, int index) {
+      BluetoothDevice device = devices[index];
+      return ListTile(
+        title: Text(device.name),
+        onTap: () {
+          _connectToDevice(device);
+        },
+      );
+    }
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // children: [
+                  //   Text(
+                  //     'LilyDoll',
+                  //     style: appBarLabel.copyWith(color: Colors.black, fontSize: 16),
+                  //   ),
+                  //   SizedBox(width: 50),
+                  //   Text(
+                  //     '$isConnectLabel',style: appLabelTextStyle.copyWith(color: Colors.lightGreen),
+                  //   ),
+                  // ],
                 ),
               ),
 
