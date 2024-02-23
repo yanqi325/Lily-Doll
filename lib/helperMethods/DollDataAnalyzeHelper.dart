@@ -19,7 +19,6 @@ class DollDataAnalyzeHelper {
     return textData;
   }
 
-  //TODO: fix this
   List<SqueezeTouchData> addToList(List<List<String>> dummy) {
     List<SqueezeTouchData> datalist =[];
     //add to list 1 by 1
@@ -38,6 +37,7 @@ class DollDataAnalyzeHelper {
     return datalist;
   }
 
+  //get data from bluetooth, and transform data into object, and upload to firebase
   void decodeDollData() async {
 
     List<SqueezeTouchData> SqueezeTouchDataList=[];
@@ -55,7 +55,99 @@ class DollDataAnalyzeHelper {
       dbHelper.addDocumentToDateSubcollection(element);
     });
 
-
   }
 
+  //get touch percentages in the past 24 hours
+  Future<Map<String, double>> calculateTouchPercentages (String dateToSearch) async {
+    //list sensors here
+    int sensor1 = 0;
+    int sensor2 =0;
+
+    //key=sensorName, value=touchPercentage
+    DbHelper dbHelper = new DbHelper();
+    List<SqueezeTouchData>? data = await dbHelper.getDataFromAllDateSubcollections(dateToSearch);
+    if(data != null){
+      data.forEach((element) {
+        if(element.isTouch){
+          switch(element.sensorPartName){
+            case "sensor1":
+              sensor1++;
+              break;
+            case "sensor2":
+              sensor2++;
+              break;
+          }
+        }
+        });
+    }
+    //calculate percentage
+    int total = sensor1 + sensor2;
+    double sensor1Percent = sensor1 / total;
+    double sensor2Percent = sensor2 / total;
+
+    //create map
+    Map<String,double> touchPercentages = {
+      "sensor1": sensor1Percent,
+      "sensor2" :sensor2Percent
+    };
+
+    // print("Sensor1= " + sensor1.toString());
+    // print("Sensor1= " + sensor2.toString());
+
+    return touchPercentages;
+  }
+
+  //get squeeze percentages in the past 24 hours
+  Future<Map<String, double>> calculateSqueezePercentages (String dateToSearch) async {
+    //list quartiles here
+    int firstQuartile = 0;
+    int secondQuartile =0;
+    int thirdQuartile = 0;
+    int fourthQuartile = 0;
+
+    //key=quartile of day, value=squeezePercentage
+    DbHelper dbHelper = new DbHelper();
+    List<SqueezeTouchData>? data = await dbHelper.getDataFromAllDateSubcollections(dateToSearch);
+    if(data != null){
+      data.forEach((element) {
+        if(element.isSqueeze){
+          element.hour = element.timestamp.hour;
+          print(element.timestamp);
+          print(element.timestamp.hour);
+          // Determine quartile and add element accordingly
+          if (element.hour >= 1 && element.hour <= 6) {
+            firstQuartile++;
+          } else if (element.hour >= 7 && element.hour <= 12) {
+            secondQuartile++;
+          } else if (element.hour >= 13 && element.hour <= 18) {
+            thirdQuartile++;
+          } else if (element.hour >= 19 && element.hour <= 24) {
+            fourthQuartile++;
+          }
+        }
+        // print(element.hour);
+      });
+    }
+    //calculate percentage
+    int total = firstQuartile+ secondQuartile + thirdQuartile + fourthQuartile;
+    double firstQuartilePercent = firstQuartile / total;
+    double secondQuartilePercent = secondQuartile / total;
+    double thirdQuartilePercent = thirdQuartile / total;
+    double fourthQuartilePercent = fourthQuartile / total;
+
+    //create map
+    Map<String,double> squeezePercentages = {
+      "firstQuartile": firstQuartilePercent,
+      "secondQuartile" :secondQuartilePercent,
+      "thirdQuartile" : thirdQuartilePercent,
+      "fourthQuartile" : fourthQuartilePercent
+    };
+
+    print("1= " + firstQuartile.toString());
+    print("2= " + secondQuartile.toString());
+    print("3= " + thirdQuartile.toString());
+    print("4= " + fourthQuartile.toString());
+
+    return squeezePercentages;
+  }
 }

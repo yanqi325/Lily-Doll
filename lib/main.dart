@@ -8,6 +8,8 @@ import 'package:project_lily/educator_screen/enrollment.dart';
 import 'package:project_lily/educator_screen/manage_courses_detail.dart';
 import 'package:project_lily/educator_screen/student_details.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
+import 'package:project_lily/screens/SignUp_user_page.dart';
+import 'package:project_lily/screens/bluetooth.dart';
 import 'package:project_lily/helperMethods/DollDataAnalyzeHelper.dart';
 import 'package:project_lily/screens/chat.dart';
 import 'package:project_lily/screens/chatroom.dart';
@@ -40,8 +42,6 @@ import 'firebase_options.dart';
 import 'helperMethods/DbHelper.dart';
 
 void main() async {
-
-
   WidgetsFlutterBinding.ensureInitialized();
   //initialize firebase
   await Firebase.initializeApp(
@@ -54,11 +54,11 @@ void main() async {
 
   // testing
   DbHelper dbHelper = new DbHelper();
-  List<SqueezeTouchData>? dataList = await dbHelper.getDataFromAllDateSubcollections("1-1-2000");
+  List<SqueezeTouchData>? dataList =
+      await dbHelper.getDataFromAllDateSubcollections("1-1-2024");
   dataList!.forEach((element) {
     print(element.pressure);
   });
-
 }
 
 class MyApp extends StatelessWidget {
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: WelcomeScreen.id,
-        routes:{
+        routes: {
           WelcomeScreen.id: (context) => WelcomeScreen(),
           UserPage.id: (context) => UserPage(),
           LoginPage.id: (context) => LoginPage(),
@@ -99,16 +99,8 @@ class MyApp extends StatelessWidget {
           EnrolledStudentList.id: (context) => EnrolledStudentList(),
           Enrollment.id: (context) => Enrollment(),
           StudentDetails.id: (context) => StudentDetails(),
-
-
-
-
-
-
-
-
-        }
-
-    );
+          SignUpUserPage.id: (context) => SignUpUserPage(),
+          BluetoothPage.id: (context) => BluetoothPage(),
+        });
   }
 }

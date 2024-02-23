@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/Data/SqueezeTouchData.dart';
 import 'package:project_lily/constants.dart';
+import 'package:project_lily/screens/SignUp_user_page.dart';
 import 'package:project_lily/screens/forgot_password.dart';
 import 'package:project_lily/screens/home_page.dart';
 import 'package:project_lily/screens/user_page.dart';
@@ -90,6 +91,7 @@ class _LoginScreenState extends State<LoginPage> {
                     fontSize: 15,
                     fontColor: Colors.white,
                     onPressed: () async {
+
                       //login process
                       AuthHelper authHelper = new AuthHelper();
                       bool success = await authHelper.startLogin(email!, password!);
@@ -97,17 +99,18 @@ class _LoginScreenState extends State<LoginPage> {
                         DbHelper dbHelper = new DbHelper();
                         dbHelper.getUserDataFromFirestore(FirebaseAuth.instance.currentUser!.uid);
                         Navigator.pushNamed(context, HomePage.id);
+
                         //testing
-                        DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
-                        db.decodeDollData();
-                        List<SqueezeTouchData>? dataList = await dbHelper.getDataFromAllDateSubcollections("22-2-2024");
-                        dataList!.forEach((element) {
-                          print(element.pressure);
-                        });
+                        // DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
+                        // db.decodeDollData();
+                        // List<SqueezeTouchData>? dataList = await dbHelper.getDataFromAllDateSubcollections("22-2-2024");
+                        // dataList!.forEach((element) {
+                        //   print(element.pressure);
+                        // });
                       }else{
                         //show error code here
                       }
-                      //
+
                     },
                   ),
               ), //add onPress
@@ -121,7 +124,7 @@ class _LoginScreenState extends State<LoginPage> {
                   InkWell(
                     onTap: (){
                       //print('Sign up pressed');
-                      Navigator.pushNamed(context, UserPage.id);
+                      Navigator.pushNamed(context, SignUpUserPage.id);
                     },
                     child: Text('Sign Up',
                       style: signUpButtonTextStyle,

@@ -5,6 +5,7 @@ import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/constants.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:project_lily/screens/about_us.dart';
+import 'package:project_lily/screens/bluetooth.dart';
 import 'package:project_lily/screens/help_center.dart';
 import 'package:project_lily/screens/language.dart';
 import 'package:project_lily/screens/notification.dart';
@@ -84,6 +85,9 @@ class _SettingPageScreenState extends State<SettingPage> {
                       setState(() {
                         isPressed = !isPressed;
                       });
+                      if (isPressed == true){
+                        Navigator.pushNamed(context, BluetoothPage.id);
+                      }
                     },
                   ),
                 ),

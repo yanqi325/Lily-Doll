@@ -2,32 +2,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/constants.dart';
 
-class UserButton extends StatelessWidget {
-  const UserButton({this.title, this.imagePath, this.onPressed});
+class UserButton extends StatefulWidget {
+  UserButton({
+     this.title,
+     this.imagePath,
+     this.onPressed,
+     this.isSelected,
+     this.updateSelected,
+  });
 
   final String? title;
   final String? imagePath;
   final VoidCallback? onPressed;
+  final bool? isSelected;
+  final Function(bool)? updateSelected;
 
+  @override
+  _UserButtonState createState() => _UserButtonState();
+}
+
+class _UserButtonState extends State<UserButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      onPressed: onPressed,
+      onPressed: () {
+        widget.onPressed!();
+      },
       style: ElevatedButton.styleFrom(
         elevation: 5,
         minimumSize: Size(240.0, 60.0),
-        backgroundColor: Colors.white70,
+        backgroundColor: widget.isSelected! ? Colors.white70 : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
       ),
       icon: ImageIcon(
-        AssetImage(imagePath!),
+        AssetImage(widget.imagePath!),
         color: Colors.black,
         size: 30,
       ),
       label: Text(
-        title!,
+        widget.title!,
         style: TextStyle(
           fontSize: 23,
           color: Colors.black,
@@ -37,3 +52,4 @@ class UserButton extends StatelessWidget {
     );
   }
 }
+

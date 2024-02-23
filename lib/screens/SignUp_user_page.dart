@@ -8,14 +8,14 @@ import 'package:project_lily/screens/signup_page.dart';
 import '../component/UserButton.dart';
 import '../component/ElevatedButton.dart';
 
-class UserPage extends StatefulWidget {
-  static const String id = 'user_page';
+class SignUpUserPage extends StatefulWidget {
+  static const String id = 'SignUp_user_page';
 
   @override
   _UserPageState createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _UserPageState extends State<SignUpUserPage> {
   String userType=''; // Variable to store user selection
   bool isEducatorSelected = false;
   bool isUserSelected = false;
@@ -30,9 +30,9 @@ class _UserPageState extends State<UserPage> {
           children: [
             Center(
               child: Text(
-                'I\'m a ...',
+                'Sign Up as A ...',
                 style: TextStyle(
-                  fontSize: 45,
+                  fontSize: 35,
                   fontWeight: FontWeight.w400,
                   fontFamily: fontFamily,
                 ),
@@ -71,11 +71,7 @@ class _UserPageState extends State<UserPage> {
               fontSize: 15,
               fontColor: Colors.white,
               onPressed: () {
-                if (userType == 'Educator') {
-                  Navigator.pushNamed(context, Dashboard.id); // Navigate to Dashboard if user is an Educator
-                } else if (userType == 'User') {
-                  Navigator.pushNamed(context, LoginPage.id); // Navigate to SignUpPage if user is a User
-                }
+                Navigator.pushNamed(context, SignUpPage.id);
               },
             ),
           ],

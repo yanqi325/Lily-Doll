@@ -6,8 +6,9 @@ import '../Data/SqueezesDataModel_PerDay.dart';
 import '../constants.dart';
 
 class SqueezesCircularChartWidget extends StatefulWidget {
-  SqueezesCircularChartWidget({this.weekChoice});
+  SqueezesCircularChartWidget({this.weekChoice, this.percentage});
   final int? weekChoice;
+  final Map<String,double>? percentage;
 
   @override
   State<SqueezesCircularChartWidget> createState() => SqueezeCircularChart();
@@ -70,6 +71,7 @@ class SqueezeCircularChart extends State<SqueezesCircularChartWidget> {
       '18:01 - 00:00',
     ];
 
+    print(widget.percentage);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -91,12 +93,18 @@ class SqueezeCircularChart extends State<SqueezesCircularChartWidget> {
                               CircularStackEntry(
                                 <CircularSegmentEntry>[
                                   CircularSegmentEntry(
-                                    double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
+                                    // double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
+                                    (i == 0 && j==0) ? widget.percentage!['firstQuartile']!*100 : (i ==0 &&j==1) ? widget.percentage!['thirdQuartile']!*100 :(i == 1 && j==0) ? widget.percentage!['secondQuartile']!*100 : (i ==1 &&j==1) ? widget.percentage!['fourthQuartile']!*100 : 0 ,
+                                    // widget.percentage!['firstQuartile']!*100,
+                                    // 30,
                                     chartColors[i * 2 + j],
                                     rankKey: 'completed',
                                   ),
                                   CircularSegmentEntry(
-                                    100 - double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
+                                    // 100 - double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
+                                    100 -((i == 0 && j==0) ? widget.percentage!['firstQuartile']!*100 : (i ==0 &&j==1) ? widget.percentage!['thirdQuartile']!*100 :(i == 1 && j==0) ? widget.percentage!['secondQuartile']!*100 : (i ==1 &&j==1) ? widget.percentage!['fourthQuartile']!*100 : 0 ),
+                                    // 100 - widget.percentage!['firstQuartile']!*100,
+                                    // 70,
                                     chartColors[i * 2 + j].withOpacity(0.5),
                                     rankKey: 'remaining',
                                   ),
@@ -106,7 +114,7 @@ class SqueezeCircularChart extends State<SqueezesCircularChartWidget> {
                             ],
                             chartType: CircularChartType.Radial,
                             percentageValues: true,
-                            holeLabel: '${_list[week].getTimeProperty(i * 2 + j + 1)}%',
+                            holeLabel:((i == 0 && j==0) ? (widget.percentage!['firstQuartile']!*100).toStringAsFixed(1) : (i ==0 &&j==1) ? (widget.percentage!['thirdQuartile']!*100).toStringAsFixed(1) :(i == 1 && j==0) ? (widget.percentage!['secondQuartile']!*100).toStringAsFixed(1) : (i ==1 &&j==1) ? (widget.percentage!['fourthQuartile']!*100).toStringAsFixed(1) : "0") + "%",
                             labelStyle: appLabelTextStyle.copyWith(color: Colors.black,),
                           ),
                           Text(

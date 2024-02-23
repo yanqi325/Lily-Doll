@@ -126,7 +126,7 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Attachment',
+                                    'Thumbnail',
                                     style: appLabelTextStyle.copyWith(
                                         fontSize: 15, color: Colors.black),
                                   ),
