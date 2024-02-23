@@ -9,6 +9,7 @@ import 'package:project_lily/educator_screen/manage_courses_detail.dart';
 import 'package:project_lily/educator_screen/student_details.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
 import 'package:project_lily/screens/SignUp_user_page.dart';
+import 'package:project_lily/screens/bluetooth.dart';
 import 'package:project_lily/screens/chat.dart';
 import 'package:project_lily/screens/chatroom.dart';
 import 'package:project_lily/screens/course_video.dart';
@@ -81,6 +82,8 @@ class MyApp extends StatelessWidget {
           Enrollment.id: (context) => Enrollment(),
           StudentDetails.id: (context) => StudentDetails(),
           SignUpUserPage.id: (context) => SignUpUserPage(),
+          BluetoothPage.id: (context) => BluetoothPage(),
+
 
 
 
