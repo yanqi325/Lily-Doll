@@ -47,7 +47,7 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
   }
 
   void _connectToDevice(BluetoothDevice device) async {
-    await device.connect();
+    device.connect().then((value) => print("Connected"));
     // Connection established, now you can exchange data
   }
 
