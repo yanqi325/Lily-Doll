@@ -14,6 +14,7 @@ import '../component/ToggleButtonCard.dart';
 
 class BluetoothPage extends StatefulWidget {
   static const String id = 'bluetooth_page';
+
   @override
   _BluetoothPageScreenState createState() => _BluetoothPageScreenState();
 }
@@ -25,7 +26,6 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
 
   List<BluetoothDevice> devices = [];
   final FlutterBlue flutterBlue = FlutterBlue.instance;
-
 
   @override
   void initState() {
@@ -65,71 +65,81 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ToggleButtonCard(label: 'Bluetooth',),
-              SizedBox(height: 20,),
-              Text('Devices',
-                style: appBarLabel.copyWith(color: purple4, fontSize: 18),),
-              SizedBox(height: 12,),
+              ToggleButtonCard(
+                label: 'Bluetooth',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Devices',
+                style: appBarLabel.copyWith(color: purple4, fontSize: 18),
+              ),
+              SizedBox(
+                height: 12,
+              ),
               ElevatedButton(
                 onPressed: () {
-                 if (isConnect == false){
-                   showDialog(
-                     context: context,
-                     builder: (BuildContext context) {
-                       return AlertDialog(
-                         title: Text('Connect Device', style: appLabelTextStyle),
-                         content: Text('Do you wish to connect this device?'),
-                         actions: [
-                           ElevatedButton(
-                             onPressed: () {
-                               Navigator.pop(context);
-                             },
-                             child: Text('CANCEL'),
-                           ),
-                           ElevatedButton(
-                             onPressed: () {
-                               setState(() {
-                                 isConnect = true;
-                                 isConnectLabel = 'Connected';
-                               });
-                               Navigator.pop(context);
-                             },
-                             child: Text('Connect'),
-                           ),
-                         ],
-                       );
-                     },
-                   );
-                 }
-                 else{
-                   showDialog(
-                     context: context,
-                     builder: (BuildContext context) {
-                       return AlertDialog(
-                         title: Text('Disconnect Device', style: appLabelTextStyle),
-                         content: Text('Do you wish to disconnect this device?'),
-                         actions: [
-                           ElevatedButton(
-                             onPressed: () {
-                               Navigator.pop(context);
-                             },
-                             child: Text('CANCEL'),
-                           ),
-                           ElevatedButton(
-                             onPressed: () {
-                               setState(() {
-                                 isConnect = false;
-                                 isConnectLabel = '';
-                               });
-                               Navigator.pop(context);
-                             },
-                             child: Text('Disconnect'),
-                           ),
-                         ],
-                       );
-                     },
-                   );
-                 }
+                  if (isConnect == false) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title:
+                              Text('Connect Device', style: appLabelTextStyle),
+                          content: Text('Do you wish to connect this device?'),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('CANCEL'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  isConnect = true;
+                                  isConnectLabel = 'Connected';
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Text('Connect'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Disconnect Device',
+                              style: appLabelTextStyle),
+                          content:
+                              Text('Do you wish to disconnect this device?'),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('CANCEL'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  isConnect = false;
+                                  isConnectLabel = '';
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Text('Disconnect'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xDDE6D3F6),
@@ -138,42 +148,36 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
                     borderRadius: BorderRadius.circular(13),
                   ),
                 ),
-                child:
-    ListView.builder(
-    itemCount: devices.length,
-    shrinkWrap: true,
-    itemBuilder: (BuildContext context, int index) {
-      BluetoothDevice device = devices[index];
-      return ListTile(
-        title: Text(device.name),
-        onTap: () {
-          _connectToDevice(device);
-        },
-      );
-    }
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // children: [
-                  //   Text(
-                  //     'LilyDoll',
-                  //     style: appBarLabel.copyWith(color: Colors.black, fontSize: 16),
-                  //   ),
-                  //   SizedBox(width: 50),
-                  //   Text(
-                  //     '$isConnectLabel',style: appLabelTextStyle.copyWith(color: Colors.lightGreen),
-                  //   ),
-                  // ],
-                ),
+                child: ListView.builder(
+                    itemCount: devices.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      BluetoothDevice device = devices[index];
+                      return ListTile(
+                        title: Text(device.name),
+                        onTap: () {
+                          _connectToDevice(device);
+                        },
+                      );
+                    }
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // children: [
+                    //   Text(
+                    //     'LilyDoll',
+                    //     style: appBarLabel.copyWith(color: Colors.black, fontSize: 16),
+                    //   ),
+                    //   SizedBox(width: 50),
+                    //   Text(
+                    //     '$isConnectLabel',style: appLabelTextStyle.copyWith(color: Colors.lightGreen),
+                    //   ),
+                    // ],
+                    ),
               ),
-
             ],
           ),
         ),
       ),
-
-
     );
   }
-
 }
-

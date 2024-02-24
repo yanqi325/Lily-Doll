@@ -53,12 +53,19 @@ void main() async {
   });
 
   // testing
-  DbHelper dbHelper = new DbHelper();
-  List<SqueezeTouchData>? dataList =
-      await dbHelper.getDataFromAllDateSubcollections("1-1-2024");
-  dataList!.forEach((element) {
-    print(element.pressure);
-  });
+  // DbHelper dbHelper = new DbHelper();
+  // List<SqueezeTouchData>? dataList =
+  //     await dbHelper.getDataFromAllDateSubcollections("1-1-2024");
+  // dataList!.forEach((element) {
+  //   print(element.pressure);
+  // });
+
+  // DollDataAnalyzeHelper dollDataAnalyzeHelper = new DollDataAnalyzeHelper();
+  // Map<int,int> data = await dollDataAnalyzeHelper.getDataProcessedForThisWeek("01-01-2024");
+  // print("THISISSPARTAAAA");
+  // data.forEach((key, value) {
+  //   // print("wEEDKLY DATA" + data[key].toString());
+  // });
 }
 
 class MyApp extends StatelessWidget {

@@ -101,12 +101,8 @@ class _LoginScreenState extends State<LoginPage> {
                         Navigator.pushNamed(context, HomePage.id);
 
                         //testing
-                        // DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
-                        // db.decodeDollData();
-                        // List<SqueezeTouchData>? dataList = await dbHelper.getDataFromAllDateSubcollections("22-2-2024");
-                        // dataList!.forEach((element) {
-                        //   print(element.pressure);
-                        // });
+                        DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
+                        db.decodeDollData();
                       }else{
                         //show error code here
                       }

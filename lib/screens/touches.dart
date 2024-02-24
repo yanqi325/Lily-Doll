@@ -24,7 +24,7 @@ class _TouchesScreenState extends State<Touches> {
         ),
         body:
         FutureBuilder<Map<String, double>>(
-            future: dollDataAnalyzeHelper.calculateTouchPercentages("1-1-2024"),
+            future: dollDataAnalyzeHelper.calculateTouchPercentages("01-01-2024"),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());

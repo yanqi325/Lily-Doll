@@ -33,15 +33,16 @@ class _SqueezesScreenState extends State<Squeezes> {
             route: MoreInfo.id,
           ),
         ),
-        body: FutureBuilder<Map<String, double>>(
-            future: dollDataAnalyzeHelper.calculateSqueezePercentages("1-1-2024"),
-            builder: (context, snapshot) {
+        body: FutureBuilder(
+            future: Future.wait([dollDataAnalyzeHelper.calculateSqueezePercentages("01-01-2024"),dollDataAnalyzeHelper.getDataProcessedForThisWeek("01-01-2024")]),
+            builder: (context,snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                Map<String, double> squeezeData = snapshot.data ?? {};
+                Map<String, double> squeezeData = snapshot.data![0] as Map<String,double> ?? {};
+                Map<int,int> weeklyData = snapshot.data![1] as Map<int,int> ?? {};
                 return SingleChildScrollView(
                   child: Container(
                     color: backgroundColor,
@@ -120,6 +121,7 @@ class _SqueezesScreenState extends State<Squeezes> {
                                   height: 15,
                                 ),
                                 SqueezesBarChartWidget(
+                                  dailySqueeze: weeklyData,
                                   onIndexChanged: (index) {
                                     // Update the state with the new index
                                     setState(() {
