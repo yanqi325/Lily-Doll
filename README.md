@@ -1,8 +1,8 @@
-# project_lily
+# Project Lily
 
-A new Flutter project.
+Project Lily is a collaborative effort between Taylor's Computing School and the AIDA group to produce an IOT toy doll
 
-## Getting Started
+## Getting Started with Flutter
 
 This project is a starting point for a Flutter application.
 
