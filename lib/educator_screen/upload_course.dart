@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_lily/Data/Courses.dart';
 import 'package:project_lily/component/CourseAvailable.dart';
 import 'package:project_lily/component/EducatorNavigationBar.dart';
 import 'package:project_lily/constants.dart';
+import 'package:project_lily/helperMethods/DbHelper.dart';
 import 'package:project_lily/screens/course_description.dart';
 import '../component/AddAttachment.dart';
 import '../component/ContactCard.dart';
@@ -19,9 +21,22 @@ class UploadCourse extends StatefulWidget {
 }
 
 class _UploadCourseScreenState extends State<UploadCourse> {
-  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+  List<String> coursesCategory = ["DailyHabits","Science","Maths"];
+  String courseTitle='';
+  String courseDesc='';
+  String courseCategory='';
+  String thumbnailUrl='';
 
   String? selectedValue; // Default selected value
+
+  void onChangedCallbackTitle(String value) {
+    courseTitle = value;
+    // print(enteredValue); // Print the entered value
+  }
+
+  void onChangedCallbackDesc(String value){
+    courseDesc = value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +92,7 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                             educator_textField(
                               title: 'Course Title',
                               hintText: 'Enter course title here',
+                              onChanged: onChangedCallbackTitle,
                             ),
                             SizedBox(
                               height: 15,
@@ -84,6 +100,7 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                             educator_textField(
                               title: 'Course Description',
                               hintText: 'Enter course description here',
+                              onChanged: onChangedCallbackDesc,
                             ),
                             SizedBox(
                               height: 15,
@@ -104,14 +121,14 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                     inputDecorationTheme: dropDownStyle,
                                     textStyle: appLabelTextStyle.copyWith(fontSize: 12, color: Colors.grey, fontFamily: fontFamily2,fontWeight: FontWeight.bold,),
                                     menuStyle: MenuStyle(maximumSize: MaterialStatePropertyAll(Size(300,100))),
-                                    initialSelection: list.first,
+                                    initialSelection: "DailyHabits",
                                     onSelected: (String? value) {
                                       // This is called when the user selects an item.
                                       setState(() {
-                                        selectedValue = value!;
+                                        courseCategory = value!;
                                       });
                                     },
-                                    dropdownMenuEntries: list.map<DropdownMenuEntry<String>>(
+                                    dropdownMenuEntries: coursesCategory.map<DropdownMenuEntry<String>>(
                                             (String value) {
                                       return DropdownMenuEntry<String>(
                                           value: value, label: value);
@@ -135,7 +152,26 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                 ],
                               ),
                             ),
-                            UploadAddButton(title: 'Upload',onPressed: (){},)
+                            UploadAddButton(title: 'Upload',onPressed: (){
+
+                              //find enum value based on string
+                              courseCategory = courseCategory.toLowerCase();
+                              CourseCategory? selectedCategory;
+                              for (var category in CourseCategory.values) {
+                                if (category.toString().toLowerCase() == 'coursecategory.$courseCategory') {
+                                  selectedCategory = category;
+                                  break;
+                                }
+                              }
+                              //try adding courses to firebase
+                              if(selectedCategory != null){
+                                Courses courseEnteredByUser= new Courses(courseTitle, courseDesc, selectedCategory!, thumbnailUrl,0);
+                                DbHelper dbHelper = new DbHelper();
+                                dbHelper.addCourseToFirestore(courseEnteredByUser);
+                              }else{
+
+                              }
+                            },)
 
 
                           ],

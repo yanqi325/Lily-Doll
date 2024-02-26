@@ -45,12 +45,12 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
                       style: appLabelTextStyle.copyWith(fontSize: 26),
                     ),
                     SizedBox(height: 10,),
-                    Text(Courses.description,
+                    Text("Random text to replace here",
                         textAlign: TextAlign.justify,
                         style: appLabelTextStyle.copyWith(fontSize: 15)
                     ),
                     SizedBox(height: 10,),
-                    Text('${Courses.enrollNum.toString()} Students enrolled this course',
+                    Text('XX Students enrolled this course',
                         style: appLabelTextStyle.copyWith(fontSize: 11, color: Colors.grey )
                     ),
                     SizedBox(height: 80,),

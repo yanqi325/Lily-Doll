@@ -1,15 +1,43 @@
 import 'package:flutter/cupertino.dart';
 
-class Courses extends StatelessWidget {
-   Courses({Key? key}) : super(key: key);
-   static String label = 'Communication';
-   static String image = 'images/communication.png';//extract from firebase
-   static String description = 'This comprehensive and sensitively designed course aims to empower children with autism to navigate the complex terrain of relationships, intimacy, and sexuality. Tailored to meet the unique needs of individuals on the autism spectrum, this program provides a safe and supportive learning environment';
-   static int enrollNum = 22;
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
+//make it local for now
+enum CourseCategory {
+  DailyHabits,
+  Science,
+  Maths
+}
+
+class Courses{
+   String courseTitle;
+   String courseDesc;
+   CourseCategory category;
+   String thumbnailUrl;
+   int enrolledUserNum = 0;
+
+   Courses(this.courseTitle,this.courseDesc,this.category,this.thumbnailUrl,this.enrolledUserNum) {
+     //initialize class
+   }
+
+   // Method to convert class variables to a map
+   Map<String, dynamic> toMap() {
+     return {
+       'courseTitle': courseTitle,
+       'courseDesc': courseDesc,
+       'category': category.toString().split('.').last,
+       'thumbnailUrl': thumbnailUrl,
+       'enrolledUserNum': enrolledUserNum,
+     };
+   }
+
+   // Method to create a Courses object from a map
+   static Courses fromMap(Map<String, dynamic> map) {
+     return Courses(
+       map['courseTitle'],
+       map['courseDesc'],
+       CourseCategory.values.firstWhere((category) => category.toString() == 'CourseCategory.${map['category']}'),
+       map['thumbnailUrl'],
+       map['enrolledUserNum'],
+     );
+   }
 
 }

@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:project_lily/Data/SqueezeTouchData.dart';
 import 'package:project_lily/helperMethods/AuthHelper.dart';
 
+import '../Data/Courses.dart';
+
 class DbHelper {
   //contains code to help get/recieve data from firestore
 
@@ -245,6 +247,24 @@ class DbHelper {
     } catch (e) {
       print('Error incrementing counter: $e');
     }
+  }
+
+  // Method to write the Courses object to Firestore
+  Future<void> addCourseToFirestore(Courses course) async {
+    try {
+      DocumentReference documentReference = FirebaseFirestore.instance.collection('courses').doc(course.courseTitle);
+      await documentReference.set(course.toMap());
+      print("Success in adding course to firestore");
+    } catch (e) {
+      print('Error adding course to Firestore: $e');
+    }
+  }
+
+  //method to aread course data from firestore
+  static Stream<List<Courses>> getAllCoursesFromFirestore() {
+    return FirebaseFirestore.instance.collection('courses').snapshots().map((snapshot) => snapshot.docs.map((doc) {
+      return Courses.fromMap(doc.data());
+    }).toList());
   }
 
 

@@ -15,14 +15,14 @@ class CoursesCard extends StatelessWidget {
         children: [
           SizedBox(width: 18,),
           Image.asset(
-            Courses.image,
+            "Image url here",
             scale: 2.5,
           ),
           SizedBox(width: 30,),
           Padding(
             padding: const EdgeInsets.only(top: 15),
             child: Text(
-              Courses.label,
+              "Random text here",
               style: appLabelTextStyle,
             ),
           ),
