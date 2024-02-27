@@ -21,10 +21,15 @@ class ManageCoursesDetail extends StatefulWidget {
 }
 
 class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
+
   List<String?> statuses = ['Locked', 'Locked', 'Locked']; // Initial statuses for each lesson, get from firebase?
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
+    print("At manage course details: " + args["courseTitle"]);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
@@ -38,7 +43,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('XX students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
-              AddButton(title: 'Add Lesson', path: AddLesson.id,),
+              AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"]),
               SizedBox(height: 15,),
               ListView.builder(
                 shrinkWrap: true,

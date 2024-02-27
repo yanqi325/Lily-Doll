@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'Lessons.dart';
+
 //make it local for now
 enum CourseCategory {
   DailyHabits,
@@ -13,6 +15,7 @@ class Courses{
    CourseCategory category;
    String thumbnailUrl;
    int enrolledUserNum = 0;
+   List<Lessons> lessonsIncluded = [];
 
    Courses(this.courseTitle,this.courseDesc,this.category,this.thumbnailUrl,this.enrolledUserNum) {
      //initialize class

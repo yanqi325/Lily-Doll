@@ -6,17 +6,22 @@ import '../educator_screen/upload_course.dart';
 class AddButton extends StatelessWidget {
   AddButton({
     this.title,
-    this.path
+    this.path,
+    this.courseName
   });
   final String? title;
   final String? path;
+  String? courseName="";
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        print("At add course lesson: " + courseName!);
         print(title!);
-        Navigator.pushNamed(context, path!);
+        Navigator.pushNamed(context, path!,arguments: {
+        "courseTitle" : courseName
+        } );
       },
       child: Container(
           child: Padding(

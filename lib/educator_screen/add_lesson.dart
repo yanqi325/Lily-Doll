@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_lily/Data/Lessons.dart';
 import 'package:project_lily/component/CourseAvailable.dart';
 import 'package:project_lily/component/EducatorNavigationBar.dart';
 import 'package:project_lily/constants.dart';
@@ -11,6 +12,7 @@ import '../component/NavigationBar.dart';
 import '../component/TextField.dart';
 import '../component/UploadAddButton.dart';
 import '../component/searchBar.dart';
+import '../helperMethods/DbHelper.dart';
 
 class AddLesson extends StatefulWidget {
   static const String id = 'add_lesson';
@@ -20,12 +22,29 @@ class AddLesson extends StatefulWidget {
 }
 
 class _AddLessonScreenState extends State<AddLesson> {
-  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+  List<String> lessonsCategory = ["DailyHabits","Science","Maths"];
+  String lessonTitle='';
+  String lessonDesc='';
+  String lessonCategory='';
+  String thumbnailUrl='';
 
   String? selectedValue; // Default selected value
 
+  void onChangedCallbackTitle(String value) {
+    lessonTitle = value;
+    // print(enteredValue); // Print the entered value
+  }
+
+  void onChangedCallbackDesc(String value){
+    lessonDesc = value;
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    final Map<String, dynamic> args =
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
@@ -71,6 +90,7 @@ class _AddLessonScreenState extends State<AddLesson> {
                             educator_textField(
                               title: 'Title',
                               hintText: 'Enter course title here',
+                              onChanged: onChangedCallbackTitle,
                             ),
                             SizedBox(
                               height: 15,
@@ -78,6 +98,7 @@ class _AddLessonScreenState extends State<AddLesson> {
                             educator_textField(
                               title: 'Description',
                               hintText: 'Enter course description here',
+                              onChanged: onChangedCallbackDesc,
                             ),
                             SizedBox(
                               height: 15,
@@ -98,14 +119,14 @@ class _AddLessonScreenState extends State<AddLesson> {
                                     inputDecorationTheme: dropDownStyle,
                                     textStyle: appLabelTextStyle.copyWith(fontSize: 12, color: Colors.grey, fontFamily: fontFamily2,fontWeight: FontWeight.bold,),
                                     menuStyle: MenuStyle(maximumSize: MaterialStatePropertyAll(Size(300,100))),
-                                    initialSelection: list.first,
+                                    initialSelection: lessonsCategory.first,
                                     onSelected: (String? value) {
                                       // This is called when the user selects an item.
                                       setState(() {
-                                        selectedValue = value!;
+                                        lessonCategory = value!;
                                       });
                                     },
-                                    dropdownMenuEntries: list.map<DropdownMenuEntry<String>>(
+                                    dropdownMenuEntries: lessonsCategory.map<DropdownMenuEntry<String>>(
                                             (String value) {
                                           return DropdownMenuEntry<String>(
                                               value: value, label: value);
@@ -127,7 +148,30 @@ class _AddLessonScreenState extends State<AddLesson> {
                                 ],
                               ),
                             ),
-                            UploadAddButton(title: 'Add',onPressed: (){},)
+                            UploadAddButton(title: 'Add',onPressed: (){
+
+                              //find enum value based on string
+                              lessonCategory = lessonCategory.toLowerCase();
+                              LessonCategory? selectedCategory;
+                              for (var category in LessonCategory.values) {
+                                if (category.toString().toLowerCase() == 'lessoncategory.$lessonCategory') {
+                                  selectedCategory = category;
+                                  break;
+                                }
+
+                              }
+                              //try adding courses to firebase
+                              if(selectedCategory != null){
+                                print("course ttitle here is: " + args["courseTitle"].toString());
+                                Lessons lessonEnteredByUser= new Lessons(lessonTitle, lessonDesc, selectedCategory!, thumbnailUrl);
+                                DbHelper dbHelper = new DbHelper();
+                                dbHelper.addLessonToFirestore(lessonEnteredByUser,args["courseTitle"]);
+                                print("Tried to upload lesson");
+                              }else{
+
+                              }
+                              print("pressedUploadLesson");
+                            },)
 
 
                           ],

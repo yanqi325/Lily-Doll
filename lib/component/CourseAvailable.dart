@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_lily/screens/chatroom.dart';
 
-import '../Data/Users.dart';
 import '../constants.dart';
 
 class CourseAvailable extends StatefulWidget {
@@ -30,6 +28,7 @@ class _CourseAvailable extends State<CourseAvailable> {
 
   @override
   Widget build(BuildContext context) {
+    print("At course available course title: " + widget.courseName!);
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,7 +36,9 @@ class _CourseAvailable extends State<CourseAvailable> {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, widget.coursePath!);
+              Navigator.pushNamed(context, widget.coursePath!,arguments: {
+                "courseTitle" : widget.courseName
+              } );
             },
             child: Container(
               child: Row(

@@ -52,9 +52,10 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                     style: appLabelTextStyle.copyWith(fontSize: 20),
                   ),
                   SizedBox(height: 20,),
+                  //TODO: Replace this section with data from firebase
                   CourseAvailable(
                     imagePath: 'images/sex_education.png',
-                    courseName: 'Sex Education',
+                    courseName: 'brawling',
                     coursePath: ManageCoursesDetail.id,
                   ),
                   SizedBox(height: 15,),

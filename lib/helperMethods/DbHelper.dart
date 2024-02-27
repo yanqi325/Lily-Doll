@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +5,7 @@ import 'package:project_lily/Data/SqueezeTouchData.dart';
 import 'package:project_lily/helperMethods/AuthHelper.dart';
 
 import '../Data/Courses.dart';
+import '../Data/Lessons.dart';
 
 class DbHelper {
   //contains code to help get/recieve data from firestore
@@ -157,52 +157,6 @@ class DbHelper {
     }
   }
 
-  //add to total
-  // Future<void> modifyTotal(int itemsChanged, SqueezeTouchData data) async {
-  //   //if add then itemsChanged = +, else = -
-  //
-  //   AuthHelper authHelper = new AuthHelper();
-  //   String? userid = await authHelper.getCurrentUserId();
-  //
-  //   // Access Firestore instance
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   // Reference to the 'usersExtended' collection
-  //   CollectionReference usersExtendedCollectionRef =
-  //       firestore.collection('usersExtended');
-  //
-  //   // Reference to the 'SquuezeTouches' document within 'usersExtended'
-  //   DocumentReference userDocumentRef = usersExtendedCollectionRef.doc(userid!);
-  //
-  //   CollectionReference squeezeTouchesDocumentRef =
-  //       userDocumentRef.collection('SquuezeTouches');
-  //
-  //   var date = DateFormat('dd-MM-y').format(data.timestamp);
-  //   // Reference to the 'date' subcollection within 'SquuezeTouches' document
-  //   DocumentReference dateSubcollectionRef =
-  //       squeezeTouchesDocumentRef.doc(date);
-  //
-  //   // Add a 'total' collection to ease data retrieval
-  //   CollectionReference totalItemRef =
-  //       dateSubcollectionRef.collection("TotalItems");
-  //   DocumentReference totalDocRef = totalItemRef.doc("total");
-  //
-  //   //modify total doc ref
-  //   DocumentSnapshot totalDocSnapshot = await totalItemRef.doc("total").get();
-  //   if (totalDocSnapshot.exists) {
-  //     num existingTotal =
-  //         (totalDocSnapshot.data() as Map<String, dynamic>)["Total"];
-  //     print("existingTotal is" + existingTotal.toString());
-  //     existingTotal++;
-  //     //alter it
-  //     totalDocRef.set({"Total": existingTotal + itemsChanged});
-  //     print("Set Existing Total as: " + existingTotal.toString());
-  //   } else {
-  //     //create new document
-  //     totalDocRef.set({"Total": 0});
-  //   }
-  //
-  // }
-
   //New update total method
   Future<void> incrementCounter(String date, int totalUpdate) async {
     try {
@@ -252,9 +206,25 @@ class DbHelper {
   // Method to write the Courses object to Firestore
   Future<void> addCourseToFirestore(Courses course) async {
     try {
+      //add course object
       DocumentReference documentReference = FirebaseFirestore.instance.collection('courses').doc(course.courseTitle);
       await documentReference.set(course.toMap());
       print("Success in adding course to firestore");
+    } catch (e) {
+      print('Error adding course to Firestore: $e');
+    }
+  }
+
+  // Method to write the lesson object to Firestore
+  Future<void> addLessonToFirestore(Lessons lesson,String courseTitle) async {
+    try {
+      CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection('courses')
+          .doc(courseTitle)
+          .collection('lessons');
+      DocumentReference lessonDocRef = lessonsCollection.doc(lesson.lessonTitle);
+      await lessonDocRef.set(lesson.toMap());
+      print("Success in adding lesson to firestore");
     } catch (e) {
       print('Error adding course to Firestore: $e');
     }
@@ -266,6 +236,8 @@ class DbHelper {
       return Courses.fromMap(doc.data());
     }).toList());
   }
+
+  //method to retrieve all courses
 
 
 }

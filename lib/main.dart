@@ -37,9 +37,7 @@ import 'package:project_lily/screens/web_view.dart';
 import 'package:project_lily/screens/welcome_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'Data/SqueezeTouchData.dart';
 import 'firebase_options.dart';
-import 'helperMethods/DbHelper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
