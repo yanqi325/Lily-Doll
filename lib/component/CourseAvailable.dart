@@ -28,7 +28,7 @@ class _CourseAvailable extends State<CourseAvailable> {
 
   @override
   Widget build(BuildContext context) {
-    print("At course available course title: " + widget.courseName!);
+    // print("At course available course title: " + widget.courseName!);
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -230,14 +230,36 @@ class DbHelper {
     }
   }
 
-  //method to aread course data from firestore
-  static Stream<List<Courses>> getAllCoursesFromFirestore() {
-    return FirebaseFirestore.instance.collection('courses').snapshots().map((snapshot) => snapshot.docs.map((doc) {
-      return Courses.fromMap(doc.data());
-    }).toList());
-  }
+  // //method to aread course data from firestore
+  // static Stream<List<Courses>> getAllCoursesFromFirestore() {
+  //   return FirebaseFirestore.instance.collection('courses').snapshots().map((snapshot) => snapshot.docs.map((doc) {
+  //     return Courses.fromMap(doc.data());
+  //   }).toList());
+  // }
 
   //method to retrieve all courses
+  Future<List<Courses>> getAllCoursesFromFirestore() async {
+    try {
+      // Reference to the "courses" collection
+      CollectionReference coursesCollection = FirebaseFirestore.instance.collection('courses');
 
+      // Get snapshot of documents in the "courses" collection
+      QuerySnapshot querySnapshot = await coursesCollection.get();
+
+      // Convert each document snapshot to a Course object
+      List<Courses> coursesList = querySnapshot.docs.map((doc) {
+        return Courses.fromMap(doc.data()! as Map <String,dynamic>);
+      }).toList();
+
+      return coursesList;
+    } catch (e) {
+      print('Error getting courses: $e');
+      return []; // Return an empty list if there's an error
+    }
+    //get all lessons belonging to course
+
+    //compile into list
+    //return list
+  }
 
 }
