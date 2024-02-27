@@ -262,4 +262,37 @@ class DbHelper {
     //return list
   }
 
+  Future<List<Lessons>> getALlLessonsOfCourse(String courseName) async {
+    try {
+      // Reference to the "lessons" subcollection inside the specified "course" document
+      CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection('courses')
+          .doc(courseName)
+          .collection('lessons');
+      print("start");
+
+      // Get snapshot of documents in the "lessons" subcollection
+      QuerySnapshot querySnapshot = await lessonsCollection.get();
+
+      print(querySnapshot.size);
+      List<Lessons> lessonsList=[];
+      querySnapshot.docs.forEach((element) {
+        print("Started");
+        print(element.data()! as Map<String,dynamic>);
+        Lessons lesson  = Lessons.fromMap(element.data()! as Map<String,dynamic>);
+        lessonsList.add(lesson);
+        print("Added " + lesson.lessonTitle);
+      });
+      // Convert each document snapshot to a Lesson object
+      //  = querySnapshot.docs.map((doc) {
+      //   return Lessons.fromMap(doc.data()! as Map<String,dynamic>);
+      // }).toList();
+
+      return lessonsList;
+    } catch (e) {
+      print('Error getting lessons: $e');
+      return []; // Return an empty list if there's an error
+    }
+  }
+
 }

@@ -163,7 +163,7 @@ class _AddLessonScreenState extends State<AddLesson> {
                               //try adding courses to firebase
                               if(selectedCategory != null){
                                 print("course ttitle here is: " + args["courseTitle"].toString());
-                                Lessons lessonEnteredByUser= new Lessons(lessonTitle, lessonDesc, selectedCategory!, thumbnailUrl);
+                                Lessons lessonEnteredByUser= new Lessons(lessonTitle, lessonDesc, selectedCategory!, thumbnailUrl,true);
                                 DbHelper dbHelper = new DbHelper();
                                 dbHelper.addLessonToFirestore(lessonEnteredByUser,args["courseTitle"]);
                                 print("Tried to upload lesson");
