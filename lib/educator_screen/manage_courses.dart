@@ -59,6 +59,7 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                             title: 'Add Course',
                             path: UploadCourse.id,
                             isCourse: true,
+                              isEnroll: true
                           ),
                           SizedBox(
                             height: 10,
@@ -94,7 +95,6 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                               );
                             },
                           ),
-                          //TODO: Replace this section with data from firebase
 
                           // CourseAvailable(
                           //   imagePath: 'images/sex_education.png',

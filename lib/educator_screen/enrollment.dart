@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project_lily/component/EducatorNavigationBar.dart';
 import 'package:project_lily/constants.dart';
+import 'package:project_lily/helperMethods/DbHelper.dart';
 import '../component/AddAttachment.dart';
 import '../component/EducatorTextField.dart';
 import '../component/UploadAddButton.dart';
+import '../helperMethods/AuthHelper.dart';
 
 class Enrollment extends StatefulWidget {
   static const String id = 'enrollment';
@@ -13,9 +15,24 @@ class Enrollment extends StatefulWidget {
 }
 
 class _EnrollmentScreenState extends State<Enrollment> {
+  String userName='';
+  String userId = '';
+
+  void onChangedCallbackName(String value) {
+    userName = value;
+    // print(enteredValue); // Print the entered value
+  }
+  void onChangedCallbackId(String value) {
+    userId = value;
+    // print(enteredValue); // Print the entered value
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    final Map<String, dynamic> args =
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       body: Container(
         color: backgroundColor2,
@@ -64,6 +81,7 @@ class _EnrollmentScreenState extends State<Enrollment> {
                             educator_textField(
                               title: 'Username',
                               hintText: 'Enter username here',
+                              onChanged: onChangedCallbackName,
                             ),
                             SizedBox(
                               height: 15,
@@ -71,13 +89,21 @@ class _EnrollmentScreenState extends State<Enrollment> {
                             educator_textField(
                               title: 'User ID',
                               hintText: 'Enter user id here',
+                              onChanged: onChangedCallbackId,
                             ),
                             SizedBox(
                               height: 170,
                             ),
 
-                            UploadAddButton(title: 'Add',onPressed: (){
-
+                            UploadAddButton(title: 'Add',onPressed: () async {
+                                DbHelper dbHelper = new DbHelper();
+                                AuthHelper authHelper = new AuthHelper();
+                                String? educatorId = await authHelper.getCurrentUserId();
+                                //get user id
+                                String userId = await dbHelper.getUsernamesFromUsersExtended(userName);
+                                // add user id to 'enrolledUsers'
+                                dbHelper.addUserToEnrolledUsers(educatorId!, args["courseTitle"], userId);
+                                dbHelper.addUserToEnrolledCourses(userId, args["courseTitle"]);
                             },)
 
 

@@ -8,12 +8,14 @@ class AddButton extends StatelessWidget {
     this.title,
     this.path,
     this.courseName,
-    required this.isCourse
+    required this.isCourse,
+    required this.isEnroll
   });
   final String? title;
   final String? path;
   String? courseName="";
   bool isCourse;
+  bool isEnroll;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class AddButton extends StatelessWidget {
       onTap: () {
         // print("At add course lesson: " + courseName!);
         print(title!);
-        if (isCourse){
+        if (isCourse && !isEnroll){
           Navigator.pushNamed(context, path!, );
 
         }else{

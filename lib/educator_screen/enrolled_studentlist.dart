@@ -17,8 +17,13 @@ class EnrolledStudentList extends StatefulWidget {
 }
 
 class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
+
+
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
@@ -32,7 +37,7 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('XX students enrolled this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
-              AddButton(title: 'Enroll Student',path: Enrollment.id,isCourse: true,),
+              AddButton(title: 'Enroll Student',path: Enrollment.id,isCourse: true,isEnroll: true,courseName: args["courseTitle"]),
               SizedBox(height: 15,),
               EnrolledStudentCard(studentName: Users.username, imagePath: 'images/profile.png',path: StudentDetails.id,),
               SizedBox(height: 10,),

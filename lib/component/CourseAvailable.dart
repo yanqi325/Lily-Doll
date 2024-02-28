@@ -5,6 +5,7 @@ import '../constants.dart';
 
 class CourseAvailable extends StatefulWidget {
   static const String id = 'course_available';
+
   CourseAvailable({
     this.coursePath,
     this.imagePath,
@@ -12,6 +13,7 @@ class CourseAvailable extends StatefulWidget {
     this.status,
     this.moreOption,
   });
+
   final String? coursePath;
   final String? imagePath;
   final String? courseName;
@@ -23,8 +25,8 @@ class CourseAvailable extends StatefulWidget {
 }
 
 class _CourseAvailable extends State<CourseAvailable> {
-  TextEditingController searchController = TextEditingController(); // Added controller
-
+  TextEditingController searchController =
+      TextEditingController(); // Added controller
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,8 @@ class _CourseAvailable extends State<CourseAvailable> {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, widget.coursePath!,arguments: {
-                "courseTitle" : widget.courseName
-              } );
+              Navigator.pushNamed(context, widget.coursePath!,
+                  arguments: {"courseTitle": widget.courseName});
             },
             child: Container(
               child: Row(
@@ -48,11 +49,20 @@ class _CourseAvailable extends State<CourseAvailable> {
                   //   width: 56,
                   //   height: 56,
                   //   image:
-                    // AssetImage(
-                    //   widget.imagePath!,
+                  // AssetImage(
+                  //   widget.imagePath!,
                   //   // ),
                   // ),
-                  Image.network(widget.imagePath!,width: 56,height:  56,),
+                  Image.network(
+                    widget.imagePath!,
+                    width: 56,
+                    height: 56,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      // Error occurred while loading the image, display default image instead
+                      return Image.asset('images/sex_education.png',width: 56,height: 56,);
+                    },
+                  ),
                   SizedBox(
                     width: 15,
                   ),
@@ -90,5 +100,4 @@ class _CourseAvailable extends State<CourseAvailable> {
       ),
     );
   }
-
 }

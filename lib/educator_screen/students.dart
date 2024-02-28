@@ -10,6 +10,7 @@ import '../component/AddCourseLesson.dart';
 import '../component/ContactCard.dart';
 import '../component/NavigationBar.dart';
 import '../component/searchBar.dart';
+import '../helperMethods/DbHelper.dart';
 
 class Students extends StatefulWidget {
   static const String id = 'students';
@@ -19,62 +20,100 @@ class Students extends StatefulWidget {
 }
 
 class _StudentScreenState extends State<Students> {
+  DbHelper dbHelper = new DbHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: backgroundColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Container(
+      body: FutureBuilder(
+          future: dbHelper.getAllCoursesFromFirestore(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              return Container(
+                color: backgroundColor,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Students',
-                        style: appLabelTextStyle.copyWith(fontSize: 30),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      searchBar(),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Courses List',
-                        style: appLabelTextStyle.copyWith(fontSize: 20),
-                      ),
-                      SizedBox(height: 20,),
-                      CourseAvailable(
-                        imagePath: 'images/sex_education.png',
-                        courseName: 'Sex Education',
-                        coursePath: EnrolledStudentList.id,
-                      ),
-                      SizedBox(height: 15,),
-                      CourseAvailable(
-                        imagePath: 'images/sex_education.png',
-                        courseName: 'Sex Education',
-                        coursePath: EnrolledStudentList.id,
-                      ),
-                      SizedBox(height: 15,),
-                      CourseAvailable(
-                        imagePath: 'images/sex_education.png',
-                        courseName: 'Sex Education',
-                        coursePath: EnrolledStudentList.id,
-                      ),
-                    ],
-                  )),
+                    Text(
+                    'Students',
+                    style: appLabelTextStyle.copyWith(fontSize: 30),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  searchBar(),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Courses List',
+                    style: appLabelTextStyle.copyWith(fontSize: 20),
+                  ),
+                  SizedBox(height: 20,),
+                  ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    // Number of items in the list
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      // Generate a widget for each item in the list
+                      return Column(
+                        children: [
+                          CourseAvailable(
+                            imagePath:
+                            snapshot.data![index].thumbnailUrl,
+                            courseName:
+                            snapshot.data![index].courseTitle,
+                            coursePath: EnrolledStudentList.id,
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  // CourseAvailable(
+                  //   imagePath: 'images/sex_education.png',
+                  //   courseName: 'Sex Education',
+                  //   coursePath: EnrolledStudentList.id,
+                  // ),
+                  // SizedBox(height: 15,),
+                  // CourseAvailable(
+                  //   imagePath: 'images/sex_education.png',
+                  //   courseName: 'Sex Education',
+                  //   coursePath: EnrolledStudentList.id,
+                  // ),
+                  // SizedBox(height: 15,),
+                  // CourseAvailable(
+                  //   imagePath: 'images/sex_education.png',
+                  //   courseName: 'Sex Education',
+                  //   coursePath: EnrolledStudentList.id,
+
+                ],
+              )),
             ),
-          ],
-        ),
-      ),
+            ],
+            ),
+            );
+            }
+          }),
+
+
       bottomNavigationBar: EducatorNavigationBar(),
     );
   }

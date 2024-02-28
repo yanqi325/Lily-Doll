@@ -16,6 +16,8 @@ class Courses{
    String thumbnailUrl;
    int enrolledUserNum = 0;
    List<Lessons> lessonsIncluded = [];
+   //optional
+   double progress = 0.0;
 
    Courses(this.courseTitle,this.courseDesc,this.category,this.thumbnailUrl,this.enrolledUserNum) {
      //initialize class

@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -164,7 +163,6 @@ class DbHelper {
   //New update total method
   Future<void> incrementCounter(String date, int totalUpdate) async {
     try {
-
       AuthHelper authHelper = new AuthHelper();
       String? userid = await authHelper.getCurrentUserId();
 
@@ -172,21 +170,22 @@ class DbHelper {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       // Reference to the 'usersExtended' collection
       CollectionReference usersExtendedCollectionRef =
-      firestore.collection('usersExtended');
+          firestore.collection('usersExtended');
 
       // Reference to the 'SquuezeTouches' document within 'usersExtended'
-      DocumentReference userDocumentRef = usersExtendedCollectionRef.doc(userid!);
+      DocumentReference userDocumentRef =
+          usersExtendedCollectionRef.doc(userid!);
 
       CollectionReference squeezeTouchesDocumentRef =
-      userDocumentRef.collection('SquuezeTouches');
+          userDocumentRef.collection('SquuezeTouches');
 
       // Reference to the 'date' subcollection within 'SquuezeTouches' document
       DocumentReference dateSubcollectionRef =
-      squeezeTouchesDocumentRef.doc(date);
+          squeezeTouchesDocumentRef.doc(date);
 
       // Add a 'total' collection to ease data retrieval
       CollectionReference totalItemRef =
-      dateSubcollectionRef.collection("TotalItems");
+          dateSubcollectionRef.collection("TotalItems");
       // Get reference to the "Total" document in the "TotalItems" collection
       DocumentReference totalRef = totalItemRef.doc('total');
 
@@ -198,7 +197,7 @@ class DbHelper {
       await FirebaseFirestore.instance.runTransaction((transaction) async {
         // Update the counter value in the document
         transaction.update(totalRef, {'Total': totalUpdate});
-        print("Updated " + date + "with total: " +totalUpdate.toString());
+        print("Updated " + date + "with total: " + totalUpdate.toString());
       });
 
       print('Counter incremented successfully.');
@@ -210,8 +209,14 @@ class DbHelper {
   // Method to write the Courses object to Firestore
   Future<void> addCourseToFirestore(Courses course) async {
     try {
+      AuthHelper authHelper = new AuthHelper();
+      String? userid = await authHelper.getCurrentUserId();
       //add course object
-      DocumentReference documentReference = FirebaseFirestore.instance.collection('courses').doc(course.courseTitle);
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userid)
+          .collection('courses')
+          .doc(course.courseTitle);
       await documentReference.set(course.toMap());
       print("Success in adding course to firestore");
     } catch (e) {
@@ -220,13 +225,18 @@ class DbHelper {
   }
 
   // Method to write the lesson object to Firestore
-  Future<void> addLessonToFirestore(Lessons lesson,String courseTitle) async {
+  Future<void> addLessonToFirestore(Lessons lesson, String courseTitle) async {
+    AuthHelper authHelper = new AuthHelper();
+    String? userid = await authHelper.getCurrentUserId();
     try {
       CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userid)
           .collection('courses')
           .doc(courseTitle)
           .collection('lessons');
-      DocumentReference lessonDocRef = lessonsCollection.doc(lesson.lessonTitle);
+      DocumentReference lessonDocRef =
+          lessonsCollection.doc(lesson.lessonTitle);
       await lessonDocRef.set(lesson.toMap());
       print("Success in adding lesson to firestore");
     } catch (e) {
@@ -243,16 +253,21 @@ class DbHelper {
 
   //method to retrieve all courses
   Future<List<Courses>> getAllCoursesFromFirestore() async {
+    AuthHelper authHelper = new AuthHelper();
+    String? userid = await authHelper.getCurrentUserId();
     try {
       // Reference to the "courses" collection
-      CollectionReference coursesCollection = FirebaseFirestore.instance.collection('courses');
+      CollectionReference coursesCollection = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userid)
+          .collection('courses');
 
       // Get snapshot of documents in the "courses" collection
       QuerySnapshot querySnapshot = await coursesCollection.get();
 
       // Convert each document snapshot to a Course object
       List<Courses> coursesList = querySnapshot.docs.map((doc) {
-        return Courses.fromMap(doc.data()! as Map <String,dynamic>);
+        return Courses.fromMap(doc.data()! as Map<String, dynamic>);
       }).toList();
 
       return coursesList;
@@ -267,9 +282,13 @@ class DbHelper {
   }
 
   Future<List<Lessons>> getALlLessonsOfCourse(String courseName) async {
+    AuthHelper authHelper = new AuthHelper();
+    String? userid = await authHelper.getCurrentUserId();
     try {
       // Reference to the "lessons" subcollection inside the specified "course" document
       CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userid)
           .collection('courses')
           .doc(courseName)
           .collection('lessons');
@@ -279,11 +298,12 @@ class DbHelper {
       QuerySnapshot querySnapshot = await lessonsCollection.get();
 
       print(querySnapshot.size);
-      List<Lessons> lessonsList=[];
+      List<Lessons> lessonsList = [];
       querySnapshot.docs.forEach((element) {
         print("Started");
-        print(element.data()! as Map<String,dynamic>);
-        Lessons lesson  = Lessons.fromMap(element.data()! as Map<String,dynamic>);
+        print(element.data()! as Map<String, dynamic>);
+        Lessons lesson =
+            Lessons.fromMap(element.data()! as Map<String, dynamic>);
         lessonsList.add(lesson);
         print("Added " + lesson.lessonTitle);
       });
@@ -300,16 +320,18 @@ class DbHelper {
   }
 
   Future<String> uploadImage() async {
-    String downloadURL="";
+    String downloadURL = "";
     // Open the file picker
-    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
     if (result != null) {
       PlatformFile file = result.files.first;
 
       // Upload the selected image file to Firebase Storage
-      Reference storageRef = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.png');
+      Reference storageRef = FirebaseStorage.instance
+          .ref()
+          .child('images/${DateTime.now().millisecondsSinceEpoch}.png');
       final finalFile = File(file.path!);
-
 
       final uploadTask = storageRef.putFile(finalFile);
       final snapshot = await uploadTask.whenComplete(() => {});
@@ -326,4 +348,80 @@ class DbHelper {
     }
   }
 
+  //Get all user names in firebase and return user id that matches user name
+  Future<String> getUsernamesFromUsersExtended(String userName) async {
+    String userid = '';
+    try {
+      // Get reference to the 'usersExtended' collection
+      CollectionReference usersExtendedRef =
+          FirebaseFirestore.instance.collection('usersExtended');
+
+      // Get all documents in the 'usersExtended' collection
+      QuerySnapshot usersExtendedSnapshot = await usersExtendedRef.get();
+
+      // Iterate through each document
+      usersExtendedSnapshot.docs.forEach((DocumentSnapshot doc) {
+        // Get the 'username' field from each document
+        String? username = doc['Username'];
+        if (username != "" && username!.toLowerCase() == userName) {
+          userid = doc.id;
+        }
+        // print(username);
+      });
+    } catch (error) {
+      // Handle any errors
+      print('Error retrieving usernames : $error');
+    }
+
+    return userid;
+  }
+
+
+//Add user id into 'enrolledUsers' collection inside 'usersExtended' -> 'courses'
+  Future<void> addUserToEnrolledUsers(String educatorId, String courseTitle,String userId) async {
+    try {
+      // Reference to the 'enrolledUsers' collection within the 'courses' subcollection
+      CollectionReference enrolledUsersRef = FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(educatorId)
+          .collection('courses')
+          .doc(courseTitle)
+          .collection('enrolledUsers');
+
+      // Add the user document to the 'enrolledUsers' collection
+      await enrolledUsersRef.doc(userId).set({
+        "progress": 0.toString()
+      });
+
+      print('User $userId added to enrolledUsers collection in course $courseTitle');
+    } catch (error) {
+      // Handle any errors
+      print('Error adding user to enrolledUsers collection: $error');
+    }
+  }
+
+//Add coursedetails into user account type inside 'usersExtended' -> 'enrolledCourses'
+  Future<void> addUserToEnrolledCourses(String userId, String courseTitle) async {
+    try {
+      // Reference to the 'enrolledCourses' collection within the 'usersExtended' collection
+      CollectionReference enrolledCoursesRef = FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(userId)
+          .collection('enrolledCourses');
+
+
+      // Add the course document to the 'enrolledCourses' collection
+      await enrolledCoursesRef.doc(courseTitle).set({"progress": 0.toString()});
+
+
+      print('Course $courseTitle added to enrolledCourses collection for user $userId');
+    } catch (error) {
+      // Handle any errors
+      print('Error adding course to enrolledCourses collection: $error');
+    }
+  }
+
+//Return course details based on what is inside 'usersExtended' -> 'enrolledCourses', based on educator id
+
+//Add progress to course details based on user
 }
