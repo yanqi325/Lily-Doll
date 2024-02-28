@@ -1,5 +1,9 @@
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:project_lily/Data/SqueezeTouchData.dart';
 import 'package:project_lily/helperMethods/AuthHelper.dart';
@@ -292,6 +296,33 @@ class DbHelper {
     } catch (e) {
       print('Error getting lessons: $e');
       return []; // Return an empty list if there's an error
+    }
+  }
+
+  Future<String> uploadImage() async {
+    String downloadURL="";
+    // Open the file picker
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      // Upload the selected image file to Firebase Storage
+      Reference storageRef = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.png');
+      final finalFile = File(file.path!);
+
+
+      final uploadTask = storageRef.putFile(finalFile);
+      final snapshot = await uploadTask.whenComplete(() => {});
+
+      final downloadURL = await snapshot.ref.getDownloadURL();
+      print('Download URL: $downloadURL');
+      print('Image uploaded to Firebase Storage');
+
+      return downloadURL;
+    } else {
+      // User canceled the file picking
+      print('User canceled the file picking');
+      return downloadURL;
     }
   }
 

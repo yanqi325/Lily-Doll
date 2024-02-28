@@ -44,13 +44,15 @@ class _CourseAvailable extends State<CourseAvailable> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image(
-                    width: 56,
-                    height: 56,
-                    image: AssetImage(
-                      widget.imagePath!,
-                    ),
-                  ),
+                  // Image(
+                  //   width: 56,
+                  //   height: 56,
+                  //   image:
+                    // AssetImage(
+                    //   widget.imagePath!,
+                  //   // ),
+                  // ),
+                  Image.network(widget.imagePath!,width: 56,height:  56,),
                   SizedBox(
                     width: 15,
                   ),

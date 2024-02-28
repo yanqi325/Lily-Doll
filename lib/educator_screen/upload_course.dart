@@ -148,7 +148,11 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                         fontSize: 15, color: Colors.black),
                                   ),
                                   SizedBox(height: 2,),
-                                  AddAttachment(title: 'Add File', onPressed: (){},)
+                                  AddAttachment(title: 'Add File', onPressed: () async {
+                                    //show file picker to upload files
+                                    DbHelper dbHelper = new DbHelper();
+                                    thumbnailUrl= await dbHelper.uploadImage();
+                                  },)
                                 ],
                               ),
                             ),
