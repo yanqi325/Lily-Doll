@@ -32,7 +32,7 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('XX students enrolled this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
-              AddButton(title: 'Enroll Student',path: Enrollment.id,),
+              AddButton(title: 'Enroll Student',path: Enrollment.id,isCourse: true,),
               SizedBox(height: 15,),
               EnrolledStudentCard(studentName: Users.username, imagePath: 'images/profile.png',path: StudentDetails.id,),
               SizedBox(height: 10,),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:project_lily/component/Avatar.dart';
 import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/constants.dart';
@@ -31,24 +32,49 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
   void initState() {
     super.initState();
     _startScan();
+    // startScanCustom();
   }
 
-  void _startScan() {
-    flutterBlue.scanResults.listen((List<ScanResult> scanResults) {
-      for (ScanResult scanResult in scanResults) {
-        if (!devices.contains(scanResult.device)) {
-          setState(() {
-            devices.add(scanResult.device);
-          });
+  Future<void> _startScan() async {
+    // Request permission
+    PermissionStatus status = await Permission.bluetoothScan.request();
+    PermissionStatus connectStatus = await Permission.bluetoothConnect.request();
+
+    if(status.isGranted && connectStatus.isGranted){
+      flutterBlue.scanResults.listen((List<ScanResult> scanResults) {
+        for (ScanResult scanResult in scanResults) {
+          if (!devices.contains(scanResult.device) && scanResult.device.name.toLowerCase() =="hungyieproject") {
+            setState(() {
+              devices.add(scanResult.device);
+            });
+            // print("Added device based on bluetooth:" + scanResult.device.name);
+          }
         }
-      }
-    });
-    flutterBlue.startScan();
+      });
+      flutterBlue.startScan();
+    }
+
+
+
   }
 
   void _connectToDevice(BluetoothDevice device) async {
-    device.connect().then((value) => print("Connected"));
+    try{
+      device.connect().then((value) => print("Connected"));
+    }catch (e){
+      print("Error is" +  e.toString());
+    }
+
     // Connection established, now you can exchange data
+  }
+
+  Future<void> checkServices(BluetoothDevice device) async {
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) {
+      // do something with service
+      print("Service name: " + service.uuid.toString());
+
+    });
   }
 
   @override
@@ -62,11 +88,15 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
         color: backgroundColor,
         child: Padding(
           padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ToggleButtonCard(
                 label: 'Bluetooth',
+                onChange: () =>{
+                  // startScanCustom()
+                  _startScan()
+                },
               ),
               SizedBox(
                 height: 20,
@@ -157,6 +187,7 @@ class _BluetoothPageScreenState extends State<BluetoothPage> {
                         title: Text(device.name),
                         onTap: () {
                           _connectToDevice(device);
+                          checkServices(device);
                         },
                       );
                     }

@@ -168,6 +168,7 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                 Courses courseEnteredByUser= new Courses(courseTitle, courseDesc, selectedCategory!, thumbnailUrl,0);
                                 DbHelper dbHelper = new DbHelper();
                                 dbHelper.addCourseToFirestore(courseEnteredByUser);
+                                Navigator.pop(context);
                               }else{
 
                               }

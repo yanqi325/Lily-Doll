@@ -54,7 +54,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('XX students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
-                      AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"]),
+                      AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,),
                       SizedBox(height: 15,),
                       ListView.builder(
                         shrinkWrap: true,
@@ -65,10 +65,10 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                               ManageLessonCard(
                                 courseName: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
                                 imagePath: 'images/sex_lesson1.png',
-                                status: statuses[index],
+                                status: snapshot.data![index].isLocked.toString().toLowerCase() == "islocked" ? "Locked" : "Unlocked",
                                 onValueChanged: (value) {
                                   setState(() {
-                                    statuses[index] = value;
+                                    // statuses[index] = value;
                                   });
                                 },
                               ),

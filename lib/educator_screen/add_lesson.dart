@@ -167,6 +167,7 @@ class _AddLessonScreenState extends State<AddLesson> {
                                 DbHelper dbHelper = new DbHelper();
                                 dbHelper.addLessonToFirestore(lessonEnteredByUser,args["courseTitle"]);
                                 print("Tried to upload lesson");
+                                Navigator.pop(context);
                               }else{
 
                               }

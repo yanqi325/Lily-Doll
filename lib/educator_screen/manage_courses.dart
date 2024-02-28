@@ -58,6 +58,7 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                           AddButton(
                             title: 'Add Course',
                             path: UploadCourse.id,
+                            isCourse: true,
                           ),
                           SizedBox(
                             height: 10,
