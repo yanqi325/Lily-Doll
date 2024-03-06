@@ -4,8 +4,10 @@ import '../Data/Courses.dart';
 import '../constants.dart';
 
 class CoursesCard extends StatelessWidget {
-  const CoursesCard({this.onPressed});
+  const CoursesCard({this.onPressed, required this.courseTitle, required this.thumbnailUrl});
   final Function? onPressed;
+  final String courseTitle;
+  final String thumbnailUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +16,26 @@ class CoursesCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(width: 18,),
-          Image.asset(
-            "Image url here",
-            scale: 2.5,
+          Image.network(
+            thumbnailUrl,
+            // scale: 2.5,
+            width: 56,
+            height: 56,
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
+              // Error occurred while loading the image, display default image instead
+              return Image.asset('images/sex_education.png',width: 56,height: 56,);
+            },
           ),
+          // Image.asset(
+          //   thumbnailUrl,
+          //   scale: 2.5,
+          // ),
           SizedBox(width: 30,),
           Padding(
             padding: const EdgeInsets.only(top: 15),
             child: Text(
-              "Random text here",
+              courseTitle,
               style: appLabelTextStyle,
             ),
           ),

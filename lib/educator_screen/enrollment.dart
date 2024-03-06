@@ -103,7 +103,7 @@ class _EnrollmentScreenState extends State<Enrollment> {
                                 String userId = await dbHelper.getUsernamesFromUsersExtended(userName);
                                 // add user id to 'enrolledUsers'
                                 dbHelper.addUserToEnrolledUsers(educatorId!, args["courseTitle"], userId);
-                                dbHelper.addUserToEnrolledCourses(userId, args["courseTitle"]);
+                                dbHelper.addUserToEnrolledCourses(userId, args["courseTitle"],educatorId);
                             },)
 
 
