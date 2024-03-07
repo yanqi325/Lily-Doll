@@ -60,7 +60,7 @@ class _SignupScreenState extends State<SignUpPage> {
                       username = value;
                     },
                     keyboardType: TextInputType.emailAddress,
-                    hintText: 'example@gmail.com',
+                    hintText: 'example123',
                   ),
                   SizedBox(
                     height: 20,
