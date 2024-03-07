@@ -8,15 +8,30 @@ import '../component/ElevatedButton.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = 'signup_page';
+
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignUpPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   String? username;
   String? email;
   String? password;
   bool obscure = true;
+
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +41,18 @@ class _SignupScreenState extends State<SignUpPage> {
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: ListView(
-            children:[
+            children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start ,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Sign Up',
+                  Text(
+                    'Sign Up',
                     style: pageTitleTextStyle,
                   ),
-                  SizedBox(height: 25,),
+                  SizedBox(
+                    height: 25,
+                  ),
                   LabeledTextField(
                     label: 'Username',
                     value: username,
@@ -44,7 +62,9 @@ class _SignupScreenState extends State<SignUpPage> {
                     keyboardType: TextInputType.emailAddress,
                     hintText: 'example@gmail.com',
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   LabeledTextField(
                     label: 'Email',
                     value: email,
@@ -54,8 +74,9 @@ class _SignupScreenState extends State<SignUpPage> {
                     keyboardType: TextInputType.emailAddress,
                     hintText: 'example@gmail.com',
                   ),
-
-                  SizedBox(height: 30,),
+                  SizedBox(
+                    height: 30,
+                  ),
                   LabeledTextField(
                     label: 'Password',
                     value: password,
@@ -65,76 +86,91 @@ class _SignupScreenState extends State<SignUpPage> {
                     hintText: 'Enter your password here',
                     obscure: obscure,
                     icon: Icons.remove_red_eye,
-                    onIconPressed: (){
+                    onIconPressed: () {
                       setState(() {
-                        obscure= !obscure;
+                        obscure = !obscure;
                       });
                     },
                   ),
                 ],
               ),
-              SizedBox(height: 35,),
+              SizedBox(
+                height: 35,
+              ),
               Column(
-                children:[
-                Text('Or Sign Up with',
-                  style: signUpTextStyle.copyWith(color: purple3, fontSize:11, fontFamily: fontFamily),),
-                SizedBox(height: 5,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {
+                children: [
+                  Text(
+                    'Or Sign Up with',
+                    style: signUpTextStyle.copyWith(
+                        color: purple3, fontSize: 11, fontFamily: fontFamily),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
                           // Handle the onPressed event for the first IconButton
                         },
-                      icon: CircleAvatar(
-                        radius: 30,
-                        child: Image.asset('images/google.png'), // Replace with your image path
+                        icon: CircleAvatar(
+                          radius: 30,
+                          child: Image.asset(
+                              'images/google.png'), // Replace with your image path
                         ),
                       ),
-                    IconButton(
-                      onPressed: () {
-                        // Handle the onPressed event for the first IconButton
-                      },
-                      icon: CircleAvatar(
-                        radius: 30,
-                        child: Image.asset('images/facebook.png'), // Replace with your image path
+                      IconButton(
+                        onPressed: () {
+                          // Handle the onPressed event for the first IconButton
+                        },
+                        icon: CircleAvatar(
+                          radius: 30,
+                          child: Image.asset(
+                              'images/facebook.png'), // Replace with your image path
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-
+                    ],
+                  )
                 ],
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Center(
                 child: elevatedButton(
                   title: 'Sign Up',
-                  color:purple1,
+                  color: purple1,
                   fontSize: 15,
                   fontColor: Colors.white,
-                  onPressed: (){},
+                  onPressed: () {
+                    if (username == null || email == null || password == null) {
+                      showError('Please fill in all the fields.');
+                    } else {
+                      // Perform the sign-up logic
+                      // You can add your sign-up logic here
+                    }
+                  },
                 ),
-              ), //add onPress
-              SizedBox(height: 5,),
+              ),
+              SizedBox(
+                height: 5,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have an account? ',
-                      style: signUpTextStyle
-                  ),
+                  Text('Already have an account? ', style: signUpTextStyle),
                   InkWell(
-                    onTap: (){
-                      //print('Sign up pressed');
+                    onTap: () {
                       Navigator.pushNamed(context, LoginPage.id);
                     },
-                    child: Text('Sign In',
+                    child: Text(
+                      'Sign In',
                       style: signUpButtonTextStyle,
                     ),
                   ),
-
                 ],
               ),
-
             ],
           ),
         ),
