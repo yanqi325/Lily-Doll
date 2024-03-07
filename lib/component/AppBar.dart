@@ -6,7 +6,7 @@ import '../constants.dart';
 import '../screens/profile_page.dart';
 
 class appBar extends StatelessWidget {
-  appBar({this.title, this.icon = Icons.menu, this.route = SettingPage.id, this.colors = purple4});
+  appBar({this.title, this.icon = Icons.settings, this.route = SettingPage.id, this.colors = purple4});
   String? title;
   IconData? icon = Icons.menu;
   String? route = SettingPage.id;

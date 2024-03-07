@@ -59,7 +59,7 @@ class _HomePageScreenState extends State<HomePage> {
               alignment: Alignment.topRight,
               color: Colors.white,
               icon: Icon(
-                Icons.menu,
+                Icons.settings,
                 size: 40,
               ),
               onPressed: () {
