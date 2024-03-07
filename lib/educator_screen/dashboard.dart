@@ -147,7 +147,7 @@ class appBar_educator extends StatelessWidget {
                       alignment: Alignment.topRight,
                       color: Colors.white,
                       icon: Icon(
-                        Icons.menu,
+                        Icons.settings,
                         size: 40,
                       ),
                       onPressed: () {

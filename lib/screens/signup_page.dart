@@ -19,10 +19,24 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignUpPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   String? username;
   String? email;
   String? password;
   bool obscure = true;
+
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +147,16 @@ class _SignupScreenState extends State<SignUpPage> {
               ),
               Center(
                 child: elevatedButton(
-                    title: 'Sign Up',
-                    color: purple1,
-                    fontSize: 15,
-                    fontColor: Colors.white,
-                    onPressed: () async {
+                  title: 'Sign Up',
+                  color: purple1,
+                  fontSize: 15,
+                  fontColor: Colors.white,
+                  onPressed: () async {
+                    if (username == null || email == null || password == null) {
+                      showError('Please fill in all the fields.');
+                    } else {
+                      //check authentication here., correct then go to home page
+                      //go to login page
                       //start signup process
                       AuthHelper authHelper = new AuthHelper();
                       bool success = false;
@@ -150,7 +169,7 @@ class _SignupScreenState extends State<SignUpPage> {
                               FirebaseAuth.instance.currentUser!.uid);
                           Navigator.pushNamed(context, HomePage.id);
                         }
-                      } else if (args["userType"]  == "Educator") {
+                      } else if (args["userType"] == "Educator") {
                         success = await authHelper.startSignUpEducator(
                             username!, email!, password!);
                         if (success) {
@@ -160,8 +179,10 @@ class _SignupScreenState extends State<SignUpPage> {
                           Navigator.pushNamed(context, Dashboard.id);
                         }
                       }
-                    }),
-              ), //add onPress
+                    }
+                  },
+                ),
+              ),
               SizedBox(
                 height: 5,
               ),
@@ -170,8 +191,8 @@ class _SignupScreenState extends State<SignUpPage> {
                 children: [
                   Text('Already have an account? ', style: signUpTextStyle),
                   InkWell(
-                    onTap: () async {
-                      // print('Sign up pressed');
+                    onTap: () {
+                      //print('Sign up pressed');
                       Navigator.pushNamed(context, LoginPage.id);
                     },
                     child: Text(

@@ -59,7 +59,7 @@ class _StudentScreenState extends State<Students> {
                     height: 10,
                   ),
                   Text(
-                    'Courses List',
+                    'Student by courses',
                     style: appLabelTextStyle.copyWith(fontSize: 20),
                   ),
                   SizedBox(height: 20,),
