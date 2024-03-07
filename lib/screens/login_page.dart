@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginPage> {
                         dbHelper.getUserDataFromFirestore(FirebaseAuth.instance.currentUser!.uid);
                         Navigator.pushNamed(context, HomePage.id);
 
-                        // //testing
+                        //testing
                         // DollDataAnalyzeHelper db = new DollDataAnalyzeHelper();
                         // db.decodeDollData();
                       }else if (success && userType == "Educator"){

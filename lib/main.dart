@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
           HelpCenter.id: (context) => HelpCenter(),
           AboutUs.id: (context) => AboutUs(),
           CoursesPage.id: (context) => CoursesPage(),
-          CourseDescription.id: (context) => CourseDescription(),
+          CourseDescription.id: (context) => CourseDescription(courseTitle: '',numOfStudents: 0,descText: '',imagePath: '',),
           CoursesChapter.id: (context) => CoursesChapter(),
           CourseVideo.id: (context) => CourseVideo(),
           DataReport.id: (context) => DataReport(),

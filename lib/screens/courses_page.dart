@@ -21,6 +21,30 @@ class _CoursesPageScreenState extends State<CoursesPage> {
   Widget build(BuildContext context) {
     DbHelper dbHelper = new DbHelper();
 
+    //hard coded values: do not touch
+    Widget course1 = CourseDescription(
+      courseTitle: "Sex Education",
+      numOfStudents: 190,
+      descText:
+          "This is a course where students will learn about their rights of their body",
+      imagePath: 'images/sex_education.png',
+    );
+
+    Widget course2 = CourseDescription(
+      courseTitle: "Daily Life",
+      numOfStudents: 3,
+      descText:
+          "This is a course where students will learn about the ins and outs of life",
+      imagePath: 'images/daily_life.png',
+    );
+
+    Widget course3 = CourseDescription(
+      courseTitle: "Shapes",
+      numOfStudents: 65,
+      descText:
+          "This is a course where students will learn about the different types of shapes",
+      imagePath: 'images/shape.png',
+    );
     //dynamically add courses
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarWidget(initialIndex: 0),
@@ -104,20 +128,25 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                   //extract from Courses class?
                                   image: 'images/sex_education.png',
                                   //extract from Courses class?
-                                  route: CourseDescription.id,
+                                  route: course1,
                                 ), //add route
                                 SizedBox(
                                   width: 20,
                                 ),
                                 iconButton(
-                                    label: 'Daily Life',
-                                    image: 'images/daily_life.png'), //add route
+                                  label: 'Daily Life',
+                                  image: 'images/daily_life.png',
+                                  route: course2,
+                                ),
+                                //add route
                                 SizedBox(
                                   width: 20,
                                 ),
                                 iconButton(
-                                    label: 'Shape',
-                                    image: 'images/shape.png'), //add route
+                                  label: 'Shape',
+                                  image: 'images/shape.png',
+                                  route: course3,
+                                ), //add route
                               ],
                             ),
                           ),
@@ -139,9 +168,9 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                     children: [
                                       CoursesCard(
                                         courseTitle:
-                                        snapshot.data![index].courseTitle,
+                                            snapshot.data![index].courseTitle,
                                         thumbnailUrl:
-                                        snapshot.data![index].thumbnailUrl,
+                                            snapshot.data![index].thumbnailUrl,
                                       ),
                                       SizedBox(
                                         height: 15,

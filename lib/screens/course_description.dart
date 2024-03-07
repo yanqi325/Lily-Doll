@@ -12,9 +12,20 @@ import '../component/PageLabel.dart';
 
 class CourseDescription extends StatefulWidget {
   static const String id = 'courses_description';
+  String courseTitle = '';
+  String descText = '';
+  int numOfStudents = 0;
+  String imagePath = '';
+
+  CourseDescription(
+      {required this.courseTitle,
+      required this.descText,
+      required this.numOfStudents,
+      required this.imagePath});
 
   @override
-  _CoursesDescriptionScreenState createState() => _CoursesDescriptionScreenState();
+  _CoursesDescriptionScreenState createState() =>
+      _CoursesDescriptionScreenState();
 }
 
 class _CoursesDescriptionScreenState extends State<CourseDescription> {
@@ -31,49 +42,63 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
               padding: const EdgeInsets.only(left: 35.0, top: 30),
               child: Container(
                 alignment: Alignment.centerLeft,
-                child: Image.asset('images/sex_education.png',scale: 1.2,), //extract from courses class
+                child: Image.asset(
+                  widget.imagePath,
+                  scale: 1.2,
+                ), //extract from courses class
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 50.0, right: 50),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Sex Education',
+                    Text(
+                      widget.courseTitle,
                       style: appLabelTextStyle.copyWith(fontSize: 26),
                     ),
-                    SizedBox(height: 10,),
-                    Text("Random text to replace here",
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(widget.descText,
                         textAlign: TextAlign.justify,
-                        style: appLabelTextStyle.copyWith(fontSize: 15)
+                        style: appLabelTextStyle.copyWith(fontSize: 15)),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,),
-                    Text('XX Students enrolled this course',
-                        style: appLabelTextStyle.copyWith(fontSize: 11, color: Colors.grey )
+                    Text(
+                        '${widget.numOfStudents} Students enrolled this course',
+                        style: appLabelTextStyle.copyWith(
+                            fontSize: 11, color: Colors.grey)),
+                    SizedBox(
+                      height: 80,
                     ),
-                    SizedBox(height: 80,),
                     Center(
                       child: elevatedButton(
-                        title: 'Enroll',
+                        title: 'Proceed',
                         fontColor: Colors.black,
                         width: 110,
                         height: 38,
-                        onPressed: (){
-                          Navigator.pushNamed(context, CoursesChapter.id);
-                        },
-                        color: backgroundColor,),
+                        //disable button
+                        // onPressed: () {
+                        //   Navigator.pushNamed(context, CoursesChapter.id);
+                        // },
+                        color: backgroundColor,
+                      ),
                     ),
+                    Center(child:
+                      Text("You are not enrolled in this course!"),)
                   ],
                 ),
               ),
             ), //extract from courses class
           ],
         ),
-
       ),
     );
   }
 }
-

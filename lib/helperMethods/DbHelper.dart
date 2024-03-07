@@ -244,13 +244,6 @@ class DbHelper {
     }
   }
 
-  // //method to aread course data from firestore
-  // static Stream<List<Courses>> getAllCoursesFromFirestore() {
-  //   return FirebaseFirestore.instance.collection('courses').snapshots().map((snapshot) => snapshot.docs.map((doc) {
-  //     return Courses.fromMap(doc.data());
-  //   }).toList());
-  // }
-
   //method to retrieve all courses
   Future<List<Courses>> getAllCoursesFromFirestore() async {
     AuthHelper authHelper = new AuthHelper();
@@ -415,6 +408,7 @@ class DbHelper {
   Future<void> addUserToEnrolledUsers(
       String educatorId, String courseTitle, String userId) async {
     try {
+      String userName='';
       // Reference to the 'enrolledUsers' collection within the 'courses' subcollection
       CollectionReference enrolledUsersRef = FirebaseFirestore.instance
           .collection('usersExtended')
@@ -423,8 +417,16 @@ class DbHelper {
           .doc(courseTitle)
           .collection('enrolledUsers');
 
+      DocumentSnapshot documentSnapshot =
+      await FirebaseFirestore.instance.collection('usersExtended').doc(userId).get();
+
+      if (documentSnapshot.exists){
+        userName = (documentSnapshot.data() as Map<String,dynamic>)['Username'];
+      }
+
       // Add the user document to the 'enrolledUsers' collection
-      await enrolledUsersRef.doc(userId).set({"progress": 0.toString()});
+      await enrolledUsersRef.doc(userId).set({"progress": 0.toString(),
+      "Username": userName});
 
       print(
           'User $userId added to enrolledUsers collection in course $courseTitle');
@@ -458,9 +460,7 @@ class DbHelper {
   }
 
 //Return course details based on what is inside 'usersExtended' -> 'enrolledCourses', based on educator id
-
 //Get all enrolledCourses Name
-  //TODO: TEST IF THIS WORKS
   Future<List<Courses>> getEnrolledCourses() async {
     AuthHelper authHelper = new AuthHelper();
     String? userId = await authHelper.getCurrentUserId();
@@ -500,6 +500,33 @@ class DbHelper {
     } catch (error) {
       // Handle any errors
       print('Error retrieving enrolled course IDs: $error');
+      return []; // Return an empty list in case of error
+    }
+  }
+//Get all users for specific course
+  Future<List<Map<String, dynamic>>> getAllEnrolledUsers(String educatorId, String courseTitle) async {
+    try {
+      // Reference to the 'enrolledUsers' subcollection within 'courses' collection under 'usersExtended'
+      CollectionReference enrolledUsersRef = FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(educatorId) // Replace 'your_user_id' with the actual user ID
+          .collection('courses')
+          .doc(courseTitle) // Replace 'course_id' with the actual course ID
+          .collection('enrolledUsers');
+
+      // Get all documents in the 'enrolledUsers' subcollection
+      QuerySnapshot querySnapshot = await enrolledUsersRef.get();
+
+      // Map each document snapshot to a map
+      List<Map<String, dynamic>> enrolledUsers = querySnapshot.docs.map((doc) {
+        return doc.data() as Map<String, dynamic>;
+      }).toList();
+
+      // Return the list of maps
+      return enrolledUsers;
+    } catch (error) {
+      // Handle any errors
+      print('Error retrieving enrolled users: $error');
       return []; // Return an empty list in case of error
     }
   }

@@ -63,7 +63,7 @@ class RecentCourses_educator extends StatelessWidget {
                     onTap: () {
                       // Handle tap action here
                       print("Manage tapped!");
-                      //Navigator.pushNamed(context, managePath!);
+                      Navigator.pushNamed(context, managePath!);
 
                     },
                     child: Text(

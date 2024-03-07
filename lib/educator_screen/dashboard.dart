@@ -19,6 +19,7 @@ import '../component/RecentCourses_educator.dart';
 import '../component/ScheduleClass.dart';
 import '../screens/course_description.dart';
 import '../screens/setting_page.dart';
+import 'manage_courses_detail.dart';
 
 class Dashboard extends StatefulWidget {
   static const String id = 'dashboard';
@@ -67,6 +68,7 @@ class _DashboardScreenState extends State<Dashboard> {
                     RecentCourses_educator(
                       iconImage: 'images/daily_life.png',
                       courseTitle: 'Daily Life',
+                      managePath: ManageCoursesDetail.id,
                     ),
                   ],
                 ),

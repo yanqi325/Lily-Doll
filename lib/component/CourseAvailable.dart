@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../helperMethods/AuthHelper.dart';
 
 class CourseAvailable extends StatefulWidget {
   static const String id = 'course_available';
@@ -27,6 +28,7 @@ class CourseAvailable extends StatefulWidget {
 class _CourseAvailable extends State<CourseAvailable> {
   TextEditingController searchController =
       TextEditingController(); // Added controller
+  AuthHelper authHelper = new AuthHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +39,9 @@ class _CourseAvailable extends State<CourseAvailable> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {
+            onTap: () async {
               Navigator.pushNamed(context, widget.coursePath!,
-                  arguments: {"courseTitle": widget.courseName});
+                  arguments: {"courseTitle": widget.courseName,"educatorId": await authHelper.getCurrentUserId() });
             },
             child: Container(
               child: Row(
