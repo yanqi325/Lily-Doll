@@ -19,6 +19,18 @@ class _LoginScreenState extends State<LoginPage> {
   String? password;
   bool obscure = true;
 
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +82,7 @@ class _LoginScreenState extends State<LoginPage> {
                 },
                 child: Container(
                   alignment: Alignment.topRight,
-                  child: Text('Forgot uour password?',
+                  child: Text('Forgot your password?',
                       style: signUpButtonTextStyle.copyWith(color: purple3, fontSize:12,fontWeight: FontWeight.bold, fontFamily: fontFamily2 ),
                     ),
                   ),
@@ -85,7 +97,12 @@ class _LoginScreenState extends State<LoginPage> {
                     fontSize: 15,
                     fontColor: Colors.white,
                     onPressed: (){
-                      Navigator.pushNamed(context, HomePage.id);
+                      if (email == null || password == null) {
+                        showError('Please fill in all the fields.');
+                      } else {
+                        //check authentication here., correct then go to home page
+                        Navigator.pushNamed(context, HomePage.id);
+                      }
                     },
                   ),
               ), //add onPress

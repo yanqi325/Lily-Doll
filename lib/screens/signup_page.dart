@@ -147,8 +147,9 @@ class _SignupScreenState extends State<SignUpPage> {
                     if (username == null || email == null || password == null) {
                       showError('Please fill in all the fields.');
                     } else {
-                      // Perform the sign-up logic
-                      // You can add your sign-up logic here
+                      //check authentication here., correct then go to home page
+                      //go to login page
+
                     }
                   },
                 ),
