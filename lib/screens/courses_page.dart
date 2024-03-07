@@ -28,6 +28,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
       descText:
           "This is a course where students will learn about their rights of their body",
       imagePath: 'images/sex_education.png',
+      altText: "You are not enrolled in this course!",
+      isEnrolled: false,
     );
 
     Widget course2 = CourseDescription(
@@ -36,6 +38,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
       descText:
           "This is a course where students will learn about the ins and outs of life",
       imagePath: 'images/daily_life.png',
+      altText: "You are not enrolled in this course!",
+      isEnrolled: false,
     );
 
     Widget course3 = CourseDescription(
@@ -44,6 +48,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
       descText:
           "This is a course where students will learn about the different types of shapes",
       imagePath: 'images/shape.png',
+      altText: "You are not enrolled in this course!",
+      isEnrolled: false,
     );
     //dynamically add courses
     return Scaffold(
@@ -160,6 +166,7 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                           SizedBox(
                             height: 5,
                           ),
+                          //Generate user courses based on firebase
                           Expanded(
                             child: ListView.builder(
                                 itemCount: snapshot.data!.length,
@@ -171,6 +178,17 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                             snapshot.data![index].courseTitle,
                                         thumbnailUrl:
                                             snapshot.data![index].thumbnailUrl,
+                                        courseDescWidget: CourseDescription(
+                                          courseTitle:
+                                              snapshot.data![index].courseTitle,
+                                          numOfStudents: 190,
+                                          descText:
+                                              snapshot.data![index].courseDesc,
+                                          imagePath: snapshot
+                                              .data![index].thumbnailUrl,
+                                          altText: "",
+                                          isEnrolled: true,
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 15,

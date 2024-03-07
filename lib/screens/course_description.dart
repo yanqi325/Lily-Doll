@@ -16,12 +16,16 @@ class CourseDescription extends StatefulWidget {
   String descText = '';
   int numOfStudents = 0;
   String imagePath = '';
+  String altText = "You are not enrolled in this course!";
+  bool isEnrolled= false;
 
   CourseDescription(
       {required this.courseTitle,
       required this.descText,
       required this.numOfStudents,
-      required this.imagePath});
+      required this.imagePath,
+      required this.altText,
+      required this.isEnrolled});
 
   @override
   _CoursesDescriptionScreenState createState() =>
@@ -84,14 +88,14 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
                         width: 110,
                         height: 38,
                         //disable button
-                        // onPressed: () {
-                        //   Navigator.pushNamed(context, CoursesChapter.id);
-                        // },
+                        onPressed: widget.isEnrolled ? () {
+                          Navigator.pushNamed(context, CoursesChapter.id);
+                        }: null,
                         color: backgroundColor,
                       ),
                     ),
-                    Center(child:
-                      Text("You are not enrolled in this course!"),)
+                    Center(child: widget.isEnrolled == true ? Text(widget.altText) : Text("")
+                     ,)
                   ],
                 ),
               ),

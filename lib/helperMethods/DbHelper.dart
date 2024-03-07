@@ -531,5 +531,10 @@ class DbHelper {
     }
   }
 
-//Add progress to course details based on user
+  //get lesson details at user POV
+  Future<List<Lessons>> getLessonsFromCourseUser() async{
+    List<Lessons> allLessons=[];
+    //call func to get course from educator
+    return allLessons;
+  }
 }

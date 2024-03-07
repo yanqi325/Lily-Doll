@@ -84,11 +84,11 @@ class _DashboardScreenState extends State<Dashboard> {
                 child: ListView(
                   scrollDirection: Axis.vertical,
                   children: [
-                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1400 - 1500',coursePath: CourseDescription.id,),
+                    ScheduleClass(colour: Colors.red, classTitle: 'Dancing', time: '1400 - 1500',coursePath: CourseDescription.id,),
                     SizedBox(height: 15,),
-                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1400 - 1500',coursePath: CourseDescription.id,),
+                    ScheduleClass(colour: Colors.red, classTitle: 'Self Care', time: '0900 - 1100',coursePath: CourseDescription.id,),
                     SizedBox(height: 15,),
-                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1400 - 1500',coursePath: CourseDescription.id,),
+                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1500 - 1700',coursePath: CourseDescription.id,),
                   ],
                 ),
               ),

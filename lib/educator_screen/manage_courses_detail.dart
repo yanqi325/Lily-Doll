@@ -12,6 +12,7 @@ import '../component/AppBar.dart';
 import '../component/ContactCard.dart';
 import '../component/NavigationBar.dart';
 import '../component/searchBar.dart';
+import '../screens/course_video.dart';
 import 'add_lesson.dart';
 
 class ManageCoursesDetail extends StatefulWidget {
@@ -53,7 +54,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('XX students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
+                      Text('45 students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
                       AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: true,),
                       SizedBox(height: 15,),
                       ListView.builder(
@@ -66,6 +67,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                 courseName: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
                                 imagePath: 'images/sex_lesson1.png',
                                 status: snapshot.data![index].isLocked.toString().toLowerCase() == "islocked" ? "Locked" : "Unlocked",
+                                coursePath: CourseVideo.id,
                                 onValueChanged: (value) {
                                   setState(() {
                                     // statuses[index] = value;
