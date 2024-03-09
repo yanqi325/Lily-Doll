@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_lily/Data/Users.dart';
 import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/constants.dart';
+import 'package:project_lily/educator_screen/add_lesson.dart';
 import 'package:project_lily/screens/courses_chapter.dart';
 import 'package:project_lily/screens/profile_page.dart';
 import '../Data/Courses.dart';
@@ -18,6 +19,7 @@ class CourseDescription extends StatefulWidget {
   String imagePath = '';
   String altText = "You are not enrolled in this course!";
   bool isEnrolled= false;
+  bool isEducatorMode = false;
 
   CourseDescription(
       {required this.courseTitle,
@@ -25,7 +27,8 @@ class CourseDescription extends StatefulWidget {
       required this.numOfStudents,
       required this.imagePath,
       required this.altText,
-      required this.isEnrolled});
+      required this.isEnrolled,
+      required this.isEducatorMode});
 
   @override
   _CoursesDescriptionScreenState createState() =>
@@ -89,7 +92,12 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
                         height: 38,
                         //disable button
                         onPressed: widget.isEnrolled ? () {
-                          Navigator.pushNamed(context, CoursesChapter.id);
+                          if(widget.isEducatorMode){
+//go to add lesson page
+                            Navigator.pushNamed(context, AddLesson.id, arguments: {"courseTitle" : widget.courseTitle});
+                          }else{
+                            Navigator.pushNamed(context, CoursesChapter.id);
+                          }
                         }: null,
                         color: backgroundColor,
                       ),

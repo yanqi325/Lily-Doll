@@ -60,15 +60,45 @@ class _DashboardScreenState extends State<Dashboard> {
                     RecentCourses_educator(
                       iconImage: 'images/sex_education.png',
                       courseTitle: 'Sex Education',
+                      courseDescWidget: CourseDescription(
+                        courseTitle: "Sex Education",
+                        numOfStudents: 190,
+                        descText:
+                        "This is a course where students will learn about their rights of their body",
+                        imagePath: 'images/sex_education.png',
+                        altText: "",
+                        isEnrolled: true,
+                        isEducatorMode: true,
+                      )
                     ),
                     RecentCourses_educator(
                       iconImage: 'images/shape.png',
-                      courseTitle: 'Shape',
+                      courseTitle: 'Shape',courseDescWidget:
+                    CourseDescription(
+                      courseTitle: "Shapes",
+                      numOfStudents: 65,
+                      descText:
+                      "This is a course where students will learn about the different types of shapes",
+                      imagePath: 'images/shape.png',
+                      altText: "",
+                      isEnrolled: true,
+                      isEducatorMode: true,
+                    ),
+
                     ),
                     RecentCourses_educator(
                       iconImage: 'images/daily_life.png',
                       courseTitle: 'Daily Life',
-                      managePath: ManageCoursesDetail.id,
+                      courseDescWidget: CourseDescription(
+                        courseTitle: "Daily Life",
+                        numOfStudents: 3,
+                        descText:
+                        "This is a course where students will learn about the ins and outs of life",
+                        imagePath: 'images/daily_life.png',
+                        altText: "",
+                        isEnrolled: true,
+                        isEducatorMode: true,
+                      ),
                     ),
                   ],
                 ),

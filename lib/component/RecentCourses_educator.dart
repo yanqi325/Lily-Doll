@@ -10,11 +10,13 @@ class RecentCourses_educator extends StatelessWidget {
     this.courseTitle,
     this.coursePath,
     this.managePath,
+    required this.courseDescWidget
   });
   String? iconImage;
   String? courseTitle;
   String? coursePath;
   String? managePath;
+  final Widget courseDescWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,9 @@ class RecentCourses_educator extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 20.0),
                 child: iconButton(
                   label: '',
-                  image: iconImage, //extract from Courses class?
+                  image: iconImage,
+
+                  //extract from Courses class?
                 ),
               ), //
               SizedBox(width: 10,),
@@ -63,8 +67,11 @@ class RecentCourses_educator extends StatelessWidget {
                     onTap: () {
                       // Handle tap action here
                       print("Manage tapped!");
-                      Navigator.pushNamed(context, managePath!);
-
+                      // Navigator.pushNamed(context, managePath!);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => courseDescWidget),
+                      );
                     },
                     child: Text(
                       'Manage',

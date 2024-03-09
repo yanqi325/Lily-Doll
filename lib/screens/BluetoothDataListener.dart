@@ -55,6 +55,7 @@ class _BluetoothDataListenerState extends State<BluetoothDataListener> {
                   setState(() {
                     print("Received Data");
                     receivedData.add(String.fromCharCodes(data));
+                    //sadasdas
                   });
                 }
               });

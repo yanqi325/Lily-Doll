@@ -30,6 +30,7 @@ class _CoursesPageScreenState extends State<CoursesPage> {
       imagePath: 'images/sex_education.png',
       altText: "You are not enrolled in this course!",
       isEnrolled: false,
+      isEducatorMode: false,
     );
 
     Widget course2 = CourseDescription(
@@ -40,6 +41,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
       imagePath: 'images/daily_life.png',
       altText: "You are not enrolled in this course!",
       isEnrolled: false,
+      isEducatorMode: false,
+
     );
 
     Widget course3 = CourseDescription(
@@ -50,6 +53,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
       imagePath: 'images/shape.png',
       altText: "You are not enrolled in this course!",
       isEnrolled: false,
+      isEducatorMode: false,
+
     );
     //dynamically add courses
     return Scaffold(
@@ -188,6 +193,7 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                               .data![index].thumbnailUrl,
                                           altText: "",
                                           isEnrolled: true,
+                                          isEducatorMode: false,
                                         ),
                                       ),
                                       SizedBox(

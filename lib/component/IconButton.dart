@@ -15,10 +15,12 @@ class iconButton extends StatelessWidget {
       child: InkWell(
         onTap: () {
           // Navigator.pushNamed(context, route!);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => route!),
-          );
+          if(route != null){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => route!),
+            );
+          }
         },
         splashColor: Colors.transparent,
         child: Column(
