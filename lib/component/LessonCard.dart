@@ -8,11 +8,21 @@ import 'ElevatedButton.dart';
 class LessonCard extends StatelessWidget {
   LessonCard({
     this.onPressedContinue,
-    this.onPressedRestart
+    this.onPressedRestart,
+    required this.lessonTitle,
+    required this.lessonNo,
+    required this.lessonProgress,
+    required this.minutesLeft
   });
 
   final VoidCallback? onPressedContinue;
   final VoidCallback? onPressedRestart;
+  String lessonNo="";
+  String lessonTitle="";
+  //0-100%
+  int lessonProgress=0;
+  int minutesLeft = 0;
+
 
 
   @override
@@ -34,7 +44,7 @@ class LessonCard extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12.0),
-                      child: Text('Lesson 1',
+                      child: Text('Lesson ${lessonNo}',
                           style:
                               appLabelTextStyle.copyWith(color: Colors.black)),
                     ),
@@ -61,7 +71,7 @@ class LessonCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            'Title',
+                            lessonTitle,
                             style: appLabelTextStyle.copyWith(
                                 color: Colors.black, fontSize: 16),
                           ),
@@ -86,7 +96,7 @@ class LessonCard extends StatelessWidget {
                               width: 10,
                             ),
                             Text(
-                              '1/3',
+                              "${lessonProgress}%",
                               style: appLabelTextStyle.copyWith(
                                   color: Colors.black, fontSize: 12),
                             ),
@@ -94,7 +104,7 @@ class LessonCard extends StatelessWidget {
                               width: 130,
                             ),
                             Text(
-                              '113m left',
+                              '${minutesLeft}m left',
                               style: appLabelTextStyle.copyWith(
                                   color: Colors.black, fontSize: 12),
                             ),

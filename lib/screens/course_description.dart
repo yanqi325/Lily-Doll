@@ -96,7 +96,7 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
 //go to add lesson page
                             Navigator.pushNamed(context, AddLesson.id, arguments: {"courseTitle" : widget.courseTitle});
                           }else{
-                            Navigator.pushNamed(context, CoursesChapter.id);
+                            Navigator.pushNamed(context, CoursesChapter.id,arguments: {"courseTitle" : widget.courseTitle});
                           }
                         }: null,
                         color: backgroundColor,

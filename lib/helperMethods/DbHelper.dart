@@ -325,15 +325,11 @@ class DbHelper {
       // Get snapshot of documents in the "lessons" subcollection
       QuerySnapshot querySnapshot = await lessonsCollection.get();
 
-      print(querySnapshot.size);
       List<Lessons> lessonsList = [];
       querySnapshot.docs.forEach((element) {
-        print("Started");
-        print(element.data()! as Map<String, dynamic>);
         Lessons lesson =
             Lessons.fromMap(element.data()! as Map<String, dynamic>);
         lessonsList.add(lesson);
-        print("Added " + lesson.lessonTitle);
       });
       // Convert each document snapshot to a Lesson object
       //  = querySnapshot.docs.map((doc) {
@@ -489,10 +485,7 @@ class DbHelper {
           String progress = DocData["progress"];
           course.progress = double.parse(progress);
           courses.add(course);
-          print(course.thumbnailUrl);
-          print(course.courseDesc);
         }
-        print(courses.length);
       }
 
 
@@ -532,9 +525,56 @@ class DbHelper {
   }
 
   //get lesson details at user POV
-  Future<List<Lessons>> getLessonsFromCourseUser() async{
+  Future<List<Lessons>> getLessonsFromCourseUser(String courseName) async{
     List<Lessons> allLessons=[];
-    //call func to get course from educator
+
+    AuthHelper authHelper = new AuthHelper();
+    String? userId = await authHelper.getCurrentUserId();
+    //get educator ID first
+    try {
+      // Reference to the 'enrolledCourses' collection within the 'usersExtended' collection
+      DocumentSnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(userId)
+          .collection('enrolledCourses')
+          .doc(courseName)
+          .get();
+
+      String educatorId = querySnapshot["educatorId"];
+
+      // Reference to the "lessons" subcollection inside the specified "course" document
+      CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(educatorId)
+          .collection('courses')
+          .doc(courseName)
+          .collection('lessons');
+      print("start");
+
+      // Get snapshot of documents in the "lessons" subcollection
+      QuerySnapshot querySnapshot1 = await lessonsCollection.get();
+
+      print(querySnapshot1.size);
+      List<Lessons> lessonsList = [];
+      querySnapshot1.docs.forEach((element) {
+        print(element.data()! as Map<String, dynamic>);
+        Lessons lesson =
+        Lessons.fromMap(element.data()! as Map<String, dynamic>);
+        lessonsList.add(lesson);
+      });
+      // Convert each document snapshot to a Lesson object
+      //  = querySnapshot.docs.map((doc) {
+      //   return Lessons.fromMap(doc.data()! as Map<String,dynamic>);
+      // }).toList();
+
+      for (Lessons l in lessonsList){
+        print(l.lessonTitle);
+      }
+      return lessonsList;
+
+    }catch(error){
+      return [];
+    }
     return allLessons;
   }
 }
