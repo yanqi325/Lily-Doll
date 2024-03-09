@@ -13,6 +13,7 @@ class CourseAvailable extends StatefulWidget {
     this.courseName,
     this.status,
     this.moreOption,
+
   });
 
   final String? coursePath;
@@ -29,9 +30,22 @@ class _CourseAvailable extends State<CourseAvailable> {
   TextEditingController searchController =
       TextEditingController(); // Added controller
   AuthHelper authHelper = new AuthHelper();
+  //hard coded url for basic 3 courses, sex ed, shapes, daily life
+
 
   @override
   Widget build(BuildContext context) {
+
+    String backupUrl = "";
+    if(widget.courseName == "Sex Education"){
+backupUrl="images/sex_education.png";
+    }else if (widget.courseName== "Shapes"){
+      backupUrl="images/shape.png";
+    }else if (widget.courseName=="Daily Life"){
+      backupUrl="images/daily_life.png";
+    }else {
+      backupUrl = "images/puzzle.png";
+    }
     // print("At course available course title: " + widget.courseName!);
     return Container(
       child: Row(
@@ -62,7 +76,7 @@ class _CourseAvailable extends State<CourseAvailable> {
                     errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {
                       // Error occurred while loading the image, display default image instead
-                      return Image.asset('images/sex_education.png',width: 56,height: 56,);
+                      return Image.asset(backupUrl,width: 56,height: 56,);
                     },
                   ),
                   SizedBox(

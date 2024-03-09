@@ -87,6 +87,7 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                                     courseName:
                                         snapshot.data![index].courseTitle,
                                     coursePath: ManageCoursesDetail.id,
+
                                   ),
                                   SizedBox(
                                     height: 15,
