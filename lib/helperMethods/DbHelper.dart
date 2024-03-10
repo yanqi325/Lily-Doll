@@ -404,7 +404,7 @@ class DbHelper {
   Future<void> addUserToEnrolledUsers(
       String educatorId, String courseTitle, String userId) async {
     try {
-      String userName='';
+      String userName = '';
       // Reference to the 'enrolledUsers' collection within the 'courses' subcollection
       CollectionReference enrolledUsersRef = FirebaseFirestore.instance
           .collection('usersExtended')
@@ -413,16 +413,20 @@ class DbHelper {
           .doc(courseTitle)
           .collection('enrolledUsers');
 
-      DocumentSnapshot documentSnapshot =
-      await FirebaseFirestore.instance.collection('usersExtended').doc(userId).get();
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(userId)
+          .get();
 
-      if (documentSnapshot.exists){
-        userName = (documentSnapshot.data() as Map<String,dynamic>)['Username'];
+      if (documentSnapshot.exists) {
+        userName =
+            (documentSnapshot.data() as Map<String, dynamic>)['Username'];
       }
 
       // Add the user document to the 'enrolledUsers' collection
-      await enrolledUsersRef.doc(userId).set({"progress": 0.toString(),
-      "Username": userName});
+      await enrolledUsersRef
+          .doc(userId)
+          .set({"progress": 0.toString(), "Username": userName});
 
       print(
           'User $userId added to enrolledUsers collection in course $courseTitle');
@@ -488,7 +492,6 @@ class DbHelper {
         }
       }
 
-
       return courses;
     } catch (error) {
       // Handle any errors
@@ -496,8 +499,10 @@ class DbHelper {
       return []; // Return an empty list in case of error
     }
   }
+
 //Get all users for specific course
-  Future<List<Map<String, dynamic>>> getAllEnrolledUsers(String educatorId, String courseTitle) async {
+  Future<List<Map<String, dynamic>>> getAllEnrolledUsers(
+      String educatorId, String courseTitle) async {
     try {
       // Reference to the 'enrolledUsers' subcollection within 'courses' collection under 'usersExtended'
       CollectionReference enrolledUsersRef = FirebaseFirestore.instance
@@ -525,20 +530,21 @@ class DbHelper {
   }
 
   //get lesson details at user POV
-  Future<List<Lessons>> getLessonsFromCourseUser(String courseName) async{
-    List<Lessons> allLessons=[];
+  Future<List<Lessons>> getLessonsFromCourseUser(String courseName) async {
+    List<Lessons> allLessons = [];
 
     AuthHelper authHelper = new AuthHelper();
     String? userId = await authHelper.getCurrentUserId();
     //get educator ID first
     try {
       // Reference to the 'enrolledCourses' collection within the 'usersExtended' collection
-      DocumentSnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-          .collection('usersExtended')
-          .doc(userId)
-          .collection('enrolledCourses')
-          .doc(courseName)
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('usersExtended')
+              .doc(userId)
+              .collection('enrolledCourses')
+              .doc(courseName)
+              .get();
 
       String educatorId = querySnapshot["educatorId"];
 
@@ -559,7 +565,7 @@ class DbHelper {
       querySnapshot1.docs.forEach((element) {
         print(element.data()! as Map<String, dynamic>);
         Lessons lesson =
-        Lessons.fromMap(element.data()! as Map<String, dynamic>);
+            Lessons.fromMap(element.data()! as Map<String, dynamic>);
         lessonsList.add(lesson);
       });
       // Convert each document snapshot to a Lesson object
@@ -567,43 +573,48 @@ class DbHelper {
       //   return Lessons.fromMap(doc.data()! as Map<String,dynamic>);
       // }).toList();
 
-      for (Lessons l in lessonsList){
+      for (Lessons l in lessonsList) {
         print(l.lessonTitle);
       }
       return lessonsList;
-
-    }catch(error){
+    } catch (error) {
       return [];
     }
     return allLessons;
   }
 
   //get all users that have not been enrolled in this course
-  Future<List<Map<String,dynamic>>> getAllUnenrolledUsers(String courseTitle) async{
+  Future<List<Map<String, dynamic>>> getAllUnenrolledUsers(
+      String courseTitle) async {
     AuthHelper authHelper = new AuthHelper();
     String? userid = await authHelper.getCurrentUserId();
-    List<Map<String,dynamic>> usersList = [];
+    List<Map<String, dynamic>> usersList = [];
 
     //get all users from educator "usersExtended" -> "courses" -> "enrolled Users [2]
-    List<Map<String,dynamic>> excludeList = await getAllEnrolledUsers(userid!, courseTitle);
+    List<Map<String, dynamic>> excludeList =
+        await getAllEnrolledUsers(userid!, courseTitle);
     //get all users from "usersExtended" [1]
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('usersExtended')
-          .get();
 
+    print("Excluded list includes: ");
+    for (Map<String, dynamic> e in excludeList) {
+      print(e['Username']);
+    }
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('usersExtended').get();
+
+      print("userList includes: ");
       querySnapshot.docs.forEach((doc) {
         if (doc.exists && doc.data() != null) {
-          Map<String,dynamic> docData = doc.data() as Map<String,dynamic>;
-          if(excludeList.contains(docData["Username"])){
-            //dont put in
-          }else{
-            usersList.add(docData);
-            //sdfdsf
-          }
+          Map<String, dynamic> docData = doc.data() as Map<String, dynamic>;
+          print(docData["Username"]);
+          usersList.add(docData);
         }
       });
-
+      for (Map<String, dynamic> e in excludeList) {
+        usersList.removeWhere((item)=>item["Username"] == e["Username"]);
+        print("Removed" + e["Username"]);
+      }
     } catch (error) {
       print('Error fetching usernames: $error');
     }
@@ -616,13 +627,12 @@ class DbHelper {
     List<String> usernames = [];
 
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('usersExtended')
-          .get();
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('usersExtended').get();
 
       querySnapshot.docs.forEach((doc) {
         if (doc.exists && doc.data() != null) {
-          dynamic username = (doc.data()! as Map<String,dynamic>)['Username'];
+          dynamic username = (doc.data()! as Map<String, dynamic>)['Username'];
           if (username != null && username is String) {
             usernames.add(username);
           }
