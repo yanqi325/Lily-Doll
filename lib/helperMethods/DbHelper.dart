@@ -577,4 +577,61 @@ class DbHelper {
     }
     return allLessons;
   }
+
+  //get all users that have not been enrolled in this course
+  Future<List<Map<String,dynamic>>> getAllUnenrolledUsers(String courseTitle) async{
+    AuthHelper authHelper = new AuthHelper();
+    String? userid = await authHelper.getCurrentUserId();
+    List<Map<String,dynamic>> usersList = [];
+
+    //get all users from educator "usersExtended" -> "courses" -> "enrolled Users [2]
+    List<Map<String,dynamic>> excludeList = await getAllEnrolledUsers(userid!, courseTitle);
+    //get all users from "usersExtended" [1]
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('usersExtended')
+          .get();
+
+      querySnapshot.docs.forEach((doc) {
+        if (doc.exists && doc.data() != null) {
+          Map<String,dynamic> docData = doc.data() as Map<String,dynamic>;
+          if(excludeList.contains(docData["Username"])){
+            //dont put in
+          }else{
+            usersList.add(docData);
+            //sdfdsf
+          }
+        }
+      });
+
+    } catch (error) {
+      print('Error fetching usernames: $error');
+    }
+    return usersList;
+  }
+
+  //get all users from 'usersExtended'
+
+  Future<List<String>> getAllUsernames() async {
+    List<String> usernames = [];
+
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('usersExtended')
+          .get();
+
+      querySnapshot.docs.forEach((doc) {
+        if (doc.exists && doc.data() != null) {
+          dynamic username = (doc.data()! as Map<String,dynamic>)['Username'];
+          if (username != null && username is String) {
+            usernames.add(username);
+          }
+        }
+      });
+    } catch (error) {
+      print('Error fetching usernames: $error');
+    }
+
+    return usernames;
+  }
 }
