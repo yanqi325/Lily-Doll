@@ -689,4 +689,48 @@ class DbHelper {
   Future<String> getVideoIdFromLesson() async {
     return 'dQw4w9WgXcQ';
   }
+
+  Future<String> getVideoIdFromLessonUser(String lessonTitle, String courseTitle) async {
+    List<Lessons> lessonList = await getLessonsFromCourseUser(courseTitle);
+    String videoId='';
+    for (Lessons l in lessonList){
+      if (l.lessonTitle == lessonTitle){
+        videoId = l.thumbnailUrl;
+      }
+    }
+    return videoId;
+  }
+
+  Future<String> getVideoIdFromLessonEducator(String lessonTitle, String courseTitle) async {
+    AuthHelper authHelper = new AuthHelper();
+    String? userId = await authHelper.getCurrentUserId();
+    String videoId='';
+    // Reference to the "lessons" subcollection inside the specified "course" document
+    CollectionReference lessonsCollection = FirebaseFirestore.instance
+        .collection("usersExtended")
+        .doc(userId)
+        .collection('courses')
+        .doc(courseTitle)
+        .collection('lessons');
+
+    // Get snapshot of documents in the "lessons" subcollection
+    QuerySnapshot querySnapshot1 = await lessonsCollection.get();
+
+    querySnapshot1.docs.forEach((element) {
+      print(element.data()! as Map<String, dynamic>);
+      Lessons lesson =
+      Lessons.fromMap(element.data()! as Map<String, dynamic>);
+      if(lesson.lessonTitle == lessonTitle){
+        videoId = lesson.thumbnailUrl;
+      }
+    });
+
+    return videoId;
+  }
+
+
+  //get single lesson details from users POV
+  // Future<Map<String,dynamic>> getLessonDetailUser(){
+  //
+  // }
 }

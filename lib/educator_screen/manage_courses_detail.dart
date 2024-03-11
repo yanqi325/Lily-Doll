@@ -69,7 +69,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                 imagePath: 'images/sex_lesson1.png',
                                 status: snapshot.data![index].isLocked.toString().toLowerCase() == "islocked" ? "Locked" : "Unlocked",
                                 coursePath: CourseVideo.id,
-                                videoPage: LessonVideoYT(),
+                                videoPage: LessonVideoYT(isUser: false,lessonNo:(index + 1).toString(),lessonTitle: snapshot.data![index].lessonTitle,courseTitle: args["courseTitle"],),
                                 onValueChanged: (value) {
                                   setState(() {
                                     // statuses[index] = value;
