@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginPage> {
                     email = value;
                 },
                 keyboardType: TextInputType.emailAddress,
-                hintText: 'example@gmail.com',
+                hintText: 'example123',
               ),
               SizedBox(height: 50,),
               LabeledTextField(
