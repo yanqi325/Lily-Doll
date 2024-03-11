@@ -23,39 +23,37 @@ class _CoursesPageScreenState extends State<CoursesPage> {
 
     //hard coded values: do not touch
     Widget course1 = CourseDescription(
-      courseTitle: "Sex Education",
-      numOfStudents: 190,
-      descText:
-          "This is a course where students will learn about their rights of their body",
-      imagePath: 'images/sex_education.png',
-      altText: "You are not enrolled in this course!",
-      isEnrolled: false,
-      isEducatorMode: false,
-    );
+        courseTitle: "Sex Education",
+        numOfStudents: 190,
+        descText:
+            "This is a course where students will learn about their rights of their body",
+        imagePath: 'images/sex_education.png',
+        altText: "You are not enrolled in this course!",
+        isEnrolled: false,
+        isEducatorMode: false,
+        isOnlineAsset: false);
 
     Widget course2 = CourseDescription(
-      courseTitle: "Daily Life",
-      numOfStudents: 3,
-      descText:
-          "This is a course where students will learn about the ins and outs of life",
-      imagePath: 'images/daily_life.png',
-      altText: "You are not enrolled in this course!",
-      isEnrolled: false,
-      isEducatorMode: false,
-
-    );
+        courseTitle: "Daily Life",
+        numOfStudents: 3,
+        descText:
+            "This is a course where students will learn about the ins and outs of life",
+        imagePath: 'images/daily_life.png',
+        altText: "You are not enrolled in this course!",
+        isEnrolled: false,
+        isEducatorMode: false,
+        isOnlineAsset: false);
 
     Widget course3 = CourseDescription(
-      courseTitle: "Shapes",
-      numOfStudents: 65,
-      descText:
-          "This is a course where students will learn about the different types of shapes",
-      imagePath: 'images/shape.png',
-      altText: "You are not enrolled in this course!",
-      isEnrolled: false,
-      isEducatorMode: false,
-
-    );
+        courseTitle: "Shapes",
+        numOfStudents: 65,
+        descText:
+            "This is a course where students will learn about the different types of shapes",
+        imagePath: 'images/shape.png',
+        altText: "You are not enrolled in this course!",
+        isEnrolled: false,
+        isEducatorMode: false,
+        isOnlineAsset: false);
     //dynamically add courses
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarWidget(initialIndex: 0),
@@ -184,17 +182,17 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                         thumbnailUrl:
                                             snapshot.data![index].thumbnailUrl,
                                         courseDescWidget: CourseDescription(
-                                          courseTitle:
-                                              snapshot.data![index].courseTitle,
-                                          numOfStudents: 190,
-                                          descText:
-                                              snapshot.data![index].courseDesc,
-                                          imagePath: snapshot
-                                              .data![index].thumbnailUrl,
-                                          altText: "",
-                                          isEnrolled: true,
-                                          isEducatorMode: false,
-                                        ),
+                                            courseTitle: snapshot
+                                                .data![index].courseTitle,
+                                            numOfStudents: 190,
+                                            descText: snapshot
+                                                .data![index].courseDesc,
+                                            imagePath: snapshot
+                                                .data![index].thumbnailUrl,
+                                            altText: "",
+                                            isEnrolled: true,
+                                            isEducatorMode: false,
+                                            isOnlineAsset: true),
                                       ),
                                       SizedBox(
                                         height: 15,
