@@ -52,7 +52,7 @@ class _CoursesChapterScreenState extends State<CoursesChapter> {
                         return LessonCard(
                           lessonTitle: lesson.lessonTitle,
                           lessonNo: index.toString(),
-                          lessonProgress: 43,
+                          lessonProgress: 54,
                           minutesLeft: 34,
                           onPressedContinue: ()=> {
 

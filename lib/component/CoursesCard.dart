@@ -42,7 +42,7 @@ class CoursesCard extends StatelessWidget {
                 StackTrace? stackTrace) {
               // Error occurred while loading the image, display default image instead
               return Image.asset(
-                'images/sex_education.png',
+                'images/puzzle.png',
                 width: 56,
                 height: 56,
               );

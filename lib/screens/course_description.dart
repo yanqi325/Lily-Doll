@@ -113,7 +113,7 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
                         color: backgroundColor,
                       ),
                     ),
-                    Center(child: widget.isEnrolled == true ? Text(widget.altText) : Text("")
+                    Center(child: !widget.isEnrolled == true ? Text(widget.altText) : Text("")
                      ,)
                   ],
                 ),
