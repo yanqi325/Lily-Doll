@@ -4,20 +4,25 @@ import 'package:project_lily/screens/chatroom.dart';
 
 import '../Data/Users.dart';
 import '../constants.dart';
+import '../educator_screen/student_details.dart';
+import '../helperMethods/AuthHelper.dart';
 
 class EnrolledStudentCard extends StatelessWidget {
   EnrolledStudentCard({
     this.path,
     this.imagePath,
     this.studentName,
-    this.moreOption
+    this.moreOption,
+    required this.studentDetailsNewWidget
   });
+
   final String? path;
   final String? imagePath;
   final String? studentName;
   final VoidCallback? moreOption;
+  StudentDetails studentDetailsNewWidget;
 
-
+AuthHelper authHelper = new AuthHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +32,15 @@ class EnrolledStudentCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, path!);
+            onTap: () async {
+              // Navigator.pushNamed(context, path!);
+              String? userId = await authHelper.getCurrentUserId();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => studentDetailsNewWidget),
+                // MaterialPageRoute(builder: (context) => StudentDetails(courseTitle:"Boxing",userName: "Jingen",)),
+              );
+              //fdsfd
             },
             child: Container(
               child: Row(

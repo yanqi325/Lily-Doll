@@ -4,6 +4,7 @@ import 'package:project_lily/screens/chatroom.dart';
 
 import '../Data/Users.dart';
 import '../constants.dart';
+import '../screens/lessonVideoYT.dart';
 
 class ManageLessonCard extends StatefulWidget {
   final String? coursePath;
@@ -12,6 +13,7 @@ class ManageLessonCard extends StatefulWidget {
   final String? status;
   final VoidCallback? moreOption;
   final void Function(String?)? onValueChanged;
+  LessonVideoYT videoPage;
 
   ManageLessonCard({
     this.coursePath,
@@ -20,6 +22,7 @@ class ManageLessonCard extends StatefulWidget {
     this.status,
     this.moreOption,
     this.onValueChanged,
+    required this.videoPage
   });
 
   @override
@@ -46,7 +49,13 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
           InkWell(
             onTap: () {
               //navigate to lesson video page
-              Navigator.pushNamed(context, widget.coursePath!);
+              //DEFAULT
+              // Navigator.pushNamed(context, widget.coursePath!);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => widget.videoPage),
+              );
             },
             child: Container(
               child: Row(

@@ -111,7 +111,7 @@ class MyApp extends StatelessWidget {
           AddLesson.id: (context) => AddLesson(),
           EnrolledStudentList.id: (context) => EnrolledStudentList(),
           Enrollment.id: (context) => Enrollment(),
-          StudentDetails.id: (context) => StudentDetails(),
+          StudentDetails.id: (context) => StudentDetails(courseTitle: "",userName: ""),
           SignUpUserPage.id: (context) => SignUpUserPage(),
           BluetoothPage.id: (context) => BluetoothPage(),
         });

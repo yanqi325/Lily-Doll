@@ -50,6 +50,7 @@ dependencies:
   permission_handler: ^11.3.0
   file_picker: ^6.1.1
   firebase_storage: ^11.6.6
+  youtube_player_flutter: ^8.0.0
 
 dev_dependencies:
   flutter_test:

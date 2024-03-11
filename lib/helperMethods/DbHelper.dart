@@ -612,7 +612,7 @@ class DbHelper {
         }
       });
       for (Map<String, dynamic> e in excludeList) {
-        usersList.removeWhere((item)=>item["Username"] == e["Username"]);
+        usersList.removeWhere((item) => item["Username"] == e["Username"]);
         print("Removed" + e["Username"]);
       }
     } catch (error) {
@@ -643,5 +643,50 @@ class DbHelper {
     }
 
     return usernames;
+  }
+
+  Future<List<Map<String, dynamic>>> getEnrolledCoursesProgress(
+      String userId) async {
+    try {
+      // Reference to the 'enrolledCourses' collection within the 'usersExtended' collection
+      CollectionReference<Map<String, dynamic>> enrolledCoursesRef =
+          FirebaseFirestore.instance
+              .collection('usersExtended')
+              .doc(userId)
+              .collection('enrolledCourses');
+
+      // Get the documents from the 'enrolledCourses' collection
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await enrolledCoursesRef.get();
+
+      List<Map<String, dynamic>> userProgressList = [];
+
+      // Iterate through each document in the collection
+      querySnapshot.docs.forEach((doc) {
+        // Get the document ID
+        String docId = doc.id;
+
+        // Create a Map to store the document ID and progress value
+        Map<String, dynamic> progressMap = {
+          "courseTitle": docId,
+          "progress": doc['progress']
+        };
+
+        userProgressList.add(progressMap);
+      });
+      for (Map<String, dynamic> e in userProgressList) {
+        print(e['courseTitle']);
+        print(e["progress"]);
+      }
+      return userProgressList;
+    } catch (error) {
+      // Handle any errors
+      print('Error fetching enrolled courses progress: $error');
+      return []; // Return an empty map in case of error
+    }
+  }
+
+  Future<String> getVideoIdFromLesson() async {
+    return 'dQw4w9WgXcQ';
   }
 }

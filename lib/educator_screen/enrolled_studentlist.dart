@@ -77,6 +77,8 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
                                             ['Username'],
                                         imagePath: "",
                                         path: StudentDetails.id,
+                                        studentDetailsNewWidget: StudentDetails(courseTitle:args["courseTitle"],userName: enrolledStudents[index]
+                                        ['Username']),
                                       ),
                                       SizedBox(
                                         height: 10,

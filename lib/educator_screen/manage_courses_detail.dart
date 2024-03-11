@@ -8,6 +8,7 @@ import 'package:project_lily/constants.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
 import 'package:project_lily/screens/course_description.dart';
+import 'package:project_lily/screens/lessonVideoYT.dart';
 import '../component/AppBar.dart';
 import '../component/ContactCard.dart';
 import '../component/NavigationBar.dart';
@@ -68,6 +69,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                 imagePath: 'images/sex_lesson1.png',
                                 status: snapshot.data![index].isLocked.toString().toLowerCase() == "islocked" ? "Locked" : "Unlocked",
                                 coursePath: CourseVideo.id,
+                                videoPage: LessonVideoYT(),
                                 onValueChanged: (value) {
                                   setState(() {
                                     // statuses[index] = value;
