@@ -196,7 +196,7 @@ class _SignupScreenState extends State<SignUpPage> {
                       Navigator.pushNamed(context, LoginPage.id);
                     },
                     child: Text(
-                      'Sign In',
+                      'Log In',
                       style: signUpButtonTextStyle,
                     ),
                   ),
