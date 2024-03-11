@@ -47,14 +47,16 @@ class _ProfilePageScreenState extends State<ProfilePage> {
                 Cardboard(label: 'Payment', labelContent: 'Tap to Change Payment', icon: Icons.credit_card,),
                 SizedBox(height: 8,),
                 Cardboard(label: 'Privacy Policy', labelContent: 'Tap to See Privacy Policy', icon: Icons.privacy_tip,),
-                InkWell(
-                  onTap: (){
-                    print('Log out');
-                  },
+                Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top:18,left: 155,right: 18),
-                    child: Text('LOG OUT',
-                      style: signUpButtonTextStyle.copyWith(color: purple4, fontSize: 16, fontWeight: FontWeight.normal),
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: InkWell(
+                      onTap: (){
+                        print('Log out');
+                      },
+                      child: Text('LOG OUT',
+                        style: signUpButtonTextStyle.copyWith(color: purple4, fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
                     ),
                   ),
                 ),
