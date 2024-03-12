@@ -68,7 +68,8 @@ class _SignupScreenState extends State<SignUpPage> {
                       username = value;
                     },
                     keyboardType: TextInputType.emailAddress,
-                    hintText: 'example@gmail.com',
+                    hintText: 'example123',
+
                   ),
                   SizedBox(
                     height: 20,
@@ -196,7 +197,7 @@ class _SignupScreenState extends State<SignUpPage> {
                       Navigator.pushNamed(context, LoginPage.id);
                     },
                     child: Text(
-                      'Sign In',
+                      'Log In',
                       style: signUpButtonTextStyle,
                     ),
                   ),

@@ -27,6 +27,7 @@ class LessonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double progress = (lessonProgress.toDouble() /100);
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -80,9 +81,10 @@ class LessonCard extends StatelessWidget {
                           height: 7,
                         ),
                         LinearPercentIndicator(
+                          //sdfsd
                           width: 230.0,
                           lineHeight: 8.0,
-                          percent: 0.7,
+                          percent: progress,
                           backgroundColor: Colors.cyan[50],
                           progressColor: Colors.cyan,
                           barRadius: Radius.circular(12),

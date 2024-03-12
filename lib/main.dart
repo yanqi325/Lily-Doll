@@ -95,6 +95,7 @@ class MyApp extends StatelessWidget {
                 altText: '',
                 isEnrolled: false,
                 isEducatorMode: false,
+              isOnlineAsset: false
               ),
           CoursesChapter.id: (context) => CoursesChapter(),
           CourseVideo.id: (context) => CourseVideo(),

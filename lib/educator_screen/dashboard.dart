@@ -69,6 +69,7 @@ class _DashboardScreenState extends State<Dashboard> {
                         altText: "",
                         isEnrolled: true,
                         isEducatorMode: true,
+                        isOnlineAsset: false
                       )
                     ),
                     RecentCourses_educator(
@@ -83,6 +84,7 @@ class _DashboardScreenState extends State<Dashboard> {
                       altText: "",
                       isEnrolled: true,
                       isEducatorMode: true,
+                        isOnlineAsset: false
                     ),
 
                     ),
@@ -98,6 +100,7 @@ class _DashboardScreenState extends State<Dashboard> {
                         altText: "",
                         isEnrolled: true,
                         isEducatorMode: true,
+                          isOnlineAsset: false
                       ),
                     ),
                   ],

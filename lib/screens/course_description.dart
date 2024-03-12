@@ -20,6 +20,7 @@ class CourseDescription extends StatefulWidget {
   String altText = "You are not enrolled in this course!";
   bool isEnrolled= false;
   bool isEducatorMode = false;
+  bool isOnlineAsset = false;
 
   CourseDescription(
       {required this.courseTitle,
@@ -28,7 +29,8 @@ class CourseDescription extends StatefulWidget {
       required this.imagePath,
       required this.altText,
       required this.isEnrolled,
-      required this.isEducatorMode});
+      required this.isEducatorMode,
+      required this.isOnlineAsset});
 
   @override
   _CoursesDescriptionScreenState createState() =>
@@ -49,10 +51,19 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
               padding: const EdgeInsets.only(left: 35.0, top: 30),
               child: Container(
                 alignment: Alignment.centerLeft,
-                child: Image.asset(
+                child: !widget.isOnlineAsset ? Image.asset(
                   widget.imagePath,
                   scale: 1.2,
-                ), //extract from courses class
+                ) : Image.network(
+                  widget.imagePath!,
+                  width: 56,
+                  height: 56,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    // Error occurred while loading the image, display default image instead
+                    return Image.asset("images/puzzle.png",width: 56,height: 56,);
+                  },
+                ) //extract from courses class
               ),
             ),
             SizedBox(
@@ -102,7 +113,7 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
                         color: backgroundColor,
                       ),
                     ),
-                    Center(child: widget.isEnrolled == true ? Text(widget.altText) : Text("")
+                    Center(child: !widget.isEnrolled == true ? Text(widget.altText) : Text("")
                      ,)
                   ],
                 ),

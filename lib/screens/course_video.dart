@@ -118,6 +118,7 @@ class _CourseVideoScreenState extends State<CourseVideo> {
               ),
             ),
             SizedBox(height: 100,),
+            //replace this
             Container(
               width: 600,
               height: 200,

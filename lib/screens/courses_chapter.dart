@@ -4,6 +4,7 @@ import 'package:project_lily/component/AppBar.dart';
 import 'package:project_lily/component/LessonCard.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
+import 'package:project_lily/screens/lessonVideoYT.dart';
 
 class CoursesChapter extends StatefulWidget {
   static const String id = 'courses_chapter';
@@ -51,8 +52,17 @@ class _CoursesChapterScreenState extends State<CoursesChapter> {
                         return LessonCard(
                           lessonTitle: lesson.lessonTitle,
                           lessonNo: index.toString(),
-                          lessonProgress: 43,
+                          lessonProgress: 54,
                           minutesLeft: 34,
+                          onPressedContinue: ()=> {
+
+                            //create and navigate to video page
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LessonVideoYT(lessonNo: index.toString(),lessonTitle: lesson.lessonTitle ,isUser: true, courseTitle: args["courseTitle"],)),
+                          )
+
+                          },
                         );
                       },
                     );
