@@ -77,7 +77,8 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                             title: 'Add Course',
                             path: UploadCourse.id,
                             isCourse: true,
-                              isEnroll: true
+                              isEnroll: false,
+                            refreshPage: _refreshPageAfterWidgetAction,
                           ),
                           SizedBox(
                             height: 10,

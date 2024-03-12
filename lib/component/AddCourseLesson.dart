@@ -36,7 +36,7 @@ class AddButton extends StatelessWidget {
           final result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddLesson(),
+              builder: (context) => UploadCourse(),
             ),
           );
           print("back to add course lesson");
