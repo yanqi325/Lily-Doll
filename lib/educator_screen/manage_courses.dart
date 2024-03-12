@@ -73,26 +73,79 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Container(
-                        child: ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          scrollDirection: Axis.vertical,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                CourseAvailable(
-                                  imagePath: snapshot.data![index].thumbnailUrl,
-                                  courseName: snapshot.data![index].courseTitle,
-                                  coursePath: ManageCoursesDetail.id,
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Manage Courses',
+                            style: appLabelTextStyle.copyWith(fontSize: 30),
+                          ),
+                          SizedBox(
+                            height: 7,
+                          ),
+                          searchBar(),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          AddButton(
+                            title: 'Add Course',
+                            path: UploadCourse.id,
+                            isCourse: true,
+                              isEnroll: false,
+                            refreshPage: _refreshPageAfterWidgetAction,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Courses Available',
+                            style: appLabelTextStyle.copyWith(fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            // Number of items in the list
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              // Generate a widget for each item in the list
+                              return Column(
+                                children: [
+                                  CourseAvailable(
+                                    imagePath:
+                                        snapshot.data![index].thumbnailUrl,
+                                    courseName:
+                                        snapshot.data![index].courseTitle,
+                                    coursePath: ManageCoursesDetail.id,
+                                    refreshPage: _refreshPageAfterWidgetAction,
+
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+
+                          // CourseAvailable(
+                          //   imagePath: 'images/sex_education.png',
+                          //   courseName: 'Sex Education',
+                          //   coursePath: ManageCoursesDetail.id,
+                          // ),
+                          // SizedBox(
+                          //   height: 15,
+                          // ),
+                          // CourseAvailable(
+                          //   imagePath: 'images/sex_education.png',
+                          //   courseName: 'Sex Education',
+                          //   coursePath: ManageCoursesDetail.id,
+                          // ),
+                        ],
+                      )),
                     ),
                   ),
                 ],

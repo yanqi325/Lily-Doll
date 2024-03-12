@@ -6,28 +6,28 @@ import '../constants.dart';
 import 'ElevatedButton.dart';
 
 class LessonCard extends StatelessWidget {
-  LessonCard({
-    this.onPressedContinue,
-    this.onPressedRestart,
-    required this.lessonTitle,
-    required this.lessonNo,
-    required this.lessonProgress,
-    required this.minutesLeft
-  });
+  LessonCard(
+      {this.onPressedContinue,
+      this.onPressedRestart,
+      required this.lessonTitle,
+      required this.lessonNo,
+      required this.lessonProgress,
+      required this.minutesLeft,
+      required this.isLocked});
 
   final VoidCallback? onPressedContinue;
   final VoidCallback? onPressedRestart;
-  String lessonNo="";
-  String lessonTitle="";
+  String lessonNo = "";
+  String lessonTitle = "";
+
   //0-100%
-  int lessonProgress=0;
+  int lessonProgress = 0;
   int minutesLeft = 0;
-
-
+  bool isLocked = true;
 
   @override
   Widget build(BuildContext context) {
-    double progress = (lessonProgress.toDouble() /100);
+    double progress = (lessonProgress.toDouble() / 100);
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -115,35 +115,53 @@ class LessonCard extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 8,
-                            ),
-                            elevatedButton(
-                              title: 'Continue',
-                              fontSize: 13,
-                              fontColor: Colors.black,
-                              width: 105,
-                              height: 40,
-                              radius: 8,
-                              elevation: 2,
-                              color: Color(0xFFEFD2C5),
-                              onPressed: onPressedContinue,
-                            ),
-                            elevatedButton(
-                              title: 'Restart',
-                              fontSize: 13,
-                              fontColor: Colors.black,
-                              width: 99,
-                              height: 40,
-                              radius: 8,
-                              elevation: 2,
-                              color: Color(0xFFABDBD1),
-                              onPressed: onPressedRestart,
-                            )
-                          ],
-                        ),
+
+                        !isLocked
+                            ? Row(children: [
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                elevatedButton(
+                                  title: 'Continue',
+                                  fontSize: 13,
+                                  fontColor: Colors.black,
+                                  width: 110,
+                                  height: 40,
+                                  radius: 8,
+                                  elevation: 2,
+                                  color: Color(0xFFEFD2C5),
+                                  onPressed: onPressedContinue,
+                                ),
+                                elevatedButton(
+                                  title: 'Restart',
+                                  fontSize: 13,
+                                  fontColor: Colors.black,
+                                  width: 110,
+                                  height: 40,
+                                  radius: 8,
+                                  elevation: 2,
+                                  color: Color(0xFFABDBD1),
+                                  onPressed: onPressedRestart,
+                                )
+                              ])
+                            : Row(children: [
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                //disabled button
+                                elevatedButton(
+                                  title: 'Locked',
+                                  fontSize: 13,
+                                  fontColor: Colors.black,
+                                  width: 220,
+                                  height: 40,
+                                  radius: 8,
+                                  elevation: 2,
+                                  color: Color(0xFFEFD2C5),
+                                  onPressed: null,
+                                )
+                              ])
+
                       ],
                     ),
                   ),

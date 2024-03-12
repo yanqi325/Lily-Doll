@@ -728,6 +728,31 @@ class DbHelper {
     return videoId;
   }
 
+  //for educator POV to change lesson lock status
+  Future<void> updateLessonLockStatus(String courseId, String lessonId, bool isLocked) async {
+    try {
+      AuthHelper authHelper = new AuthHelper();
+      String? userId = await authHelper.getCurrentUserId();
+      // Reference to the specific document in Firestore
+      DocumentReference lessonRef = FirebaseFirestore.instance
+          .collection('usersExtended') // Collection
+          .doc(userId) // Document ID
+          .collection('courses') // Subcollection
+          .doc(courseId) // Document ID
+          .collection('lessons') // Subcollection
+          .doc(lessonId); // Document ID
+
+      // Update the isLocked field
+      await lessonRef.update({
+        'isLocked': isLocked,
+      });
+
+      print('Lesson lock status updated successfully');
+    } catch (e) {
+      print('Error updating lesson lock status: $e');
+      // Handle any errors here
+    }
+  }
 
   //get single lesson details from users POV
   // Future<Map<String,dynamic>> getLessonDetailUser(){

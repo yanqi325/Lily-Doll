@@ -80,7 +80,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('45 students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
-                      AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: true,refreshPage: _refreshPageAfterWidgetAction,),
+                      AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: false,refreshPage: _refreshPageAfterWidgetAction,),
                       SizedBox(height: 15,),
                       ListView.builder(
                         shrinkWrap: true,
@@ -89,9 +89,11 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                           return Column(
                             children: [
                               ManageLessonCard(
-                                courseName: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
+                                courseNameFull: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
+                                courseTitle: courseTitle,
+                                lessonTitle: snapshot.data![index].lessonTitle ,
                                 imagePath: 'images/sex_lesson1.png',
-                                status: snapshot.data![index].isLocked.toString().toLowerCase() == "islocked" ? "Locked" : "Unlocked",
+                                status: snapshot.data![index].isLocked.toString().toLowerCase() == "true" ? "Locked" : "Unlocked",
                                 coursePath: CourseVideo.id,
                                 videoPage: LessonVideoYT(isUser: false,lessonNo:(index + 1).toString(),lessonTitle: snapshot.data![index].lessonTitle,courseTitle: args["courseTitle"],),
                                 onValueChanged: (value) {

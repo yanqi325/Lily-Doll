@@ -4,12 +4,15 @@ import 'package:project_lily/screens/chatroom.dart';
 
 import '../Data/Users.dart';
 import '../constants.dart';
+import '../helperMethods/DbHelper.dart';
 import '../screens/lessonVideoYT.dart';
 
 class ManageLessonCard extends StatefulWidget {
   final String? coursePath;
   final String? imagePath;
-  final String? courseName;
+  final String? courseNameFull;
+  final String? courseTitle;
+  final String? lessonTitle;
   final String? status;
   final VoidCallback? moreOption;
   final void Function(String?)? onValueChanged;
@@ -18,10 +21,12 @@ class ManageLessonCard extends StatefulWidget {
   ManageLessonCard({
     this.coursePath,
     this.imagePath,
-    this.courseName,
+    this.courseNameFull,
+    this.courseTitle,
     this.status,
     this.moreOption,
     this.onValueChanged,
+    this.lessonTitle,
     required this.videoPage
   });
 
@@ -38,6 +43,8 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
   ManageLessonCardClass({required this.onValueChanged});
 
   static String? touched = 'manage';
+
+  DbHelper dbHelper = new DbHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +80,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.courseName!,
+                        widget.courseNameFull!,
                         style: appLabelTextStyle,
                       ),
                       if (widget.status != null) ...[
@@ -188,6 +195,9 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
       // Handle the selected option here
       if (value == 'everyone') {
         onValueChanged!('Unlocked');
+        dbHelper.updateLessonLockStatus(widget.courseTitle!,widget.lessonTitle!, false);
+
+        //unlock lesson in backend here
       } else if (value == 'student' && studentName==null) {
         showDialog(
           context: context,
@@ -207,6 +217,9 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         );
       } else if (value == 'lock') {
         onValueChanged!('Locked');
+        //lock lesson in backend here
+        onValueChanged!('Unlocked');
+        dbHelper.updateLessonLockStatus(widget.courseTitle!,widget.lessonTitle!, true);
       }
     });
   }
