@@ -59,7 +59,7 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 50.0, right: 50),
+              padding: const EdgeInsets.only(left: 40.0, right: 50),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
