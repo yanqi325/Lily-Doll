@@ -9,6 +9,8 @@ import 'package:project_lily/educator_screen/upload_course.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
 import 'package:project_lily/screens/course_description.dart';
 import 'package:project_lily/screens/lessonVideoYT.dart';
+import '../Data/Courses.dart';
+import '../Data/Lessons.dart';
 import '../component/AppBar.dart';
 import '../component/ContactCard.dart';
 import '../component/NavigationBar.dart';
@@ -26,12 +28,34 @@ class ManageCoursesDetail extends StatefulWidget {
 class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
 
   List<String?> statuses = ['Locked', 'Locked', 'Locked']; // Initial statuses for each lesson, get from firebase?
+  DbHelper dbHelper = new DbHelper();
+  String courseTitle ='';
+
+
+  late Future<List<Lessons>> _futureData;
+  //callback for widget
+  void _refreshPageAfterWidgetAction(){
+    print("called calllback");
+    setState(() {
+      _futureData = dbHelper.getALlLessonsOfCourse(courseTitle);
+    });
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Initial call to fetch data
+  //
+  // }
+
 
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    DbHelper dbHelper = new DbHelper();
+
+    _futureData = dbHelper.getALlLessonsOfCourse(args["courseTitle"]);
+    courseTitle = args['courseTitle'];
 
     print("At manage course details: " + args["courseTitle"]);
     return Scaffold(
@@ -41,7 +65,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
       ),
       body:
       FutureBuilder(
-          future: dbHelper.getALlLessonsOfCourse(args["courseTitle"]),
+          future: _futureData,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -56,7 +80,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('45 students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
-                      AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: true,),
+                      AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: true,refreshPage: _refreshPageAfterWidgetAction,),
                       SizedBox(height: 15,),
                       ListView.builder(
                         shrinkWrap: true,
