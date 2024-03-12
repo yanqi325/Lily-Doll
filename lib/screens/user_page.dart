@@ -72,7 +72,7 @@ class _UserPageState extends State<UserPage> {
               fontColor: Colors.white,
               onPressed: () {
                 if (userType == 'Educator') {
-                  Navigator.pushNamed(context, Dashboard.id); // Navigate to Dashboard if user is an Educator
+                  Navigator.pushNamed(context, LoginPage.id); // Navigate to Dashboard if user is an Educator
                 } else if (userType == 'User') {
                   Navigator.pushNamed(context, LoginPage.id); // Navigate to SignUpPage if user is a User
                 }

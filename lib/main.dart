@@ -10,6 +10,7 @@ import 'package:project_lily/educator_screen/student_details.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
 import 'package:project_lily/screens/SignUp_user_page.dart';
 import 'package:project_lily/screens/bluetooth.dart';
+import 'package:project_lily/helperMethods/DollDataAnalyzeHelper.dart';
 import 'package:project_lily/screens/chat.dart';
 import 'package:project_lily/screens/chatroom.dart';
 import 'package:project_lily/screens/course_video.dart';
@@ -35,12 +36,34 @@ import 'package:project_lily/screens/verification.dart';
 import 'package:project_lily/screens/web_view.dart';
 import 'package:project_lily/screens/welcome_screen.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //initialize firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(MyApp());
   });
+
+  // testing
+  // DbHelper dbHelper = new DbHelper();
+  // List<SqueezeTouchData>? dataList =
+  //     await dbHelper.getDataFromAllDateSubcollections("1-1-2024");
+  // dataList!.forEach((element) {
+  //   print(element.pressure);
+  // });
+
+  // DollDataAnalyzeHelper dollDataAnalyzeHelper = new DollDataAnalyzeHelper();
+  // Map<int,int> data = await dollDataAnalyzeHelper.getDataProcessedForThisWeek("01-01-2024");
+  // print("THISISSPARTAAAA");
+  // data.forEach((key, value) {
+  //   // print("wEEDKLY DATA" + data[key].toString());
+  // });
 }
 
 class MyApp extends StatelessWidget {
@@ -49,7 +72,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: WelcomeScreen.id,
-        routes:{
+        routes: {
           WelcomeScreen.id: (context) => WelcomeScreen(),
           UserPage.id: (context) => UserPage(),
           LoginPage.id: (context) => LoginPage(),
@@ -64,7 +87,16 @@ class MyApp extends StatelessWidget {
           HelpCenter.id: (context) => HelpCenter(),
           AboutUs.id: (context) => AboutUs(),
           CoursesPage.id: (context) => CoursesPage(),
-          CourseDescription.id: (context) => CourseDescription(),
+          CourseDescription.id: (context) => CourseDescription(
+                courseTitle: '',
+                numOfStudents: 0,
+                descText: '',
+                imagePath: '',
+                altText: '',
+                isEnrolled: false,
+                isEducatorMode: false,
+              isOnlineAsset: false
+              ),
           CoursesChapter.id: (context) => CoursesChapter(),
           CourseVideo.id: (context) => CourseVideo(),
           DataReport.id: (context) => DataReport(),
@@ -80,21 +112,9 @@ class MyApp extends StatelessWidget {
           AddLesson.id: (context) => AddLesson(),
           EnrolledStudentList.id: (context) => EnrolledStudentList(),
           Enrollment.id: (context) => Enrollment(),
-          StudentDetails.id: (context) => StudentDetails(),
+          StudentDetails.id: (context) => StudentDetails(courseTitle: "",userName: ""),
           SignUpUserPage.id: (context) => SignUpUserPage(),
           BluetoothPage.id: (context) => BluetoothPage(),
-
-
-
-
-
-
-
-
-
-
-        }
-
-    );
+        });
   }
 }

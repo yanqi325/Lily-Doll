@@ -4,6 +4,7 @@ import 'package:project_lily/screens/chatroom.dart';
 
 import '../Data/Users.dart';
 import '../constants.dart';
+import '../screens/lessonVideoYT.dart';
 
 class ManageLessonCard extends StatefulWidget {
   final String? coursePath;
@@ -12,6 +13,7 @@ class ManageLessonCard extends StatefulWidget {
   final String? status;
   final VoidCallback? moreOption;
   final void Function(String?)? onValueChanged;
+  LessonVideoYT videoPage;
 
   ManageLessonCard({
     this.coursePath,
@@ -20,6 +22,7 @@ class ManageLessonCard extends StatefulWidget {
     this.status,
     this.moreOption,
     this.onValueChanged,
+    required this.videoPage
   });
 
   @override
@@ -45,7 +48,14 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, widget.coursePath!);
+              //navigate to lesson video page
+              //DEFAULT
+              // Navigator.pushNamed(context, widget.coursePath!);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => widget.videoPage),
+              );
             },
             child: Container(
               child: Row(
@@ -56,7 +66,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
                     height: 56,
                     image: AssetImage(widget.imagePath!),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Column(
@@ -83,7 +93,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.more_vert_rounded),
+            icon: const Icon(Icons.more_vert_rounded),
             color: purple4,
             onPressed: () {
               print('more option tapped');
@@ -114,19 +124,20 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
       context: context,
       position: RelativeRect.fromLTRB(leftOffset, topOffset, 20, 0),
       items: [
-        PopupMenuItem(
+        const PopupMenuItem(
+          value: 'everyone',
           child: ListTile(
             title: Text('Unlock for everyone'),
           ),
-          value: 'everyone',
         ),
         PopupMenuItem(
           key: _popupKey,
+          value: 'student',
           child: ListTile(
             title: Row(
               children: [
-                Text('Unlock for '),
-                SizedBox(
+                const Text('Unlock for '),
+                const SizedBox(
                   width: 10,
                 ),
                 Container(
@@ -135,14 +146,14 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
                   child: Center(
                     child: SearchBar(
                       elevation: MaterialStateProperty.all(0.0),
-                      textStyle: MaterialStateProperty.all( TextStyle(
+                      textStyle: MaterialStateProperty.all( const TextStyle(
                         color: Colors.black,
                         fontFamily: fontFamily2,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       )),
                       hintText: 'Student',
-                      hintStyle: MaterialStateProperty.all(TextStyle(
+                      hintStyle: MaterialStateProperty.all(const TextStyle(
                         color: Colors.grey,
                         fontFamily: fontFamily2,
                         fontWeight: FontWeight.bold,
@@ -164,13 +175,12 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
               ],
             ),
           ),
-          value: 'student',
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
+          value: 'lock',
           child: ListTile(
             title: Text('Lock this course'),
           ),
-          value: 'lock',
         ),
       ],
       elevation: 8.0,
@@ -183,13 +193,13 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              content: Text('Please provide the name of the student you want to grant access to the cours\.'),
+              content: const Text('Please provide the name of the student you want to grant access to the cours\.'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );

@@ -19,6 +19,7 @@ import '../component/RecentCourses_educator.dart';
 import '../component/ScheduleClass.dart';
 import '../screens/course_description.dart';
 import '../screens/setting_page.dart';
+import 'manage_courses_detail.dart';
 
 class Dashboard extends StatefulWidget {
   static const String id = 'dashboard';
@@ -59,14 +60,48 @@ class _DashboardScreenState extends State<Dashboard> {
                     RecentCourses_educator(
                       iconImage: 'images/sex_education.png',
                       courseTitle: 'Sex Education',
+                      courseDescWidget: CourseDescription(
+                        courseTitle: "Sex Education",
+                        numOfStudents: 190,
+                        descText:
+                        "This is a course where students will learn about their rights of their body",
+                        imagePath: 'images/sex_education.png',
+                        altText: "",
+                        isEnrolled: true,
+                        isEducatorMode: true,
+                        isOnlineAsset: false
+                      )
                     ),
                     RecentCourses_educator(
                       iconImage: 'images/shape.png',
-                      courseTitle: 'Shape',
+                      courseTitle: 'Shape',courseDescWidget:
+                    CourseDescription(
+                      courseTitle: "Shapes",
+                      numOfStudents: 65,
+                      descText:
+                      "This is a course where students will learn about the different types of shapes",
+                      imagePath: 'images/shape.png',
+                      altText: "",
+                      isEnrolled: true,
+                      isEducatorMode: true,
+                        isOnlineAsset: false
+                    ),
+
                     ),
                     RecentCourses_educator(
                       iconImage: 'images/daily_life.png',
                       courseTitle: 'Daily Life',
+                      courseDescWidget: CourseDescription(
+                        courseTitle: "Daily Life",
+                        numOfStudents: 3,
+                        descText:
+                        "This is a course where students will learn about the ins and outs of life",
+                        imagePath: 'images/daily_life.png',
+                        altText: "",
+                        isEnrolled: true,
+                        isEducatorMode: true,
+                          isOnlineAsset: false
+                      ),
                     ),
                   ],
                 ),
@@ -82,11 +117,11 @@ class _DashboardScreenState extends State<Dashboard> {
                 child: ListView(
                   scrollDirection: Axis.vertical,
                   children: [
-                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1400 - 1500',coursePath: CourseDescription.id,),
+                    ScheduleClass(colour: Colors.red, classTitle: 'Dancing', time: '1400 - 1500',coursePath: CourseDescription.id,),
                     SizedBox(height: 15,),
-                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1400 - 1500',coursePath: CourseDescription.id,),
+                    ScheduleClass(colour: Colors.red, classTitle: 'Self Care', time: '0900 - 1100',coursePath: CourseDescription.id,),
                     SizedBox(height: 15,),
-                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1400 - 1500',coursePath: CourseDescription.id,),
+                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1500 - 1700',coursePath: CourseDescription.id,),
                   ],
                 ),
               ),

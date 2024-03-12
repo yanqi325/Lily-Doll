@@ -7,8 +7,9 @@ import 'package:project_lily/Data/SqueezesDataModel_PerDay.dart';
 
 class SqueezesBarChartWidget extends StatefulWidget {
   final void Function(int?) onIndexChanged;
+  final Map<int,int>? dailySqueeze;
 
-  SqueezesBarChartWidget({required this.onIndexChanged});
+  SqueezesBarChartWidget({required this.onIndexChanged,this.dailySqueeze});
 
   @override
   State<SqueezesBarChartWidget> createState() => SqueezeBarChart(onIndexChanged: onIndexChanged);
@@ -34,6 +35,9 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    widget.dailySqueeze!.forEach((key, value) {
+      print(widget.dailySqueeze![key]);
+    });
     return Container(
       child: AspectRatio(
         aspectRatio: 2,
@@ -124,10 +128,10 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
   List<BarChartGroupData> _chartGroups() {
     List<BarChartGroupData> list = List<BarChartGroupData>.empty(
         growable: true);
-    for (int i = 0; i < _list.length; i++) {
-      list.add(BarChartGroupData(x: i+1, barRods: [
+    for (int i = 1; i < 7; i++) {
+      list.add(BarChartGroupData(x: i, barRods: [
         BarChartRodData(
-            toY: double.parse(_list[i].value!), color: Color(0xFFDA7BFC), width: 15)
+            toY: widget.dailySqueeze![i]!.toDouble(), color: Color(0xFFDA7BFC), width: 15)
       ]));
     }
     return list;

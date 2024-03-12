@@ -3,7 +3,7 @@ import '../constants.dart';
 
 class iconButton extends StatelessWidget {
   final String? label; //link to Courses class label?
-  final String? route;
+  final Widget? route;
   final String? image; //link to Courses class image?
 
   iconButton({this.label, this.route, this.image});
@@ -14,7 +14,13 @@ class iconButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, route!);
+          // Navigator.pushNamed(context, route!);
+          if(route != null){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => route!),
+            );
+          }
         },
         splashColor: Colors.transparent,
         child: Column(

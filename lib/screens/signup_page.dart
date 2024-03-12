@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/constants.dart';
+import 'package:project_lily/educator_screen/dashboard.dart';
 import 'package:project_lily/screens/login_page.dart';
 import 'package:project_lily/screens/user_page.dart';
 import '../component/TextField.dart';
 import '../component/ElevatedButton.dart';
+import '../helperMethods/AuthHelper.dart';
+import '../helperMethods/DbHelper.dart';
+import 'home_page.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = 'signup_page';
@@ -35,6 +40,9 @@ class _SignupScreenState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       body: Container(
         color: backgroundColor,
@@ -61,6 +69,7 @@ class _SignupScreenState extends State<SignUpPage> {
                     },
                     keyboardType: TextInputType.emailAddress,
                     hintText: 'example123',
+
                   ),
                   SizedBox(
                     height: 20,
@@ -131,7 +140,7 @@ class _SignupScreenState extends State<SignUpPage> {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
               SizedBox(
@@ -143,13 +152,34 @@ class _SignupScreenState extends State<SignUpPage> {
                   color: purple1,
                   fontSize: 15,
                   fontColor: Colors.white,
-                  onPressed: () {
+                  onPressed: () async {
                     if (username == null || email == null || password == null) {
                       showError('Please fill in all the fields.');
                     } else {
                       //check authentication here., correct then go to home page
                       //go to login page
-
+                      //start signup process
+                      AuthHelper authHelper = new AuthHelper();
+                      bool success = false;
+                      if (args["userType"] == "User") {
+                        success = await authHelper.startSignUpUser(
+                            username!, email!, password!);
+                        if (success) {
+                          DbHelper dbHelper = new DbHelper();
+                          dbHelper.getUserDataFromFirestore(
+                              FirebaseAuth.instance.currentUser!.uid);
+                          Navigator.pushNamed(context, HomePage.id);
+                        }
+                      } else if (args["userType"] == "Educator") {
+                        success = await authHelper.startSignUpEducator(
+                            username!, email!, password!);
+                        if (success) {
+                          DbHelper dbHelper = new DbHelper();
+                          dbHelper.getUserDataFromFirestore(
+                              FirebaseAuth.instance.currentUser!.uid);
+                          Navigator.pushNamed(context, Dashboard.id);
+                        }
+                      }
                     }
                   },
                 ),
@@ -163,10 +193,11 @@ class _SignupScreenState extends State<SignUpPage> {
                   Text('Already have an account? ', style: signUpTextStyle),
                   InkWell(
                     onTap: () {
+                      //print('Sign up pressed');
                       Navigator.pushNamed(context, LoginPage.id);
                     },
                     child: Text(
-                      'Sign In',
+                      'Log In',
                       style: signUpButtonTextStyle,
                     ),
                   ),

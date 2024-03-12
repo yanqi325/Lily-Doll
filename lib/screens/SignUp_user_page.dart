@@ -71,7 +71,9 @@ class _UserPageState extends State<SignUpUserPage> {
               fontSize: 15,
               fontColor: Colors.white,
               onPressed: () {
-                Navigator.pushNamed(context, SignUpPage.id);
+                Navigator.pushNamed(context, SignUpPage.id,arguments: {
+                  "userType" : userType
+                } );
               },
             ),
           ],
