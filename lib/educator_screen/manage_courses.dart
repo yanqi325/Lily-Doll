@@ -5,6 +5,7 @@ import 'package:project_lily/educator_screen/manage_courses_detail.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
 import 'package:project_lily/constants.dart';
+import '../Data/Courses.dart';
 import '../component/AddCourseLesson.dart';
 import '../component/searchBar.dart';
 
@@ -16,10 +17,21 @@ class ManageCourses extends StatefulWidget {
 }
 
 class _ManageCoursesScreenState extends State<ManageCourses> {
+
+  late Future<List<Courses>> _futureData;
   DbHelper dbHelper = new DbHelper();
+  void _refreshPageAfterWidgetAction(){
+    print("called calllback");
+    setState(() {
+      _futureData = dbHelper.getAllCoursesFromFirestore();
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    _futureData = dbHelper.getAllCoursesFromFirestore();
+
     return Scaffold(
       body: FutureBuilder(
         future: dbHelper.getAllCoursesFromFirestore(),
@@ -54,7 +66,8 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                           title: 'Add Course',
                           path: UploadCourse.id,
                           isCourse: true,
-                          isEnroll: true,
+                          isEnroll: false,
+                          refreshPage: _refreshPageAfterWidgetAction,
                         ),
                         SizedBox(
                           height: 10,
@@ -73,79 +86,26 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Container(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Manage Courses',
-                            style: appLabelTextStyle.copyWith(fontSize: 30),
-                          ),
-                          SizedBox(
-                            height: 7,
-                          ),
-                          searchBar(),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          AddButton(
-                            title: 'Add Course',
-                            path: UploadCourse.id,
-                            isCourse: true,
-                              isEnroll: false,
-                            refreshPage: _refreshPageAfterWidgetAction,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'Courses Available',
-                            style: appLabelTextStyle.copyWith(fontSize: 20),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            // Number of items in the list
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              // Generate a widget for each item in the list
-                              return Column(
-                                children: [
-                                  CourseAvailable(
-                                    imagePath:
-                                        snapshot.data![index].thumbnailUrl,
-                                    courseName:
-                                        snapshot.data![index].courseTitle,
-                                    coursePath: ManageCoursesDetail.id,
-                                    refreshPage: _refreshPageAfterWidgetAction,
-
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-
-                          // CourseAvailable(
-                          //   imagePath: 'images/sex_education.png',
-                          //   courseName: 'Sex Education',
-                          //   coursePath: ManageCoursesDetail.id,
-                          // ),
-                          // SizedBox(
-                          //   height: 15,
-                          // ),
-                          // CourseAvailable(
-                          //   imagePath: 'images/sex_education.png',
-                          //   courseName: 'Sex Education',
-                          //   coursePath: ManageCoursesDetail.id,
-                          // ),
-                        ],
-                      )),
+                        child: ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          scrollDirection: Axis.vertical,
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                CourseAvailable(
+                                  imagePath: snapshot.data![index].thumbnailUrl,
+                                  courseName: snapshot.data![index].courseTitle,
+                                  coursePath: ManageCoursesDetail.id,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ],
