@@ -54,6 +54,7 @@ class _CoursesChapterScreenState extends State<CoursesChapter> {
                           lessonNo: index.toString(),
                           lessonProgress: 54,
                           minutesLeft: 34,
+                          isLocked: lesson.isLocked,
                           onPressedContinue: ()=> {
 
                             //create and navigate to video page

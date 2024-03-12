@@ -19,16 +19,35 @@ class EnrolledStudentList extends StatefulWidget {
 }
 
 class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
+
+  late Future<List<Map<String, dynamic>>> _futureData;
+  String educatorId = "";
+  String courseTitle = "";
+  DbHelper dbHelper = new DbHelper();
+
+  void _refreshPageAfterWidgetAction(){
+    print("called calllback");
+    setState(() {
+      _futureData = dbHelper.getAllEnrolledUsers(
+          educatorId, courseTitle);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    DbHelper dbHelper = new DbHelper();
+
+    //initiatlize data first
+    courseTitle = args['courseTitle'];
+    educatorId = args["educatorId"];
+    _futureData = dbHelper.getAllEnrolledUsers(
+        educatorId, courseTitle);
+
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: args["courseTitle"]), //Courses.label
+        child: appBar(title: courseTitle), //Courses.label
       ),
       body: Container(
         color: backgroundColor2,
@@ -38,8 +57,7 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FutureBuilder<List<Map<String, dynamic>>>(
-                  future: dbHelper.getAllEnrolledUsers(
-                      args["educatorId"], args["courseTitle"]),
+                  future: _futureData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
@@ -59,9 +77,10 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
                             AddButton(
                               title: 'Enroll Student',
                               path: Enrollment.id,
-                              isCourse: true,
+                              isCourse: false,
                               isEnroll: true,
-                              courseName: args["courseTitle"],
+                              courseName: courseTitle,
+                              refreshPage: _refreshPageAfterWidgetAction,
                             ),
                             SizedBox(
                               height: 15,

@@ -5,6 +5,7 @@ import 'package:project_lily/educator_screen/manage_courses_detail.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
 import 'package:project_lily/constants.dart';
+import '../Data/Courses.dart';
 import '../component/AddCourseLesson.dart';
 import '../component/searchBar.dart';
 
@@ -16,10 +17,21 @@ class ManageCourses extends StatefulWidget {
 }
 
 class _ManageCoursesScreenState extends State<ManageCourses> {
+
+  late Future<List<Courses>> _futureData;
   DbHelper dbHelper = new DbHelper();
+  void _refreshPageAfterWidgetAction(){
+    print("called calllback");
+    setState(() {
+      _futureData = dbHelper.getAllCoursesFromFirestore();
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    _futureData = dbHelper.getAllCoursesFromFirestore();
+
     return Scaffold(
       body: FutureBuilder(
         future: dbHelper.getAllCoursesFromFirestore(),
@@ -54,7 +66,8 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                           title: 'Add Course',
                           path: UploadCourse.id,
                           isCourse: true,
-                          isEnroll: true,
+                          isEnroll: false,
+                          refreshPage: _refreshPageAfterWidgetAction,
                         ),
                         SizedBox(
                           height: 10,

@@ -503,6 +503,8 @@ class DbHelper {
 //Get all users for specific course
   Future<List<Map<String, dynamic>>> getAllEnrolledUsers(
       String educatorId, String courseTitle) async {
+    //manual delay to not show too fast
+    await Future.delayed(Duration(seconds: 1));
     try {
       // Reference to the 'enrolledUsers' subcollection within 'courses' collection under 'usersExtended'
       CollectionReference enrolledUsersRef = FirebaseFirestore.instance
@@ -521,6 +523,7 @@ class DbHelper {
       }).toList();
 
       // Return the list of maps
+      print(enrolledUsers);
       return enrolledUsers;
     } catch (error) {
       // Handle any errors
@@ -728,6 +731,31 @@ class DbHelper {
     return videoId;
   }
 
+  //for educator POV to change lesson lock status
+  Future<void> updateLessonLockStatus(String courseId, String lessonId, bool isLocked) async {
+    try {
+      AuthHelper authHelper = new AuthHelper();
+      String? userId = await authHelper.getCurrentUserId();
+      // Reference to the specific document in Firestore
+      DocumentReference lessonRef = FirebaseFirestore.instance
+          .collection('usersExtended') // Collection
+          .doc(userId) // Document ID
+          .collection('courses') // Subcollection
+          .doc(courseId) // Document ID
+          .collection('lessons') // Subcollection
+          .doc(lessonId); // Document ID
+
+      // Update the isLocked field
+      await lessonRef.update({
+        'isLocked': isLocked,
+      });
+
+      print('Lesson lock status updated successfully');
+    } catch (e) {
+      print('Error updating lesson lock status: $e');
+      // Handle any errors here
+    }
+  }
 
   //get single lesson details from users POV
   // Future<Map<String,dynamic>> getLessonDetailUser(){
