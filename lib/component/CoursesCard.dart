@@ -29,41 +29,51 @@ class CoursesCard extends StatelessWidget {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: 18,
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 18.0, top: 18),
+                child: CircleAvatar(
+                  radius: 28, // Adjust the radius as needed
+                  backgroundColor: Colors.transparent,
+                  child: ClipOval(
+                    child: Image.network(
+                      thumbnailUrl,
+                      // scale: 2.5,
+                      width: 56,
+                      height: 56,
+                      fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        // Error occurred while loading the image, display default image instead
+                        return Image.asset(
+                          'images/sex_education.png',
+                          width: 56,
+                          height: 56,
+                        );
+                      },
+                    ),
+                    ),
+                  ),
+              ),
+              // Image.asset(
+              //   thumbnailUrl,
+              //   scale: 2.5,
+              // ),
+              SizedBox(
+                width: 30,
+              ),
+              Text(
+                courseTitle,
+                style: appLabelTextStyle,
+              ),
+            ],
           ),
-          Image.network(
-            thumbnailUrl,
-            // scale: 2.5,
-            width: 56,
-            height: 56,
-            errorBuilder: (BuildContext context, Object exception,
-                StackTrace? stackTrace) {
-              // Error occurred while loading the image, display default image instead
-              return Image.asset(
-                'images/puzzle.png',
-                width: 56,
-                height: 56,
-              );
-            },
-          ),
-          // Image.asset(
-          //   thumbnailUrl,
-          //   scale: 2.5,
-          // ),
-          SizedBox(
-            width: 30,
-          ),
+
           Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Text(
-              courseTitle,
-              style: appLabelTextStyle,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, top: 43.0),
+            padding: const EdgeInsets.only(top: 35.0),
             child: IconButton(
               icon: Icon(
                 Icons.play_circle_rounded,

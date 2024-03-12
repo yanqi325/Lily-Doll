@@ -75,63 +75,60 @@ class SqueezeCircularChart extends State<SqueezesCircularChartWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Column(
-            children: [
-              for (int i = 0; i < 2; i++)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    for (int j = 0; j < 2; j++)
-                      Column(
-                        children: [
-                          AnimatedCircularChart(
-                            key: GlobalKey(), // Add a key
-                            size: Size(120, 120),
-                            initialChartData: <CircularStackEntry>[
-                              CircularStackEntry(
-                                <CircularSegmentEntry>[
-                                  CircularSegmentEntry(
-                                    // double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
-                                    (i == 0 && j==0) ? widget.percentage!['firstQuartile']!*100 : (i ==0 &&j==1) ? widget.percentage!['thirdQuartile']!*100 :(i == 1 && j==0) ? widget.percentage!['secondQuartile']!*100 : (i ==1 &&j==1) ? widget.percentage!['fourthQuartile']!*100 : 0 ,
-                                    // widget.percentage!['firstQuartile']!*100,
-                                    // 30,
-                                    chartColors[i * 2 + j],
-                                    rankKey: 'completed',
-                                  ),
-                                  CircularSegmentEntry(
-                                    // 100 - double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
-                                    100 -((i == 0 && j==0) ? widget.percentage!['firstQuartile']!*100 : (i ==0 &&j==1) ? widget.percentage!['thirdQuartile']!*100 :(i == 1 && j==0) ? widget.percentage!['secondQuartile']!*100 : (i ==1 &&j==1) ? widget.percentage!['fourthQuartile']!*100 : 0 ),
-                                    // 100 - widget.percentage!['firstQuartile']!*100,
-                                    // 70,
-                                    chartColors[i * 2 + j].withOpacity(0.5),
-                                    rankKey: 'remaining',
-                                  ),
-                                ],
-                                rankKey: 'progress',
-                              ),
-                            ],
-                            chartType: CircularChartType.Radial,
-                            percentageValues: true,
-                            holeLabel:((i == 0 && j==0) ? (widget.percentage!['firstQuartile']!*100).toStringAsFixed(1) : (i ==0 &&j==1) ? (widget.percentage!['thirdQuartile']!*100).toStringAsFixed(1) :(i == 1 && j==0) ? (widget.percentage!['secondQuartile']!*100).toStringAsFixed(1) : (i ==1 &&j==1) ? (widget.percentage!['fourthQuartile']!*100).toStringAsFixed(1) : "0") + "%",
-                            labelStyle: appLabelTextStyle.copyWith(color: Colors.black,),
-                          ),
-                          Text(
-                            '${label[i * 2 + j]}',
-                            style: appLabelTextStyle.copyWith(color: Colors.black, fontSize: 12),
-                          ),
-                          Text(
-                            '${timeLabel[i * 2 + j]}',
-                            style: appLabelTextStyle.copyWith(color: purple4, fontSize: 12),
-                          ),
-                          SizedBox(height: 18,),
-                        ],
-                      ),
-                  ],
-                ),
-            ],
-          ),
+        child: Column(
+          children: [
+            for (int i = 0; i < 2; i++)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  for (int j = 0; j < 2; j++)
+                    Column(
+                      children: [
+                        AnimatedCircularChart(
+                          key: GlobalKey(), // Add a key
+                          size: Size(120, 120),
+                          initialChartData: <CircularStackEntry>[
+                            CircularStackEntry(
+                              <CircularSegmentEntry>[
+                                CircularSegmentEntry(
+                                  // double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
+                                  (i == 0 && j==0) ? widget.percentage!['firstQuartile']!*100 : (i ==0 &&j==1) ? widget.percentage!['thirdQuartile']!*100 :(i == 1 && j==0) ? widget.percentage!['secondQuartile']!*100 : (i ==1 &&j==1) ? widget.percentage!['fourthQuartile']!*100 : 0 ,
+                                  // widget.percentage!['firstQuartile']!*100,
+                                  // 30,
+                                  chartColors[i * 2 + j],
+                                  rankKey: 'completed',
+                                ),
+                                CircularSegmentEntry(
+                                  // 100 - double.parse(_list[week].getTimeProperty(i * 2 + j + 1)),
+                                  100 -((i == 0 && j==0) ? widget.percentage!['firstQuartile']!*100 : (i ==0 &&j==1) ? widget.percentage!['thirdQuartile']!*100 :(i == 1 && j==0) ? widget.percentage!['secondQuartile']!*100 : (i ==1 &&j==1) ? widget.percentage!['fourthQuartile']!*100 : 0 ),
+                                  // 100 - widget.percentage!['firstQuartile']!*100,
+                                  // 70,
+                                  chartColors[i * 2 + j].withOpacity(0.5),
+                                  rankKey: 'remaining',
+                                ),
+                              ],
+                              rankKey: 'progress',
+                            ),
+                          ],
+                          chartType: CircularChartType.Radial,
+                          percentageValues: true,
+                          holeLabel:((i == 0 && j==0) ? (widget.percentage!['firstQuartile']!*100).toStringAsFixed(1) : (i ==0 &&j==1) ? (widget.percentage!['thirdQuartile']!*100).toStringAsFixed(1) :(i == 1 && j==0) ? (widget.percentage!['secondQuartile']!*100).toStringAsFixed(1) : (i ==1 &&j==1) ? (widget.percentage!['fourthQuartile']!*100).toStringAsFixed(1) : "0") + "%",
+                          labelStyle: appLabelTextStyle.copyWith(color: Colors.black,),
+                        ),
+                        Text(
+                          '${label[i * 2 + j]}',
+                          style: appLabelTextStyle.copyWith(color: Colors.black, fontSize: 12),
+                        ),
+                        Text(
+                          '${timeLabel[i * 2 + j]}',
+                          style: appLabelTextStyle.copyWith(color: purple4, fontSize: 12),
+                        ),
+                        SizedBox(height: 18,),
+                      ],
+                    ),
+                ],
+              ),
+          ],
         ),
       ),
     );

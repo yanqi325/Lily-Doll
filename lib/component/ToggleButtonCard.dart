@@ -36,7 +36,6 @@ class ToggleButtonCard extends StatelessWidget {
                 Text('$label',
                   style: appBarLabel.copyWith(color: Colors.black,fontSize: 18),
                 ),
-                SizedBox(width: 83,),
                 ToggleButton(isSwitched: false,onChanged: (){onChange;},),
               ],
             ),

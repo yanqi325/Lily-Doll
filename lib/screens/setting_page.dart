@@ -76,7 +76,7 @@ class _SettingPageScreenState extends State<SettingPage> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 75.0),
+                  padding: const EdgeInsets.only(left: 30.0),
                   child: IconButton(
                     icon: Icon(Icons.bluetooth_rounded,
                     size: 40,

@@ -10,8 +10,7 @@ class PageLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, top: 40.0),
+    return SafeArea(
       child: Row(
         children: [
           IconButton(
@@ -24,8 +23,7 @@ class PageLabel extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 80.0),
+            child: Center(
               child: Text('Description',
                 style: appBarLabel.copyWith(fontSize: 30, color: purple4),
               ),
