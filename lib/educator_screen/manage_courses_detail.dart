@@ -82,28 +82,32 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                       Text('45 students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
                       AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: true,refreshPage: _refreshPageAfterWidgetAction,),
                       SizedBox(height: 15,),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              ManageLessonCard(
-                                courseName: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
-                                imagePath: 'images/sex_lesson1.png',
-                                status: snapshot.data![index].isLocked.toString().toLowerCase() == "islocked" ? "Locked" : "Unlocked",
-                                coursePath: CourseVideo.id,
-                                videoPage: LessonVideoYT(isUser: false,lessonNo:(index + 1).toString(),lessonTitle: snapshot.data![index].lessonTitle,courseTitle: args["courseTitle"],),
-                                onValueChanged: (value) {
-                                  setState(() {
-                                    // statuses[index] = value;
-                                  });
-                                },
-                              ),
-                              SizedBox(height: 10), // Add a SizedBox after each ManageLessonCard
-                            ],
-                          );
-                        },
+                      Flexible(
+                        child: Container(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  ManageLessonCard(
+                                    courseName: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
+                                    imagePath: 'images/sex_lesson1.png',
+                                    status: snapshot.data![index].isLocked.toString().toLowerCase() == "islocked" ? "Locked" : "Unlocked",
+                                    coursePath: CourseVideo.id,
+                                    videoPage: LessonVideoYT(isUser: false,lessonNo:(index + 1).toString(),lessonTitle: snapshot.data![index].lessonTitle,courseTitle: args["courseTitle"],),
+                                    onValueChanged: (value) {
+                                      setState(() {
+                                        // statuses[index] = value;
+                                      });
+                                    },
+                                  ),
+                                  SizedBox(height: 10), // Add a SizedBox after each ManageLessonCard
+                                ],
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
