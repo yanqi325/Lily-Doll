@@ -36,96 +36,99 @@ class _DashboardScreenState extends State<Dashboard> {
         preferredSize: Size.fromHeight(180),
         child: appBar_educator(), //Courses.label
       ),
-      body: Container(
-        color: backgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0, left: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Dashboard',
-                style: appLabelTextStyle.copyWith(
-                    color: Colors.black, fontSize: 33),
-              ),
-              Text(
-                'Recent accessed courses',
-                style: appLabelTextStyle,
-              ),
-              Container(
-                height: 130,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    RecentCourses_educator(
-                      iconImage: 'images/sex_education.png',
-                      courseTitle: 'Sex Education',
-                      courseDescWidget: CourseDescription(
-                        courseTitle: "Sex Education",
-                        numOfStudents: 190,
+      body: SingleChildScrollView(
+        child: Container(
+          height: 420,
+          color: backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Dashboard',
+                  style: appLabelTextStyle.copyWith(
+                      color: Colors.black, fontSize: 33),
+                ),
+                Text(
+                  'Recent accessed courses',
+                  style: appLabelTextStyle,
+                ),
+                Container(
+                  height: 130,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      RecentCourses_educator(
+                        iconImage: 'images/sex_education.png',
+                        courseTitle: 'Sex Education',
+                        courseDescWidget: CourseDescription(
+                          courseTitle: "Sex Education",
+                          numOfStudents: 190,
+                          descText:
+                          "This is a course where students will learn about their rights of their body",
+                          imagePath: 'images/sex_education.png',
+                          altText: "",
+                          isEnrolled: true,
+                          isEducatorMode: true,
+                          isOnlineAsset: false
+                        )
+                      ),
+                      RecentCourses_educator(
+                        iconImage: 'images/shape.png',
+                        courseTitle: 'Shape',courseDescWidget:
+                      CourseDescription(
+                        courseTitle: "Shapes",
+                        numOfStudents: 65,
                         descText:
-                        "This is a course where students will learn about their rights of their body",
-                        imagePath: 'images/sex_education.png',
-                        altText: "",
-                        isEnrolled: true,
-                        isEducatorMode: true,
-                        isOnlineAsset: false
-                      )
-                    ),
-                    RecentCourses_educator(
-                      iconImage: 'images/shape.png',
-                      courseTitle: 'Shape',courseDescWidget:
-                    CourseDescription(
-                      courseTitle: "Shapes",
-                      numOfStudents: 65,
-                      descText:
-                      "This is a course where students will learn about the different types of shapes",
-                      imagePath: 'images/shape.png',
-                      altText: "",
-                      isEnrolled: true,
-                      isEducatorMode: true,
-                        isOnlineAsset: false
-                    ),
-
-                    ),
-                    RecentCourses_educator(
-                      iconImage: 'images/daily_life.png',
-                      courseTitle: 'Daily Life',
-                      courseDescWidget: CourseDescription(
-                        courseTitle: "Daily Life",
-                        numOfStudents: 3,
-                        descText:
-                        "This is a course where students will learn about the ins and outs of life",
-                        imagePath: 'images/daily_life.png',
+                        "This is a course where students will learn about the different types of shapes",
+                        imagePath: 'images/shape.png',
                         altText: "",
                         isEnrolled: true,
                         isEducatorMode: true,
                           isOnlineAsset: false
                       ),
-                    ),
-                  ],
+
+                      ),
+                      RecentCourses_educator(
+                        iconImage: 'images/daily_life.png',
+                        courseTitle: 'Daily Life',
+                        courseDescWidget: CourseDescription(
+                          courseTitle: "Daily Life",
+                          numOfStudents: 3,
+                          descText:
+                          "This is a course where students will learn about the ins and outs of life",
+                          imagePath: 'images/daily_life.png',
+                          altText: "",
+                          isEnrolled: true,
+                          isEducatorMode: true,
+                            isOnlineAsset: false
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 12,),
-              Text(
-                'Today\'s classes',
-                style: appLabelTextStyle,
-              ),
-              SizedBox(height: 12,),
-              Container(
-                height: 130,
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    ScheduleClass(colour: Colors.red, classTitle: 'Dancing', time: '1400 - 1500',coursePath: CourseDescription.id,),
-                    SizedBox(height: 15,),
-                    ScheduleClass(colour: Colors.red, classTitle: 'Self Care', time: '0900 - 1100',coursePath: CourseDescription.id,),
-                    SizedBox(height: 15,),
-                    ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1500 - 1700',coursePath: CourseDescription.id,),
-                  ],
+                SizedBox(height: 12,),
+                Text(
+                  'Today\'s classes',
+                  style: appLabelTextStyle,
                 ),
-              ),
-            ],
+                SizedBox(height: 12,),
+                Container(
+                  height: 130,
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      ScheduleClass(colour: Colors.red, classTitle: 'Dancing', time: '1400 - 1500',coursePath: CourseDescription.id,),
+                      SizedBox(height: 15,),
+                      ScheduleClass(colour: Colors.red, classTitle: 'Self Care', time: '0900 - 1100',coursePath: CourseDescription.id,),
+                      SizedBox(height: 15,),
+                      ScheduleClass(colour: Colors.red, classTitle: 'Sex Education', time: '1500 - 1700',coursePath: CourseDescription.id,),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
