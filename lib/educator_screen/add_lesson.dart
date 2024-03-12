@@ -16,6 +16,11 @@ import '../helperMethods/DbHelper.dart';
 
 class AddLesson extends StatefulWidget {
   static const String id = 'add_lesson';
+  String? lessonTitleS='';
+
+  AddLesson({
+    this.lessonTitleS
+});
 
   @override
   _AddLessonScreenState createState() => _AddLessonScreenState();
@@ -42,13 +47,13 @@ class _AddLessonScreenState extends State<AddLesson> {
   @override
   Widget build(BuildContext context) {
 
-    final Map<String, dynamic> args =
-    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    // final Map<String, dynamic> args =
+    // ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: 'Sex Education'), //Courses.label
+        child: appBar(title: widget.lessonTitleS), //Courses.label
       ),
       body: Container(
         color: backgroundColor,
@@ -164,12 +169,13 @@ class _AddLessonScreenState extends State<AddLesson> {
                               }
                               //try adding courses to firebase
                               if(selectedCategory != null){
-                                print("course ttitle here is: " + args["courseTitle"].toString());
+                                // print("course ttitle here is: " + args["courseTitle"].toString());
                                 Lessons lessonEnteredByUser= new Lessons(lessonTitle, lessonDesc, selectedCategory!, thumbnailUrl,true);
                                 DbHelper dbHelper = new DbHelper();
-                                dbHelper.addLessonToFirestore(lessonEnteredByUser,args["courseTitle"]);
+                                dbHelper.addLessonToFirestore(lessonEnteredByUser,widget.lessonTitleS!);
                                 print("Tried to upload lesson");
                                 Navigator.pop(context);
+                                print("Popped add lesson page");
                               }else{
 
                               }
