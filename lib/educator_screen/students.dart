@@ -35,10 +35,7 @@ class _StudentScreenState extends State<Students> {
             } else {
               return Container(
                 color: backgroundColor,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                Padding(
+                child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Container(
                   child: Column(
@@ -63,29 +60,31 @@ class _StudentScreenState extends State<Students> {
                     style: appLabelTextStyle.copyWith(fontSize: 20),
                   ),
                   SizedBox(height: 20,),
-                  ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    // Number of items in the list
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (context, index) {
-                      // Generate a widget for each item in the list
-                      return Column(
-                        children: [
-                          CourseAvailable(
-                            imagePath:
-                            snapshot.data![index].thumbnailUrl,
-                            courseName:
-                            snapshot.data![index].courseTitle,
-                            coursePath: EnrolledStudentList.id,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                        ],
-                      );
-                    },
+                  Flexible(
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      // Number of items in the list
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) {
+                        // Generate a widget for each item in the list
+                        return Column(
+                          children: [
+                            CourseAvailable(
+                              imagePath:
+                              snapshot.data![index].thumbnailUrl,
+                              courseName:
+                              snapshot.data![index].courseTitle,
+                              coursePath: EnrolledStudentList.id,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                   // CourseAvailable(
                   //   imagePath: 'images/sex_education.png',
@@ -105,10 +104,8 @@ class _StudentScreenState extends State<Students> {
                   //   coursePath: EnrolledStudentList.id,
 
                 ],
-              )),
-            ),
-            ],
-            ),
+                              )),
+                            ),
             );
             }
           }),
