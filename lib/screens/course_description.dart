@@ -3,6 +3,7 @@ import 'package:project_lily/Data/Users.dart';
 import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/educator_screen/add_lesson.dart';
+import 'package:project_lily/educator_screen/manage_courses.dart';
 import 'package:project_lily/screens/courses_chapter.dart';
 import 'package:project_lily/screens/profile_page.dart';
 import '../Data/Courses.dart';
@@ -10,6 +11,8 @@ import '../component/CoursesCard.dart';
 import '../component/IconButton.dart';
 import '../component/NavigationBar.dart';
 import '../component/PageLabel.dart';
+import '../educator_screen/manage_courses_detail.dart';
+import 'courses_page.dart';
 
 class CourseDescription extends StatefulWidget {
   static const String id = 'courses_description';
@@ -104,8 +107,8 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
                         //disable button
                         onPressed: widget.isEnrolled ? () {
                           if(widget.isEducatorMode){
-//go to add lesson page
-                            Navigator.pushNamed(context, AddLesson.id, arguments: {"courseTitle" : widget.courseTitle});
+//go to Sex Education page
+                            Navigator.pushNamed(context, ManageCoursesDetail.id, arguments: {"courseTitle" : widget.courseTitle});
                           }else{
                             Navigator.pushNamed(context, CoursesChapter.id,arguments: {"courseTitle" : widget.courseTitle});
                           }
