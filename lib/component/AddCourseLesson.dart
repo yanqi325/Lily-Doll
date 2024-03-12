@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/educator_screen/add_lesson.dart';
 import '../constants.dart';
+import '../educator_screen/enrollment.dart';
 import '../educator_screen/upload_course.dart';
-
 
 class AddButton extends StatelessWidget {
   AddButton(
@@ -41,27 +41,46 @@ class AddButton extends StatelessWidget {
           );
           print("back to add course lesson");
           // if (result != null) {
-            print("Result is not null, trying to call callback");
-            if (refreshPage != null) {
-              refreshPage!();
-            }
+          print("Result is not null, trying to call callback");
+          if (refreshPage != null) {
+            refreshPage!();
+          }
           // }
-        } else {
+        } else if (!isCourse && !isEnroll) {
           // final result = Navigator.pushNamed(context, path!,
           //     arguments: {"courseTitle": courseName});
+          print("THIS IS LESSON");
           final result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddLesson(lessonTitleS: courseName,),
+              builder: (context) => AddLesson(
+                lessonTitleS: courseName,
+              ),
             ),
           );
           print("back to add course lesson");
           // if (result != null) {
-            print("Result is not null, trying to call callback");
-            if (refreshPage != null) {
-              refreshPage!();
-            }
+          print("Result is not null, trying to call callback");
+          if (refreshPage != null) {
+            refreshPage!();
+          }
           // }
+        } else if (isEnroll) {
+          print("THIS IS ENROLLMENT");
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Enrollment(
+                courseTitle: courseName,
+              ),
+            ),
+          );
+          print("back to add course lesson");
+          // if (result != null) {
+          print("Result is not null, trying to call callback");
+          if (refreshPage != null) {
+            refreshPage!();
+          }
         }
       },
       child: Container(

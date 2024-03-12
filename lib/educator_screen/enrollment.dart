@@ -9,6 +9,11 @@ import '../helperMethods/AuthHelper.dart';
 
 class Enrollment extends StatefulWidget {
   static const String id = 'enrollment';
+  String? courseTitle = '';
+
+  Enrollment({
+    this.courseTitle
+});
 
   @override
   _EnrollmentScreenState createState() => _EnrollmentScreenState();
@@ -17,6 +22,7 @@ class Enrollment extends StatefulWidget {
 class _EnrollmentScreenState extends State<Enrollment> {
   String userName = '';
   String userId = '';
+
 
   void onChangedCallbackName(String value) {
     userName = value;
@@ -32,12 +38,13 @@ class _EnrollmentScreenState extends State<Enrollment> {
   Widget build(BuildContext context) {
     DbHelper dbHelper = new DbHelper();
 
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    // final Map<String, dynamic> args =
+    //     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    print(widget.courseTitle!);
 
     return Scaffold(
         body: FutureBuilder<List<Map<String,dynamic>>>(
-            future: dbHelper.getAllUnenrolledUsers(args["courseTitle"]),
+            future: dbHelper.getAllUnenrolledUsers(widget.courseTitle!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -131,12 +138,13 @@ class _EnrollmentScreenState extends State<Enrollment> {
                                           // add user id to 'enrolledUsers'
                                           dbHelper.addUserToEnrolledUsers(
                                               educatorId!,
-                                              args["courseTitle"],
+                                              widget.courseTitle!,
                                               userId);
                                           dbHelper.addUserToEnrolledCourses(
                                               userId,
-                                              args["courseTitle"],
+                                              widget.courseTitle!,
                                               educatorId);
+                                          Navigator.pop(context);
                                         },
                                       )
                                     ],
