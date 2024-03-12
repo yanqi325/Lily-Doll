@@ -43,7 +43,7 @@ class _TouchesScreenState extends State<Touches> {
                             child: Container(
                               child: Image.asset(
                                 'images/bunny.png',
-                                scale: 2.5,
+                                scale: 2.2,
                               ),
                             ),
                           ),
@@ -80,7 +80,7 @@ class _TouchesScreenState extends State<Touches> {
                                         fontSize: 14),
                                   ),
                                   SizedBox(
-                                    height: 12,
+                                    height: 20,
                                   ),
                                   TouchesPart(
                                     label: 'Sensor 1',
