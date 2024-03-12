@@ -61,11 +61,11 @@ class LessonCard extends StatelessWidget {
                 Container(
                     child: Image.asset(
                   'images/lesson_pic.png',
-                  scale: 2.5,
+                  scale: 3,
                 )),
                 Container(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(3.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -82,7 +82,7 @@ class LessonCard extends StatelessWidget {
                         ),
                         LinearPercentIndicator(
                           //sdfsd
-                          width: 230.0,
+                          width: 212.0,
                           lineHeight: 8.0,
                           percent: progress,
                           backgroundColor: Colors.cyan[50],
@@ -103,7 +103,7 @@ class LessonCard extends StatelessWidget {
                                   color: Colors.black, fontSize: 12),
                             ),
                             SizedBox(
-                              width: 130,
+                              width: 120,
                             ),
                             Text(
                               '${minutesLeft}m left',
@@ -124,7 +124,7 @@ class LessonCard extends StatelessWidget {
                               title: 'Continue',
                               fontSize: 13,
                               fontColor: Colors.black,
-                              width: 110,
+                              width: 105,
                               height: 40,
                               radius: 8,
                               elevation: 2,
@@ -135,7 +135,7 @@ class LessonCard extends StatelessWidget {
                               title: 'Restart',
                               fontSize: 13,
                               fontColor: Colors.black,
-                              width: 110,
+                              width: 99,
                               height: 40,
                               radius: 8,
                               elevation: 2,

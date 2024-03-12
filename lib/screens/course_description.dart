@@ -51,20 +51,45 @@ class _CoursesDescriptionScreenState extends State<CourseDescription> {
               padding: const EdgeInsets.only(left: 35.0, top: 30),
               child: Container(
                 alignment: Alignment.centerLeft,
-                child: !widget.isOnlineAsset ? Image.asset(
-                  widget.imagePath,
-                  scale: 1.2,
-                ) : Image.network(
-                  widget.imagePath!,
-                  width: 56,
-                  height: 56,
-                  errorBuilder: (BuildContext context, Object exception,
-                      StackTrace? stackTrace) {
-                    // Error occurred while loading the image, display default image instead
-                    return Image.asset("images/puzzle.png",width: 56,height: 56,);
-                  },
-                ) //extract from courses class
-              ),
+                child: CircleAvatar(
+                  radius: 28,
+                  backgroundColor: Colors.transparent,
+                  child: !widget.isOnlineAsset
+                      ? CircleAvatar(
+                    radius: 28,
+                    child: ClipOval(
+                      child: Image.asset(
+                          widget.imagePath!,
+                          fit: BoxFit.cover,
+                          width: 56,
+                          height: 56,
+                      ),
+                    ),
+                  )
+                      : CircleAvatar(
+                    radius: 28,
+                    child: ClipOval(
+                      child: Image.network(
+                        widget.imagePath!,
+                        fit: BoxFit.cover,
+                        width: 56,
+                        height: 56,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          // Error occurred while loading the image, display default image instead
+                          return Image.asset(
+                            "images/puzzle.png",
+                            width: 56,
+                            height: 56,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              )
+
+
             ),
             SizedBox(
               height: 10,
