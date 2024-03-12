@@ -1,16 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/component/CourseAvailable.dart';
 import 'package:project_lily/component/EducatorNavigationBar.dart';
-import 'package:project_lily/constants.dart';
 import 'package:project_lily/educator_screen/manage_courses_detail.dart';
 import 'package:project_lily/educator_screen/upload_course.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
-import 'package:project_lily/screens/course_description.dart';
-import '../Data/Courses.dart';
+import 'package:project_lily/constants.dart';
 import '../component/AddCourseLesson.dart';
-import '../component/ContactCard.dart';
-import '../component/NavigationBar.dart';
 import '../component/searchBar.dart';
 
 class ManageCourses extends StatefulWidget {
@@ -23,41 +18,60 @@ class ManageCourses extends StatefulWidget {
 class _ManageCoursesScreenState extends State<ManageCourses> {
   DbHelper dbHelper = new DbHelper();
 
-  late Future<List<Courses>> _futureData;
-
-  //callback for widget
-  void _refreshPageAfterWidgetAction(){
-    print("called calllback");
-    setState(() {
-      _futureData = dbHelper.getAllCoursesFromFirestore();
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Initial call to fetch data
-    _futureData = dbHelper.getAllCoursesFromFirestore();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: _futureData,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              return Container(
-                color: backgroundColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
+        future: dbHelper.getAllCoursesFromFirestore(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return Container(
+              color: backgroundColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Manage Courses',
+                          style: appLabelTextStyle.copyWith(fontSize: 30),
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        searchBar(),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        AddButton(
+                          title: 'Add Course',
+                          path: UploadCourse.id,
+                          isCourse: true,
+                          isEnroll: true,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Courses Available',
+                          style: appLabelTextStyle.copyWith(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 0,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Container(
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,11 +147,13 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                         ],
                       )),
                     ),
-                  ],
-                ),
-              );
-            }
-          }),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
       bottomNavigationBar: EducatorNavigationBar(),
     );
   }

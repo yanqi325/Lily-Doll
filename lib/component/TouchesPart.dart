@@ -22,20 +22,31 @@ class TouchesPart extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
+          flex: 3,
           child: Text(
             '$label',
-            style: appLabelTextStyle.copyWith(color: purple4),
+            style: appLabelTextStyle.copyWith(color: purple4, fontSize: 14),
           ),
         ),
-        LinearPercentIndicator(
-          width: 180.0, // Adjust width based on your design
-          lineHeight: 8.0,
-          percent: percentage!,
-          backgroundColor: color?.withOpacity(0.2),
-          progressColor: color,
-          barRadius: Radius.circular(12),
+        SizedBox(width: 10),
+        Expanded(
+          flex: 7,
+          child: LinearPercentIndicator(
+            lineHeight: 8.0,
+            percent: percentage ?? 0.0,
+            backgroundColor: color?.withOpacity(0.2),
+            progressColor: color,
+            barRadius: Radius.circular(12),
+          ),
         ),
-        Text((percentage!*100).toInt().toString() + "%", style: appLabelTextStyle.copyWith(color: Colors.black, fontSize: 12)),
+        Expanded(
+          flex: 2,
+          child: Text(
+            (percentage! * 100).toInt().toString() + "%",
+            style: appLabelTextStyle.copyWith(color: Colors.black, fontSize: 12),
+            textAlign: TextAlign.end,
+          ),
+        ),
       ],
     );
   }

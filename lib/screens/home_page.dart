@@ -96,7 +96,7 @@ class _HomePageScreenState extends State<HomePage> {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 25, bottom: 0),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25, bottom: 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -118,8 +118,8 @@ class _HomePageScreenState extends State<HomePage> {
                                 width: 5,
                               ),
                               LinearPercentIndicator(
-                                width: 195.0,
-                                lineHeight: 14.0,
+                                width: 158.0,
+                                lineHeight: 13.0,
                                 percent: battPercent!,
                                 backgroundColor: Colors.grey,
                                 progressColor: Colors.lightGreenAccent,
