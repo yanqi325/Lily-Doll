@@ -131,7 +131,7 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                             height: 20,
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 40.0),
+                            padding: const EdgeInsets.only(left: 20.0),
                             child: Row(
                               children: [
                                 iconButton(

@@ -55,8 +55,8 @@ class CoursesCard extends StatelessWidget {
                         );
                       },
                     ),
+                    ),
                   ),
-                ),
               ),
               // Image.asset(
               //   thumbnailUrl,
