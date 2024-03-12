@@ -82,13 +82,15 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                       Text('45 students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
                       AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: false,refreshPage: _refreshPageAfterWidgetAction,),
                       SizedBox(height: 15,),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              ManageLessonCard(
+                      Flexible(
+                        child: Container(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  ManageLessonCard(
                                 courseNameFull: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
                                 courseTitle: courseTitle,
                                 lessonTitle: snapshot.data![index].lessonTitle ,
@@ -102,10 +104,13 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                   });
                                 },
                               ),
-                              SizedBox(height: 10), // Add a SizedBox after each ManageLessonCard
-                            ],
-                          );
-                        },
+                                  SizedBox(height: 10), // Add a SizedBox after each ManageLessonCard
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+
                       ),
                     ],
                   ),

@@ -503,6 +503,8 @@ class DbHelper {
 //Get all users for specific course
   Future<List<Map<String, dynamic>>> getAllEnrolledUsers(
       String educatorId, String courseTitle) async {
+    //manual delay to not show too fast
+    await Future.delayed(Duration(seconds: 1));
     try {
       // Reference to the 'enrolledUsers' subcollection within 'courses' collection under 'usersExtended'
       CollectionReference enrolledUsersRef = FirebaseFirestore.instance
@@ -521,6 +523,7 @@ class DbHelper {
       }).toList();
 
       // Return the list of maps
+      print(enrolledUsers);
       return enrolledUsers;
     } catch (error) {
       // Handle any errors

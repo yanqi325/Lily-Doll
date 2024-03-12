@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<Dashboard> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 420,
+          height: 450,
           color: backgroundColor,
           child: Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 25),
