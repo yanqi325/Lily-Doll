@@ -51,114 +51,113 @@ class _EnrollmentScreenState extends State<Enrollment> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                return SingleChildScrollView(
-                  child: Container(
-                    height: 720,
-                    color: backgroundColor2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(25.0),
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Enroll Student',
-                                  style: appLabelTextStyle.copyWith(fontSize: 30),
+                return Container(
+                  color: backgroundColor2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(25.0),
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Enroll Student',
+                                style: appLabelTextStyle.copyWith(fontSize: 30),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                height: 455,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
-                                SizedBox(
-                                  height: 20,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 19.0,
+                                      right: 19,
+                                      bottom: 12,
+                                      top: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Add Student',
+                                            style: appLabelTextStyle,
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              icon: Icon(
+                                                Icons.cancel_outlined,
+                                                color: purple4,
+                                              ))
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      educator_textField(
+                                          title: 'Username',
+                                          hintText: 'Enter username here',
+                                          onChanged: onChangedCallbackName,
+                                          isSelection: true,
+                                      popupItems: snapshot.data!),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      educator_textField(
+                                          title: 'User ID',
+                                          hintText: 'Enter user id here',
+                                          onChanged: onChangedCallbackId,
+                                          isSelection: false),
+                                      SizedBox(
+                                        height: 170,
+                                      ),
+                                      UploadAddButton(
+                                        title: 'Add',
+                                        onPressed: () async {
+                                          DbHelper dbHelper = new DbHelper();
+                                          AuthHelper authHelper =
+                                              new AuthHelper();
+                                          String? educatorId = await authHelper
+                                              .getCurrentUserId();
+                                          //get user id
+                                          String userId = await dbHelper
+                                              .getUsernamesFromUsersExtended(
+                                                  userName);
+                                          // add user id to 'enrolledUsers'
+                                          dbHelper.addUserToEnrolledUsers(
+                                              educatorId!,
+                                              widget.courseTitle!,
+                                              userId);
+                                          dbHelper.addUserToEnrolledCourses(
+                                              userId,
+                                              widget.courseTitle!,
+                                              educatorId);
+                                          //Add each lesson isLocked Status
+                                          dbHelper.addFieldsToLessonDocumentUser(userId, widget.courseTitle!, educatorId, false);
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                Container(
-                                  height: 455,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 19.0,
-                                        right: 19,
-                                        bottom: 12,
-                                        top: 5),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Add Student',
-                                              style: appLabelTextStyle,
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                icon: Icon(
-                                                  Icons.cancel_outlined,
-                                                  color: purple4,
-                                                ))
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        educator_textField(
-                                            title: 'Username',
-                                            hintText: 'Enter username here',
-                                            onChanged: onChangedCallbackName,
-                                            isSelection: true,
-                                        popupItems: snapshot.data!),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        educator_textField(
-                                            title: 'User ID',
-                                            hintText: 'Enter user id here',
-                                            onChanged: onChangedCallbackId,
-                                            isSelection: false),
-                                        SizedBox(
-                                          height: 170,
-                                        ),
-                                        UploadAddButton(
-                                          title: 'Add',
-                                          onPressed: () async {
-                                            DbHelper dbHelper = new DbHelper();
-                                            AuthHelper authHelper =
-                                                new AuthHelper();
-                                            String? educatorId = await authHelper
-                                                .getCurrentUserId();
-                                            //get user id
-                                            String userId = await dbHelper
-                                                .getUsernamesFromUsersExtended(
-                                                    userName);
-                                            // add user id to 'enrolledUsers'
-                                            dbHelper.addUserToEnrolledUsers(
-                                                educatorId!,
-                                                widget.courseTitle!,
-                                                userId);
-                                            dbHelper.addUserToEnrolledCourses(
-                                                userId,
-                                                widget.courseTitle!,
-                                                educatorId);
-                                            Navigator.pop(context);
-                                          },
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 );
               }

@@ -50,7 +50,6 @@ class _LessonVideoYTState extends State<LessonVideoYT> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBarWidget(initialIndex: 0,),
       body: FutureBuilder<String>(
         future: _videoIdFuture,
         builder: (context, snapshot) {
@@ -84,7 +83,7 @@ class _LessonVideoYTState extends State<LessonVideoYT> {
         Padding(
           padding: const EdgeInsets.only(left: 20.0, top: 30),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 onPressed: () {
@@ -95,9 +94,8 @@ class _LessonVideoYTState extends State<LessonVideoYT> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 105,),
               Column(
-                //change this
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Lesson "+ widget.lessonNo, style: appLabelTextStyle.copyWith(color: Colors.black, fontSize: 20),),
                   Text(widget.lessonTitle, style: appLabelTextStyle.copyWith(color: Colors.black, fontFamily: fontFamily2, fontWeight: FontWeight.bold, fontSize: 18),)

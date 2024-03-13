@@ -17,6 +17,7 @@ class ManageLessonCard extends StatefulWidget {
   final VoidCallback? moreOption;
   final void Function(String?)? onValueChanged;
   LessonVideoYT videoPage;
+  List<Map<String,dynamic>>? popupItems;
 
   ManageLessonCard({
     this.coursePath,
@@ -27,7 +28,8 @@ class ManageLessonCard extends StatefulWidget {
     this.moreOption,
     this.onValueChanged,
     this.lessonTitle,
-    required this.videoPage
+    required this.videoPage,
+    this.popupItems
   });
 
   @override
@@ -36,6 +38,38 @@ class ManageLessonCard extends StatefulWidget {
 }
 
 class ManageLessonCardClass extends State<ManageLessonCard> {
+
+  String userEnteredValue = "";
+  TextEditingController _controller = TextEditingController();
+
+  void showPopup(BuildContext context) async {
+    if (widget.popupItems != null) {
+      final String? selectedItem = await showMenu(
+        context: context,
+        position: RelativeRect.fromLTRB(0, 0, 0, 0),
+        items: widget.popupItems!.map((item) {
+          return PopupMenuItem<String>(
+            value: item["Username"],
+            child: Text(item["Username"]),
+          );
+        }).toList(),
+      );
+      if (selectedItem != null) {
+        // Handle the selected item
+        setState(() {
+          userEnteredValue = selectedItem;
+          changeTextFieldText(selectedItem);
+        });
+        if (widget.onValueChanged != null) {
+          widget.onValueChanged!(selectedItem);
+        }
+      }
+    }
+  }
+  void changeTextFieldText(String newText) {
+    _controller.text = newText; // Set the text using the controller
+  }
+
   TextEditingController searchController = TextEditingController();
 
   final void Function(String?) onValueChanged;
@@ -45,6 +79,8 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
   static String? touched = 'manage';
 
   DbHelper dbHelper = new DbHelper();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,52 +180,56 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
             title: Text('Unlock for everyone'),
           ),
         ),
-        PopupMenuItem(
-          key: _popupKey,
-          value: 'student',
-          child: ListTile(
-            title: Row(
-              children: [
-                const Text('Unlock for '),
-                const SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  width: 100,
-                  height: 30,
-                  child: Center(
-                    child: SearchBar(
-                      elevation: MaterialStateProperty.all(0.0),
-                      textStyle: MaterialStateProperty.all( const TextStyle(
-                        color: Colors.black,
-                        fontFamily: fontFamily2,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      )),
-                      hintText: 'Student',
-                      hintStyle: MaterialStateProperty.all(const TextStyle(
-                        color: Colors.grey,
-                        fontFamily: fontFamily2,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      )),
-                      controller: searchController,
-                      onSubmitted: (String value) {
-                        print('value: $value');
-                        studentName = value;
-                        searchController.clear();
-                        onValueChanged!('Unlocked for $studentName');
-                        Navigator.of(context).pop();
-                      },
-
-                    ),
-                  ),
-
-                ),
-              ],
-            ),
-          ),
-        ),
+        // PopupMenuItem(
+        //   key: _popupKey,
+        //   value: 'student',
+        //   child: ListTile(
+        //     title: Row(
+        //       children: [
+        //         const Text('Unlock for '),
+        //         const SizedBox(
+        //           width: 10,
+        //         ),
+        //         Container(
+        //           width: 100,
+        //           height: 30,
+        //           child: Center(
+        //             child: SearchBar(
+        //               elevation: MaterialStateProperty.all(0.0),
+        //               textStyle: MaterialStateProperty.all( const TextStyle(
+        //                 color: Colors.black,
+        //                 fontFamily: fontFamily2,
+        //                 fontWeight: FontWeight.bold,
+        //                 fontSize: 14,
+        //               )),
+        //               hintText: 'Student',
+        //               hintStyle: MaterialStateProperty.all(const TextStyle(
+        //                 color: Colors.grey,
+        //                 fontFamily: fontFamily2,
+        //                 fontWeight: FontWeight.bold,
+        //                 fontSize: 14,
+        //               )),
+        //               controller: searchController,
+        //               onTap: (){
+        //                 showPopup(context);
+        //                 print("show pop up");
+        //               },
+        //               onSubmitted: (String value) {
+        //                 print('value: $value');
+        //                 studentName = value;
+        //                 searchController.clear();
+        //                 onValueChanged!('Unlocked for $studentName');
+        //                 Navigator.of(context).pop();
+        //               },
+        //
+        //             ),
+        //           ),
+        //
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
         const PopupMenuItem(
           value: 'lock',
           child: ListTile(

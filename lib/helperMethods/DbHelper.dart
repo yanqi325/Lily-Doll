@@ -238,6 +238,7 @@ class DbHelper {
       DocumentReference lessonDocRef =
           lessonsCollection.doc(lesson.lessonTitle);
       await lessonDocRef.set(lesson.toMap());
+
       print("Success in adding lesson to firestore");
     } catch (e) {
       print('Error adding course to Firestore: $e');
@@ -534,6 +535,9 @@ class DbHelper {
 
   //get lesson details at user POV
   Future<List<Lessons>> getLessonsFromCourseUser(String courseName) async {
+    //get educator id from course USER POV
+    //get all isLocked param for all lessons from uesr POV
+    //get details of lessons from educator POV
     List<Lessons> allLessons = [];
 
     AuthHelper authHelper = new AuthHelper();
@@ -547,7 +551,10 @@ class DbHelper {
               .doc(userId)
               .collection('enrolledCourses')
               .doc(courseName)
+          // .collection("lessons")
               .get();
+
+
 
       String educatorId = querySnapshot["educatorId"];
 
@@ -571,14 +578,14 @@ class DbHelper {
             Lessons.fromMap(element.data()! as Map<String, dynamic>);
         lessonsList.add(lesson);
       });
+
+
       // Convert each document snapshot to a Lesson object
       //  = querySnapshot.docs.map((doc) {
       //   return Lessons.fromMap(doc.data()! as Map<String,dynamic>);
       // }).toList();
 
-      for (Lessons l in lessonsList) {
-        print(l.lessonTitle);
-      }
+
       return lessonsList;
     } catch (error) {
       return [];
@@ -754,6 +761,52 @@ class DbHelper {
     } catch (e) {
       print('Error updating lesson lock status: $e');
       // Handle any errors here
+    }
+  }
+
+
+  //call this method when user is added to course, for ALL lessons
+  Future<void> addFieldsToLessonDocumentUser(String userId, String courseId, String educatorId, bool isUnlocked) async {
+    try {
+      // List<Lessons> lessonList = await getLessonsFromCourseUser(courseId);
+      CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(educatorId)
+          .collection('courses')
+          .doc(courseId)
+          .collection('lessons');
+      print("start");
+
+
+      // Get snapshot of documents in the "lessons" subcollection
+      QuerySnapshot querySnapshot1 = await lessonsCollection.get();
+
+      print(querySnapshot1.size);
+      List<Lessons> lessonsList = [];
+      querySnapshot1.docs.forEach((element) {
+        print(element.data()! as Map<String, dynamic>);
+        Lessons lesson =
+        Lessons.fromMap(element.data()! as Map<String, dynamic>);
+        lessonsList.add(lesson);
+      });
+
+      //sdfdsf
+      for (Lessons lesson in lessonsList){
+        // Reference to the lesson document
+        DocumentReference lessonRef = FirebaseFirestore.instance.collection('usersExtended')
+            .doc(userId).collection('enrolledCourses').doc(courseId).collection('lessons').doc(lesson.lessonTitle);
+
+        // Set the document with the new fields, and merge if it already exists
+        await lessonRef.set({
+          'educatorId': educatorId,
+          'isUnlocked': isUnlocked,
+        });
+        print(lesson.lessonTitle + "fields have been set");
+      }
+
+      print('Fields added successfully to the lesson document');
+    } catch (e) {
+      print('Error adding fields to lesson document: $e');
     }
   }
 
