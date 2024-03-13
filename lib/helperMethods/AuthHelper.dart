@@ -84,7 +84,8 @@ class AuthHelper {
 
     return userType;
   }
-  //start login process method
+
+//  start login process method
   Future<bool> startLogin(String email, String password) async {
     bool isSuccess = false;
     try {

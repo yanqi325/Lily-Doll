@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginPage> {
                         //login process
                         AuthHelper authHelper = new AuthHelper();
                         bool success =
-                            await authHelper.startLogin(email!, password!);
+                        await authHelper.startLogin(email!, password!);
                         //get user role here
                         String userType = await authHelper.getUserRole();
 
@@ -146,6 +146,10 @@ class _LoginScreenState extends State<LoginPage> {
                           dbHelper.getUserDataFromFirestore(
                               FirebaseAuth.instance.currentUser!.uid);
                           Navigator.pushNamed(context, Dashboard.id);
+                          //show error code here
+                        } else {
+                          // Handle login failure
+                          showError('Email and Password do not match');
                           //show error code here
                         }
                       }
