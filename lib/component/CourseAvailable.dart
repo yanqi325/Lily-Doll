@@ -101,9 +101,13 @@ class _CourseAvailable extends State<CourseAvailable> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.courseName!,
-                        style: appLabelTextStyle,
+                      Container(
+                        width:210,
+                        child: Text(
+                          widget.courseName!,
+                          style: appLabelTextStyle,
+                          softWrap: true,
+                        ),
                       ),
                       if (widget.status != null) ...[
                         Text(
@@ -121,12 +125,15 @@ class _CourseAvailable extends State<CourseAvailable> {
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.more_vert_rounded),
-            color: purple4,
-            onPressed: () {
-              print('more option tapped');
-            },
+          Container(
+            width: 25,
+            child: IconButton(
+              icon: Icon(Icons.more_vert_rounded),
+              color: purple4,
+              onPressed: () {
+                print('more option tapped');
+              },
+            ),
           )
         ],
       ),
