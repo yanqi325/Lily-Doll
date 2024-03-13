@@ -102,6 +102,7 @@ class _StudentDetailsScreenState extends State<StudentDetails> {
                 }
               }
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 18,),
                   CourseProgressionCard(courseName: widget.courseTitle,coursePercent: progress),
@@ -109,6 +110,7 @@ class _StudentDetailsScreenState extends State<StudentDetails> {
                   Text('Other Courses',
                     style: appLabelTextStyle.copyWith(color: purple7),
                   ),
+                  SizedBox(height: 18,),
                   ...List.generate(coursesProgress.length, (index) {
                     final courseTitle = coursesProgress[index]['courseTitle'];
                     if (courseTitle != widget.courseTitle) { //If courseTitle is current courseTitle then skip creating the widget

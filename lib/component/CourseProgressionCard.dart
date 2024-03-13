@@ -29,7 +29,7 @@ class CourseProgressionCard extends StatelessWidget {
             Text(courseName!, style: appLabelTextStyle.copyWith(color: Colors.black),),
             SizedBox(height: 15,),
             LinearPercentIndicator(
-              width: 305.0,
+              width: 268.0,
               lineHeight: 8.0,
               percent: coursePercent!,
               backgroundColor: purple5,
