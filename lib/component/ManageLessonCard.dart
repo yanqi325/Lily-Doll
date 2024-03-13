@@ -79,9 +79,13 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.courseNameFull!,
-                        style: appLabelTextStyle,
+                      Container(
+                        width:210,
+                        child: Text(
+                          widget.courseNameFull!,
+                          style: appLabelTextStyle,
+                          softWrap: true,
+                        ),
                       ),
                       if (widget.status != null) ...[
                         Text(
@@ -99,13 +103,16 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
               ),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.more_vert_rounded),
-            color: purple4,
-            onPressed: () {
-              print('more option tapped');
-              showPopupMenu(context);
-            },
+          Container(
+            width: 25,
+            child: IconButton(
+              icon: const Icon(Icons.more_vert_rounded),
+              color: purple4,
+              onPressed: () {
+                print('more option tapped');
+                showPopupMenu(context);
+              },
+            ),
           )
         ],
       ),
