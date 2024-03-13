@@ -13,9 +13,9 @@ class Lessons{
   String lessonDesc;
   LessonCategory category;
   String thumbnailUrl;
-  bool isLocked = true;
+  bool? isLocked;
 
-  Lessons(this.lessonTitle,this.lessonDesc,this.category,this.thumbnailUrl,this.isLocked) {
+  Lessons(this.lessonTitle,this.lessonDesc,this.category,this.thumbnailUrl) {
     //initialize class
   }
 
@@ -26,7 +26,7 @@ class Lessons{
       'lessonDesc': lessonDesc,
       'category': category.toString().split('.').last,
       'videoUrl': thumbnailUrl,
-      "isLocked" : isLocked
+      // "isLocked" : isLocked
     };
   }
 
@@ -36,8 +36,8 @@ class Lessons{
       map['lessonTitle'],
       map['lessonDesc'],
       LessonCategory.values.firstWhere((category) => category.toString() == 'LessonCategory.${map['category']}'),
-      map['videoUrl'],
-        (map["isLocked"] as bool)
+      map['videoUrl']
+        // (map["isLocked"] as bool)
     );
   }
 

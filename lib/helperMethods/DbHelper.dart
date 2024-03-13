@@ -534,63 +534,138 @@ class DbHelper {
   }
 
   //get lesson details at user POV
+  // Future<List<Lessons>> getLessonsFromCourseUser(String courseName) async {
+  //   //get educator id from course USER POV
+  //
+  //   List<Lessons> lessonsList = [];
+  //
+  //   //get details of lessons from educator POV
+  //
+  //   AuthHelper authHelper = new AuthHelper();
+  //   String? userId = await authHelper.getCurrentUserId();
+  //   //get educator ID first
+  //   //sdfs
+  //   try {
+  //     // Reference to the 'enrolledCourses' collection within the 'usersExtended' collection
+  //     DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+  //         await FirebaseFirestore.instance
+  //             .collection('usersExtended')
+  //             .doc(userId)
+  //             .collection('enrolledCourses')
+  //             .doc(courseName)
+  //             // .collection("lessons")
+  //             .get();
+  //
+  //     String educatorId = querySnapshot["educatorId"];
+  //
+  //     // Reference to the "lessons" subcollection inside the specified "course" document
+  //     CollectionReference lessonsCollection = FirebaseFirestore.instance
+  //         .collection("usersExtended")
+  //         .doc(educatorId)
+  //         .collection('courses')
+  //         .doc(courseName)
+  //         .collection('lessons');
+  //     print("start");
+  //
+  //     // Get snapshot of documents in the "lessons" subcollection
+  //     QuerySnapshot querySnapshot1 = await lessonsCollection.get();
+  //
+  //     print(querySnapshot1.size);
+  //     querySnapshot1.docs.forEach((element) {
+  //       // print(element.data()! as Map<String, dynamic>);
+  //       Lessons lesson =
+  //           Lessons.fromMap(element.data()! as Map<String, dynamic>);
+  //       lessonsList.add(lesson);
+  //     });
+  //
+  //     //get all isLocked param for all lessons from user POV
+  //     for (Lessons l in lessonsList) {
+  //       DocumentReference lessonRef = FirebaseFirestore.instance
+  //           .collection('usersExtended')
+  //           .doc(userId)
+  //           .collection('enrolledCourses')
+  //           .doc(courseName)
+  //           .collection('lessons')
+  //           .doc(l.lessonTitle);
+  //       lessonRef.get().then((lessonSnapshot) {
+  //         if (lessonSnapshot.exists) {
+  //           //sfd
+  //           // Document exists, you can access its fields
+  //           Map<String, dynamic> data =
+  //               lessonSnapshot.data() as Map<String, dynamic>;
+  //           if(l.lessonTitle.toLowerCase() == lessonSnapshot.id.toLowerCase() ){
+  //             // print(l.lessonTitle);
+  //             // print(l.isLocked);
+  //             // print()
+  //
+  //             l.isLocked = !data['isUnlocked'];
+  //             print(l.lessonTitle + " /:/ " + l.isLocked.toString());
+  //
+  //             //dsfd
+  //           }
+  //         }
+  //         // return lessonsList;
+  //
+  //       }).catchError((error) {
+  //         // Handle any errors that occur during the process
+  //         print('Error retrieving document: $error');
+  //       });
+  //     }
+  //     return lessonsList;
+  //
+  //   } catch (error) {
+  //     return [];
+  //   }
+  //   print(lessonsList);
+  // }
+
   Future<List<Lessons>> getLessonsFromCourseUser(String courseName) async {
-    //get educator id from course USER POV
-    //get all isLocked param for all lessons from uesr POV
-    //get details of lessons from educator POV
-    List<Lessons> allLessons = [];
-
-    AuthHelper authHelper = new AuthHelper();
-    String? userId = await authHelper.getCurrentUserId();
-    //get educator ID first
     try {
-      // Reference to the 'enrolledCourses' collection within the 'usersExtended' collection
-      DocumentSnapshot<Map<String, dynamic>> querySnapshot =
-          await FirebaseFirestore.instance
-              .collection('usersExtended')
-              .doc(userId)
-              .collection('enrolledCourses')
-              .doc(courseName)
-          // .collection("lessons")
-              .get();
+      // Get current user's ID
+      AuthHelper authHelper = new AuthHelper();
+      String? userId = await authHelper.getCurrentUserId();
 
+      // Fetch educator ID
+      DocumentSnapshot<Map<String, dynamic>> educatorSnapshot = await FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(userId)
+          .collection('enrolledCourses')
+          .doc(courseName)
+          .get();
+      String educatorId = educatorSnapshot['educatorId'];
 
-
-      String educatorId = querySnapshot["educatorId"];
-
-      // Reference to the "lessons" subcollection inside the specified "course" document
-      CollectionReference lessonsCollection = FirebaseFirestore.instance
-          .collection("usersExtended")
+      // Fetch lessons from educator's perspective
+      QuerySnapshot<Map<String, dynamic>> lessonsQuerySnapshot = await FirebaseFirestore.instance
+          .collection('usersExtended')
           .doc(educatorId)
           .collection('courses')
           .doc(courseName)
-          .collection('lessons');
-      print("start");
+          .collection('lessons')
+          .get();
 
-      // Get snapshot of documents in the "lessons" subcollection
-      QuerySnapshot querySnapshot1 = await lessonsCollection.get();
-
-      print(querySnapshot1.size);
+      // Fetch isLocked param for all lessons from user's perspective
       List<Lessons> lessonsList = [];
-      querySnapshot1.docs.forEach((element) {
-        print(element.data()! as Map<String, dynamic>);
-        Lessons lesson =
-            Lessons.fromMap(element.data()! as Map<String, dynamic>);
-        lessonsList.add(lesson);
-      });
-
-
-      // Convert each document snapshot to a Lesson object
-      //  = querySnapshot.docs.map((doc) {
-      //   return Lessons.fromMap(doc.data()! as Map<String,dynamic>);
-      // }).toList();
-
+      for (QueryDocumentSnapshot<Map<String, dynamic>> lessonSnapshot in lessonsQuerySnapshot.docs) {
+        Lessons lesson = Lessons.fromMap(lessonSnapshot.data());
+        DocumentSnapshot<Map<String, dynamic>> lessonRefSnapshot = await FirebaseFirestore.instance
+            .collection('usersExtended')
+            .doc(userId)
+            .collection('enrolledCourses')
+            .doc(courseName)
+            .collection('lessons')
+            .doc(lesson.lessonTitle)
+            .get();
+        if (lessonRefSnapshot.exists) {
+          lesson.isLocked = !(lessonRefSnapshot['isUnlocked'] ?? false);
+          lessonsList.add(lesson);
+        }
+      }
 
       return lessonsList;
     } catch (error) {
+      print('Error fetching lessons: $error');
       return [];
     }
-    return allLessons;
   }
 
   //get all users that have not been enrolled in this course
@@ -700,21 +775,23 @@ class DbHelper {
     return 'dQw4w9WgXcQ';
   }
 
-  Future<String> getVideoIdFromLessonUser(String lessonTitle, String courseTitle) async {
+  Future<String> getVideoIdFromLessonUser(
+      String lessonTitle, String courseTitle) async {
     List<Lessons> lessonList = await getLessonsFromCourseUser(courseTitle);
-    String videoId='';
-    for (Lessons l in lessonList){
-      if (l.lessonTitle == lessonTitle){
+    String videoId = '';
+    for (Lessons l in lessonList) {
+      if (l.lessonTitle == lessonTitle) {
         videoId = l.thumbnailUrl;
       }
     }
     return videoId;
   }
 
-  Future<String> getVideoIdFromLessonEducator(String lessonTitle, String courseTitle) async {
+  Future<String> getVideoIdFromLessonEducator(
+      String lessonTitle, String courseTitle) async {
     AuthHelper authHelper = new AuthHelper();
     String? userId = await authHelper.getCurrentUserId();
-    String videoId='';
+    String videoId = '';
     // Reference to the "lessons" subcollection inside the specified "course" document
     CollectionReference lessonsCollection = FirebaseFirestore.instance
         .collection("usersExtended")
@@ -728,9 +805,8 @@ class DbHelper {
 
     querySnapshot1.docs.forEach((element) {
       print(element.data()! as Map<String, dynamic>);
-      Lessons lesson =
-      Lessons.fromMap(element.data()! as Map<String, dynamic>);
-      if(lesson.lessonTitle == lessonTitle){
+      Lessons lesson = Lessons.fromMap(element.data()! as Map<String, dynamic>);
+      if (lesson.lessonTitle == lessonTitle) {
         videoId = lesson.thumbnailUrl;
       }
     });
@@ -739,7 +815,8 @@ class DbHelper {
   }
 
   //for educator POV to change lesson lock status
-  Future<void> updateLessonLockStatus(String courseId, String lessonId, bool isLocked) async {
+  Future<void> updateLessonLockStatus(
+      String courseId, String lessonId, bool isLocked) async {
     try {
       AuthHelper authHelper = new AuthHelper();
       String? userId = await authHelper.getCurrentUserId();
@@ -764,9 +841,9 @@ class DbHelper {
     }
   }
 
-
   //call this method when user is added to course, for ALL lessons
-  Future<void> addFieldsToLessonDocumentUser(String userId, String courseId, String educatorId, bool isUnlocked) async {
+  Future<void> addFieldsToLessonDocumentUser(String userId, String courseId,
+      String educatorId, bool isUnlocked) async {
     try {
       // List<Lessons> lessonList = await getLessonsFromCourseUser(courseId);
       CollectionReference lessonsCollection = FirebaseFirestore.instance
@@ -777,7 +854,6 @@ class DbHelper {
           .collection('lessons');
       print("start");
 
-
       // Get snapshot of documents in the "lessons" subcollection
       QuerySnapshot querySnapshot1 = await lessonsCollection.get();
 
@@ -786,15 +862,20 @@ class DbHelper {
       querySnapshot1.docs.forEach((element) {
         print(element.data()! as Map<String, dynamic>);
         Lessons lesson =
-        Lessons.fromMap(element.data()! as Map<String, dynamic>);
+            Lessons.fromMap(element.data()! as Map<String, dynamic>);
         lessonsList.add(lesson);
       });
 
       //sdfdsf
-      for (Lessons lesson in lessonsList){
+      for (Lessons lesson in lessonsList) {
         // Reference to the lesson document
-        DocumentReference lessonRef = FirebaseFirestore.instance.collection('usersExtended')
-            .doc(userId).collection('enrolledCourses').doc(courseId).collection('lessons').doc(lesson.lessonTitle);
+        DocumentReference lessonRef = FirebaseFirestore.instance
+            .collection('usersExtended')
+            .doc(userId)
+            .collection('enrolledCourses')
+            .doc(courseId)
+            .collection('lessons')
+            .doc(lesson.lessonTitle);
 
         // Set the document with the new fields, and merge if it already exists
         await lessonRef.set({
@@ -810,8 +891,33 @@ class DbHelper {
     }
   }
 
-  //get single lesson details from users POV
-  // Future<Map<String,dynamic>> getLessonDetailUser(){
-  //
-  // }
+  Future<void> addFieldsToLessonDocumentUserSingle(
+      String userId,
+      String courseId,
+      String lessonTitle,
+      String educatorId,
+      bool isUnlocked) async {
+    try {
+      DocumentReference lessonRef = FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(userId)
+          .collection('enrolledCourses')
+          .doc(courseId)
+          .collection('lessons')
+          .doc(lessonTitle);
+
+      // Set the document with the new fields, and merge if it already exists
+      await lessonRef.set({
+        'educatorId': educatorId,
+        'isUnlocked': isUnlocked,
+      });
+      print('Fields added successfully to the lesson document');
+    } catch (e) {
+      print('Error adding fields to lesson document: $e');
+    }
+  }
+//get single lesson details from users POV
+// Future<Map<String,dynamic>> getLessonDetailUser(){
+//
+// }
 }

@@ -4,6 +4,7 @@ import 'package:project_lily/screens/chatroom.dart';
 
 import '../Data/Users.dart';
 import '../constants.dart';
+import '../helperMethods/AuthHelper.dart';
 import '../helperMethods/DbHelper.dart';
 import '../screens/lessonVideoYT.dart';
 
@@ -17,7 +18,7 @@ class ManageLessonCard extends StatefulWidget {
   final VoidCallback? moreOption;
   final void Function(String?)? onValueChanged;
   LessonVideoYT videoPage;
-  List<Map<String,dynamic>>? popupItems;
+  List<String>? popupItems;
 
   ManageLessonCard({
     this.coursePath,
@@ -40,6 +41,7 @@ class ManageLessonCard extends StatefulWidget {
 class ManageLessonCardClass extends State<ManageLessonCard> {
 
   String userEnteredValue = "";
+  String studentName = "";
   TextEditingController _controller = TextEditingController();
 
   void showPopup(BuildContext context) async {
@@ -49,8 +51,8 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         position: RelativeRect.fromLTRB(0, 0, 0, 0),
         items: widget.popupItems!.map((item) {
           return PopupMenuItem<String>(
-            value: item["Username"],
-            child: Text(item["Username"]),
+            value: item,
+            child: Text(item),
           );
         }).toList(),
       );
@@ -59,6 +61,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         setState(() {
           userEnteredValue = selectedItem;
           changeTextFieldText(selectedItem);
+          print("changed text to " + selectedItem);
         });
         if (widget.onValueChanged != null) {
           widget.onValueChanged!(selectedItem);
@@ -67,7 +70,8 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
     }
   }
   void changeTextFieldText(String newText) {
-    _controller.text = newText; // Set the text using the controller
+    _controller.text = newText;
+    studentName = newText;// Set the text using the controller
   }
 
   TextEditingController searchController = TextEditingController();
@@ -150,7 +154,6 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
 
   void showPopupMenu(BuildContext context) {
 
-    String? studentName;
     GlobalKey _popupKey = GlobalKey();
 
     // Find the RenderBox of the IconButton
@@ -173,56 +176,60 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
             title: Text('Unlock for everyone'),
           ),
         ),
-        // PopupMenuItem(
-        //   key: _popupKey,
-        //   value: 'student',
-        //   child: ListTile(
-        //     title: Row(
-        //       children: [
-        //         const Text('Unlock for '),
-        //         const SizedBox(
-        //           width: 10,
-        //         ),
-        //         Container(
-        //           width: 100,
-        //           height: 30,
-        //           child: Center(
-        //             child: SearchBar(
-        //               elevation: MaterialStateProperty.all(0.0),
-        //               textStyle: MaterialStateProperty.all( const TextStyle(
-        //                 color: Colors.black,
-        //                 fontFamily: fontFamily2,
-        //                 fontWeight: FontWeight.bold,
-        //                 fontSize: 14,
-        //               )),
-        //               hintText: 'Student',
-        //               hintStyle: MaterialStateProperty.all(const TextStyle(
-        //                 color: Colors.grey,
-        //                 fontFamily: fontFamily2,
-        //                 fontWeight: FontWeight.bold,
-        //                 fontSize: 14,
-        //               )),
-        //               controller: searchController,
-        //               onTap: (){
-        //                 showPopup(context);
-        //                 print("show pop up");
-        //               },
-        //               onSubmitted: (String value) {
-        //                 print('value: $value');
-        //                 studentName = value;
-        //                 searchController.clear();
-        //                 onValueChanged!('Unlocked for $studentName');
-        //                 Navigator.of(context).pop();
-        //               },
-        //
-        //             ),
-        //           ),
-        //
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
+        PopupMenuItem(
+          key: _popupKey,
+          value: 'student',
+          child: ListTile(
+            title: Row(
+              children: [
+                const Text('Unlock for '),
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  width: 100,
+                  height: 30,
+                  child: Center(
+                    child: SearchBar(
+                      elevation: MaterialStateProperty.all(0.0),
+                      textStyle: MaterialStateProperty.all( const TextStyle(
+                        color: Colors.black,
+                        fontFamily: fontFamily2,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      )),
+
+                      hintText: 'Student',
+                      hintStyle: MaterialStateProperty.all(const TextStyle(
+                        color: Colors.grey,
+                        fontFamily: fontFamily2,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      )),
+                      controller: _controller,
+                      onTap: (){
+                        showPopup(context);
+                        print("show pop up");
+                      },
+                      onSubmitted: (String value) async {
+                        print('value15332: $value');
+                        studentName = value;
+                        // searchController.clear();
+                        onValueChanged!('Unlocked for $studentName');
+                        //unlock for user -> lesson (set)
+                        //serach by user
+
+                        Navigator.of(context).pop();
+                      },
+
+                    ),
+                  ),
+
+                ),
+              ],
+            ),
+          ),
+        ),
         const PopupMenuItem(
           value: 'lock',
           child: ListTile(
@@ -231,14 +238,14 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         ),
       ],
       elevation: 8.0,
-    ).then((value) {
+    ).then((value) async {
       // Handle the selected option here
       if (value == 'everyone') {
         onValueChanged!('Unlocked');
         dbHelper.updateLessonLockStatus(widget.courseTitle!,widget.lessonTitle!, false);
 
         //unlock lesson in backend here
-      } else if (value == 'student' && studentName==null) {
+      } else if (value == 'student' && studentName=="") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -255,7 +262,19 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
             );
           },
         );
-      } else if (value == 'lock') {
+      }else if (value =='student' && !(studentName=="")){
+        print("SDFSDFS00");
+        AuthHelper authHelper =
+        new AuthHelper();
+        String userId = await dbHelper
+            .getUsernamesFromUsersExtended(
+            studentName!);
+        String? educatorId = await authHelper
+            .getCurrentUserId();
+        dbHelper.addFieldsToLessonDocumentUserSingle(userId, widget.courseTitle!,widget.lessonTitle!,educatorId!, true);
+        print("changed isUnlocked status");
+      }
+      else if (value == 'lock') {
         onValueChanged!('Locked');
         //lock lesson in backend here
         onValueChanged!('Unlocked');
