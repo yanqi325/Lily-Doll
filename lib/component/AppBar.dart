@@ -41,6 +41,7 @@ class appBar extends StatelessWidget {
               child: Text('$title',
                 textAlign: TextAlign.center,
                 style: appBarLabel.copyWith(fontSize: 30),
+                softWrap: true,
               ),
             ),
           ),

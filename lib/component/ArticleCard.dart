@@ -4,9 +4,10 @@ import 'package:project_lily/screens/web_view.dart';
 import '../constants.dart';
 
 class ArticleCard extends StatelessWidget {
-  ArticleCard({this.articleTitle, this.image, this.url});
+  ArticleCard({this.articleTitle, this.appBarArticleTitle, this.image, this.url});
 
   String? articleTitle;
+  String? appBarArticleTitle;
   String? image;
   String? url;
 
@@ -20,6 +21,7 @@ class ArticleCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => CustomWebView(
+                articleTitle: appBarArticleTitle!,
                 url: url,
               ), // Replace 'YOUR_URL_HERE' with the actual URL
             ),

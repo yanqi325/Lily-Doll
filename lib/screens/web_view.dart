@@ -7,8 +7,9 @@ import '../constants.dart';
 class CustomWebView extends StatefulWidget {
   static const String id = 'custom_webview';
   final String? url;
+  final String? articleTitle;
 
-  CustomWebView({this.url});
+  CustomWebView({this.url, this.articleTitle});
 
   @override
   _CustomWebViewState createState() => _CustomWebViewState();
@@ -28,8 +29,9 @@ class _CustomWebViewState extends State<CustomWebView> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(
-          title: 'XXXX',
+        child:
+        appBar(
+          title: widget.articleTitle,
           colors: purple7,
         ),
       ),
