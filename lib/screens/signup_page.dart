@@ -38,6 +38,17 @@ class _SignupScreenState extends State<SignUpPage> {
     );
   }
 
+  bool isValidEmail(String email) {
+    // Simple email validation: check if '@' symbol exists and if there's a domain part
+    return email.contains('@') && email.split('@').length == 2 && email.split('@')[1].isNotEmpty;
+  }
+
+  bool isWeakPassword(String password) {
+    // Define your password strength criteria here, e.g., minimum length
+    return password.length < 8; // Example: password is considered weak if it's less than 8 characters
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
@@ -155,6 +166,10 @@ class _SignupScreenState extends State<SignUpPage> {
                   onPressed: () async {
                     if (username == null || email == null || password == null) {
                       showError('Please fill in all the fields.');
+                    } else if (!isValidEmail(email!)) {
+                      showError('Please enter a valid email address.');
+                    } else if (isWeakPassword(password!)) {
+                      showError('Password is less than 8 char. Please use a stronger password.');
                     } else {
                       //check authentication here., correct then go to home page
                       //go to login page
