@@ -81,19 +81,25 @@ class _CourseAvailable extends State<CourseAvailable> {
                   //   widget.imagePath!,
                   //   // ),
                   // ),
-                  Image.network(
-                    widget.imagePath!,
-                    width: 56,
-                    height: 56,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
-                      // Error occurred while loading the image, display default image instead
-                      return Image.asset(
-                        backupUrl,
+                  CircleAvatar(
+                    radius: 28,
+                    child: ClipOval(
+                      child: Image.network(
+                        widget.imagePath!,
+                        fit: BoxFit.cover,
                         width: 56,
                         height: 56,
-                      );
-                    },
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          // Error occurred while loading the image, display default image instead
+                          return Image.asset(
+                            backupUrl,
+                            width: 56,
+                            height: 56,
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 15,
