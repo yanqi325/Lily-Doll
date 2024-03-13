@@ -23,6 +23,48 @@ class DollDataAnalyzeHelper {
     return textData;
   }
 
+  //TODO: Test
+  Future<List<List<String>>> parseTextFileBLE(List<String> lines) async {
+    List<List<String>> textData = lines.map((line) => line.split(',')).toList();
+
+    return textData;
+  }
+
+  void decodeDollDataBLE(List<String> lines) async {
+    List<SqueezeTouchData> SqueezeTouchDataList = [];
+    //decode doll data
+    List<List<String>> data = await parseTextFileBLE(lines);
+
+    //create list of squeeze touch objects
+    SqueezeTouchDataList = await addToList(data);
+
+    //create variable to store how many additions to each date
+    Map<String,int> totalAdditions = new Map<String,int>();
+
+    //save objects into firebase
+    DbHelper dbHelper = new DbHelper();
+    SqueezeTouchDataList.forEach((element) async {
+
+      dbHelper.addDocumentToDateSubcollection(element);
+      var date = DateFormat('dd-MM-y').format(element.timestamp);
+      if (totalAdditions.containsKey(date)){
+        //if contains, then add one to the value
+        int totalFromFirebase = totalAdditions[date]!;
+        totalFromFirebase++;
+        totalAdditions[date] = totalFromFirebase;
+      }else{
+        //create new key
+        totalAdditions[date] = 1;
+      }
+      print(totalAdditions);
+
+    });
+    //last resort method to add total at the end
+    totalAdditions.forEach((key, value) {
+      dbHelper.incrementCounter(key, value);
+    });
+  }
+
   List<SqueezeTouchData> addToList(List<List<String>> dummy) {
     List<SqueezeTouchData> datalist = [];
     //add to list 1 by 1
