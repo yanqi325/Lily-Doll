@@ -119,7 +119,7 @@ class _AddLessonScreenState extends State<AddLesson> {
                                 ),
                                 SizedBox(height: 17,),
                                 DropdownMenu<String>(
-                                  width: 300,
+                                  width: 260,
                                   menuHeight: 150,
                                   inputDecorationTheme: dropDownStyle,
                                   textStyle: appLabelTextStyle.copyWith(fontSize: 12, color: Colors.grey, fontFamily: fontFamily2,fontWeight: FontWeight.bold,),
