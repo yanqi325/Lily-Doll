@@ -117,33 +117,35 @@ class LessonCard extends StatelessWidget {
                         ),
 
                         !isLocked
-                            ? Row(children: [
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                elevatedButton(
-                                  title: 'Continue',
-                                  fontSize: 13,
-                                  fontColor: Colors.black,
-                                  width: 110,
-                                  height: 40,
-                                  radius: 8,
-                                  elevation: 2,
-                                  color: Color(0xFFEFD2C5),
-                                  onPressed: onPressedContinue,
-                                ),
-                                elevatedButton(
-                                  title: 'Restart',
-                                  fontSize: 13,
-                                  fontColor: Colors.black,
-                                  width: 110,
-                                  height: 40,
-                                  radius: 8,
-                                  elevation: 2,
-                                  color: Color(0xFFABDBD1),
-                                  onPressed: onPressedRestart,
-                                )
-                              ])
+                            ? Container(
+                              child: Row(children: [
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  elevatedButton(
+                                    title: 'Continue',
+                                    fontSize: 13,
+                                    fontColor: Colors.black,
+                                    width: 105,
+                                    height: 40,
+                                    radius: 8,
+                                    elevation: 2,
+                                    color: Color(0xFFEFD2C5),
+                                    onPressed: onPressedContinue,
+                                  ),
+                                  elevatedButton(
+                                    title: 'Restart',
+                                    fontSize: 13,
+                                    fontColor: Colors.black,
+                                    width: 98,
+                                    height: 40,
+                                    radius: 8,
+                                    elevation: 2,
+                                    color: Color(0xFFABDBD1),
+                                    onPressed: onPressedRestart,
+                                  )
+                                ]),
+                            )
                             : Row(children: [
                                 SizedBox(
                                   width: 8,
@@ -153,7 +155,7 @@ class LessonCard extends StatelessWidget {
                                   title: 'Locked',
                                   fontSize: 13,
                                   fontColor: Colors.black,
-                                  width: 220,
+                                  width: 203,
                                   height: 40,
                                   radius: 8,
                                   elevation: 2,
