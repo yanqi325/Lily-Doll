@@ -58,9 +58,13 @@ AuthHelper authHelper = new AuthHelper();
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        studentName!,
-                        style: appLabelTextStyle,
+                      Container(
+                        width: 200,
+                        child: Text(
+                          studentName!,
+                          style: appLabelTextStyle,
+                          softWrap: true,
+                        ),
                       ),
                     ],
                   ),
@@ -70,13 +74,16 @@ AuthHelper authHelper = new AuthHelper();
 
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.more_vert_rounded),
-            color: purple4,
-            onPressed: () {
-              print('more option tapped');
-              moreOption;
-            },
+          Container(
+            width: 25,
+            child: IconButton(
+              icon: Icon(Icons.more_vert_rounded),
+              color: purple4,
+              onPressed: () {
+                print('more option tapped');
+                moreOption;
+              },
+            ),
           ),
         ],
       ),
