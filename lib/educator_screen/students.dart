@@ -36,7 +36,7 @@ class _StudentScreenState extends State<Students> {
               return Container(
                 color: backgroundColor,
                 child: Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 30.0),
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

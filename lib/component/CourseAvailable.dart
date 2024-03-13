@@ -81,19 +81,25 @@ class _CourseAvailable extends State<CourseAvailable> {
                   //   widget.imagePath!,
                   //   // ),
                   // ),
-                  Image.network(
-                    widget.imagePath!,
-                    width: 56,
-                    height: 56,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
-                      // Error occurred while loading the image, display default image instead
-                      return Image.asset(
-                        backupUrl,
+                  CircleAvatar(
+                    radius: 28,
+                    child: ClipOval(
+                      child: Image.network(
+                        widget.imagePath!,
+                        fit: BoxFit.cover,
                         width: 56,
                         height: 56,
-                      );
-                    },
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          // Error occurred while loading the image, display default image instead
+                          return Image.asset(
+                            backupUrl,
+                            width: 56,
+                            height: 56,
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 15,
@@ -101,9 +107,13 @@ class _CourseAvailable extends State<CourseAvailable> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.courseName!,
-                        style: appLabelTextStyle,
+                      Container(
+                        width:210,
+                        child: Text(
+                          widget.courseName!,
+                          style: appLabelTextStyle,
+                          softWrap: true,
+                        ),
                       ),
                       if (widget.status != null) ...[
                         Text(
@@ -121,12 +131,15 @@ class _CourseAvailable extends State<CourseAvailable> {
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.more_vert_rounded),
-            color: purple4,
-            onPressed: () {
-              print('more option tapped');
-            },
+          Container(
+            width: 25,
+            child: IconButton(
+              icon: Icon(Icons.more_vert_rounded),
+              color: purple4,
+              onPressed: () {
+                print('more option tapped');
+              },
+            ),
           )
         ],
       ),
