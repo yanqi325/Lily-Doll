@@ -144,6 +144,8 @@ class _EnrollmentScreenState extends State<Enrollment> {
                                               userId,
                                               widget.courseTitle!,
                                               educatorId);
+                                          //Add each lesson isLocked Status
+                                          dbHelper.addFieldsToLessonDocumentUser(userId, widget.courseTitle!, educatorId, false);
                                           Navigator.pop(context);
                                         },
                                       )
