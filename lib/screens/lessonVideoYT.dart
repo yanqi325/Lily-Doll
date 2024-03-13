@@ -94,6 +94,7 @@ class _LessonVideoYTState extends State<LessonVideoYT> {
                   color: Colors.black,
                 ),
               ),
+              SizedBox(width: 10,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
