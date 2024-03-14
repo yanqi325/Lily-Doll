@@ -73,7 +73,7 @@ class _EnrollmentScreenState extends State<Enrollment> {
                                   height: 20,
                                 ),
                                 Container(
-                                  height: 455,
+                                  height: 460,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.6),
                                     borderRadius: BorderRadius.circular(30),
@@ -109,25 +109,29 @@ class _EnrollmentScreenState extends State<Enrollment> {
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        educator_textField(
-                                            title: 'Username',
-                                            hintText: 'Enter username here',
-                                            onChanged: onChangedCallbackName,
-                                            isSelection: true,
-                                        popupItems: snapshot.data!),
+                                        // educator_textField(
+                                        //     title: 'Username',
+                                        //     hintText: 'Enter username here',
+                                        //     onChanged: onChangedCallbackName,
+                                        //     isSelection: true,
+                                        // popupItems: snapshot.data!),
+                                        Text('Username',
+                                          style: appBarLabel.copyWith(color: Colors.black, fontSize: 15),),
+                                        SizedBox(height: 20,),
                                         DropdownMenu<String>(
                                           width: 260,
                                           menuHeight: 150,
                                           inputDecorationTheme: dropDownStyle,
                                           textStyle: appLabelTextStyle.copyWith(fontSize: 12, color: Colors.grey, fontFamily: fontFamily2,fontWeight: FontWeight.bold,),
                                           menuStyle: MenuStyle(maximumSize: MaterialStatePropertyAll(Size(300,100))),
-                                          initialSelection: snapshot.data![0]["Username"] as String?,
-                                          // onSelected: (String? value) {
-                                          //   // This is called when the user selects an item.
-                                          //   setState(() {
-                                          //     courseCategory = value!;
-                                          //   });
-                                          // },
+                                          hintText: 'Select a student',
+                                          initialSelection: userName,
+                                          onSelected: (String? value) {
+                                            // This is called when the user selects an item.
+                                            setState(() {
+                                              userName = value!;
+                                            });
+                                          },
                                           dropdownMenuEntries: snapshot.data!.map<DropdownMenuEntry<String>>(
                                                   (Map<String, dynamic> item) {
                                                 return DropdownMenuEntry<String>(
