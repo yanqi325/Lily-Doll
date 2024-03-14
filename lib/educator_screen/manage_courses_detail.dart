@@ -33,6 +33,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
 
 
   late Future<List<Lessons>> _futureData;
+  late Future<List<String>> _futureUsernames;
   //callback for widget
   void _refreshPageAfterWidgetAction(){
     print("called calllback");
@@ -57,6 +58,8 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
     _futureData = dbHelper.getALlLessonsOfCourse(args["courseTitle"]);
     courseTitle = args['courseTitle'];
 
+    _futureUsernames = dbHelper.getAllUsernames();
+
     print("At manage course details: " + args["courseTitle"]);
     return Scaffold(
       appBar: PreferredSize(
@@ -65,8 +68,8 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
       ),
       body:
       FutureBuilder(
-          future: _futureData,
-          builder: (context, snapshot) {
+          future: Future.wait([_futureData,_futureUsernames]),
+          builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
@@ -86,18 +89,20 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                         child: Container(
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
+                            itemCount: snapshot.data![0].length,
                             itemBuilder: (context, index) {
                               return Column(
                                 children: [
                                   ManageLessonCard(
-                                courseNameFull: 'Lesson ${index + 1}: ' + snapshot.data![index].lessonTitle,
+                                courseNameFull: 'Lesson ${index + 1}: ' + snapshot.data![0][index].lessonTitle,
                                 courseTitle: courseTitle,
-                                lessonTitle: snapshot.data![index].lessonTitle ,
+                                lessonTitle: snapshot.data![0][index].lessonTitle ,
                                 imagePath: 'images/sex_lesson1.png',
-                                status: snapshot.data![index].isLocked.toString().toLowerCase() == "true" ? "Locked" : "Unlocked",
+                                status: snapshot.data![0][index].isLocked.toString().toLowerCase() == "true" ? "Locked" : "Unlocked",
                                 coursePath: CourseVideo.id,
-                                videoPage: LessonVideoYT(isUser: false,lessonNo:(index + 1).toString(),lessonTitle: snapshot.data![index].lessonTitle,courseTitle: args["courseTitle"],),
+                                popupItems: snapshot.data![1],
+                                videoPage: LessonVideoYT(isUser: false,lessonNo:(index + 1).toString(),lessonTitle: snapshot.data![0][index].lessonTitle,courseTitle: args["courseTitle"],),
+
                                 onValueChanged: (value) {
                                   setState(() {
                                     // statuses[index] = value;

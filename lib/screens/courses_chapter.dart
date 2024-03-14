@@ -49,12 +49,13 @@ class _CoursesChapterScreenState extends State<CoursesChapter> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         Lessons lesson = snapshot.data![index];
+                        print(lesson.lessonTitle + " : " + lesson.isLocked.toString());
                         return LessonCard(
                           lessonTitle: lesson.lessonTitle,
                           lessonNo: index.toString(),
                           lessonProgress: 54,
                           minutesLeft: 34,
-                          isLocked: lesson.isLocked,
+                          isLocked: lesson.isLocked != null? lesson.isLocked! : true,
                           onPressedContinue: ()=> {
 
                             //create and navigate to video page
