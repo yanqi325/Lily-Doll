@@ -24,6 +24,7 @@ class _EnrollmentScreenState extends State<Enrollment> {
   String userId = '';
 
 
+
   void onChangedCallbackName(String value) {
     userName = value;
     // print(enteredValue); // Print the entered value
@@ -114,6 +115,28 @@ class _EnrollmentScreenState extends State<Enrollment> {
                                             onChanged: onChangedCallbackName,
                                             isSelection: true,
                                         popupItems: snapshot.data!),
+                                        DropdownMenu<String>(
+                                          width: 260,
+                                          menuHeight: 150,
+                                          inputDecorationTheme: dropDownStyle,
+                                          textStyle: appLabelTextStyle.copyWith(fontSize: 12, color: Colors.grey, fontFamily: fontFamily2,fontWeight: FontWeight.bold,),
+                                          menuStyle: MenuStyle(maximumSize: MaterialStatePropertyAll(Size(300,100))),
+                                          initialSelection: snapshot.data![0]["Username"] as String?,
+                                          // onSelected: (String? value) {
+                                          //   // This is called when the user selects an item.
+                                          //   setState(() {
+                                          //     courseCategory = value!;
+                                          //   });
+                                          // },
+                                          dropdownMenuEntries: snapshot.data!.map<DropdownMenuEntry<String>>(
+                                                  (Map<String, dynamic> item) {
+                                                return DropdownMenuEntry<String>(
+                                                    value: item["Username"],
+                                                    label: item["Username"]);
+                                              }).toList(),
+                                        ),
+
+
                                         SizedBox(
                                           height: 15,
                                         ),
