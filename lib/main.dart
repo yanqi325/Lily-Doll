@@ -23,6 +23,7 @@ import 'package:project_lily/screens/forgot_password.dart';
 import 'package:project_lily/screens/help_center.dart';
 import 'package:project_lily/screens/home_page.dart';
 import 'package:project_lily/screens/language.dart';
+import 'package:project_lily/screens/loadingPage.dart';
 import 'package:project_lily/screens/login_page.dart';
 import 'package:project_lily/screens/more_info.dart';
 import 'package:project_lily/screens/notification.dart';
@@ -115,6 +116,7 @@ class MyApp extends StatelessWidget {
           StudentDetails.id: (context) => StudentDetails(courseTitle: "",userName: ""),
           SignUpUserPage.id: (context) => SignUpUserPage(),
           BluetoothPage.id: (context) => BluetoothPage(),
+          LoadingAnimation.id: (context) => LoadingAnimation(),
         });
   }
 }
