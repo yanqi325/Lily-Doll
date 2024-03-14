@@ -242,7 +242,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
       // Handle the selected option here
       if (value == 'everyone') {
         onValueChanged!('Unlocked');
-        dbHelper.updateLessonLockStatus(widget.courseTitle!,widget.lessonTitle!, false);
+        dbHelper.updateLessonLockStatusEducator(widget.courseTitle!,widget.lessonTitle!, false);
 
         //unlock lesson in backend here
       } else if (value == 'student' && studentName=="") {
@@ -278,7 +278,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         onValueChanged!('Locked');
         //lock lesson in backend here
         onValueChanged!('Unlocked');
-        dbHelper.updateLessonLockStatus(widget.courseTitle!,widget.lessonTitle!, true);
+        dbHelper.updateLessonLockStatusEducator(widget.courseTitle!,widget.lessonTitle!, true);
       }
     });
   }
