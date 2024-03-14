@@ -218,7 +218,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/BluetoothDataListener.dart';
+import 'package:project_lily/screens/loadingPage.dart';
+
+import '../component/AppBar.dart';
 
 
 class BluetoothPage extends StatefulWidget {
@@ -231,40 +235,66 @@ class _BluetoothPageState extends State<BluetoothPage> {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   List<ScanResult> scanResults = [];
   bool isScanning = false;
+  String unknown = 'Unknown';
 
   //dsfsdf
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Bluetooth Scanner'),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(90),
+        child: appBar(title: 'Bluetooth Scanner',
+          fontSize: 25,
+          icon: null,
+        ), //Courses.label
       ),
       body: Column(
         children: [
+          SizedBox(height: 20,),
           ElevatedButton(
             onPressed: isScanning ? null : _startScan,
-            child: Text('Start Scan'),
+            child: Text('Start Scan', style: appBarLabel,),
+            style: ElevatedButton.styleFrom(
+              primary: purple1, // Change this to your desired color
+            ),
           ),
+          SizedBox(height: 20,),
+          Align(
+            alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 25),
+                child: Text('Available Devices', style: appBarLabel.copyWith(color: purple4, fontSize: 18),),
+              )),
           Expanded(
-            child: ListView.builder(
-              itemCount: scanResults.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                ListTile(
-                title: Text(scanResults[index].device.name ?? 'Unknown'),
-                subtitle: Text(scanResults[index].device.id.toString()),
-                onTap: () {
-                  print(scanResults[index].device);
-                _connectToDevice(scanResults[index].device);
-                },
-                ),
-                    ElevatedButton(onPressed: ()=>{}, child: Text("Connect"))
-                  ],
-                );
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: ListView.builder(
+                itemCount: scanResults.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3))),
+                    ),
+                    child: ListTile(
+                    title: Text(scanResults[index].device.name.isNotEmpty ? scanResults[index].device.name! : unknown),
+                    subtitle: Text(scanResults[index].device.id.toString()),
+                    onTap: () {
+                      print(scanResults[index].device);
+                    _connectToDevice(scanResults[index].device);
+                      Navigator.pushNamed(context, LoadingAnimation.id);
 
-              },
+                    },
+                    ),
+                  ),
+                      // ElevatedButton(onPressed: ()=>{}, child: Text("Connect"))
+                    ],
+                  );
+
+                },
+              ),
             ),
           ),
         ],

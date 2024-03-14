@@ -6,11 +6,12 @@ import '../constants.dart';
 import '../screens/profile_page.dart';
 
 class appBar extends StatelessWidget {
-  appBar({this.title, this.icon = Icons.settings, this.route = SettingPage.id, this.colors = purple4});
+  appBar({this.title, this.icon = Icons.settings, this.route = SettingPage.id, this.colors = purple4, this.fontSize=30});
   String? title;
   IconData? icon = Icons.menu;
   String? route = SettingPage.id;
   Color colors = purple4;
+  double? fontSize =30;
 
 
   @override
@@ -40,7 +41,7 @@ class appBar extends StatelessWidget {
             child: Center(
               child: Text('$title',
                 textAlign: TextAlign.center,
-                style: appBarLabel.copyWith(fontSize: 30),
+                style: appBarLabel.copyWith(fontSize: fontSize!),
                 softWrap: true,
               ),
             ),
