@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePage> {
-  double? battPercent = 0.7; //get from the doll
+  double? battPercent = 1.0; //get from the doll
   bool isSwitched = false;
 
   @override
@@ -118,13 +118,15 @@ class _HomePageScreenState extends State<HomePage> {
                                 width: 5,
                               ),
                               LinearPercentIndicator(
-                                width: 158.0,
+                                width: 120.0,
                                 lineHeight: 13.0,
                                 percent: battPercent!,
                                 backgroundColor: Colors.grey,
                                 progressColor: Colors.lightGreenAccent,
                                 barRadius: Radius.circular(12),
                               ),
+                              Text( (battPercent!*100).toInt().toString() + '%',
+                              style: appBarLabel.copyWith(color: purple4, fontSize: 12),),
                             ],
                           ),
                           Row(
