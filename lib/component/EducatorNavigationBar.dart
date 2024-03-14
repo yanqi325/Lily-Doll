@@ -45,7 +45,6 @@ class _EducatorNavigationBarState extends State<EducatorNavigationBar> {
           currentIndex: _currentInd,
           type: BottomNavigationBarType.fixed,
           backgroundColor: purple5,
-          selectedItemColor: purple2,
           unselectedItemColor: purple4,
           items: [
             BottomNavigationBarItem(
