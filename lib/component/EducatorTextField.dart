@@ -9,6 +9,8 @@ class educator_textField extends StatefulWidget {
   final void Function(String)? onChanged;
   bool isSelection = false;
   List<Map<String,dynamic>>? popupItems;
+  Widget? dropdown;
+
 
   educator_textField ({
     this.title,
@@ -16,6 +18,7 @@ class educator_textField extends StatefulWidget {
     this.onChanged,
     required this.isSelection,
     this.popupItems,
+    this.dropdown,
   });
 
   @override
@@ -95,7 +98,7 @@ class _EducatorTextFieldState extends State<educator_textField > {
                 fontSize: 12,
               ),
             ),
-          ),
+          )
         ],
       ),
     );
