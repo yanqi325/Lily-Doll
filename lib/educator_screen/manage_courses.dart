@@ -58,7 +58,6 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                         SizedBox(
                           height: 7,
                         ),
-                        searchBar(),
                         SizedBox(
                           height: 12,
                         ),

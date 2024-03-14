@@ -46,10 +46,6 @@ class _StudentScreenState extends State<Students> {
                     style: appLabelTextStyle.copyWith(fontSize: 30),
                   ),
                   SizedBox(
-                    height: 7,
-                  ),
-                  searchBar(),
-                  SizedBox(
                     height: 12,
                   ),
                   SizedBox(
