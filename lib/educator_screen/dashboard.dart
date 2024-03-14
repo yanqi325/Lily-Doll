@@ -159,6 +159,7 @@ class appBar_educator extends StatelessWidget {
       ),
       title: Row(
         children: [
+          SizedBox(width: 10,),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,11 +172,11 @@ class appBar_educator extends StatelessWidget {
                       children: [
                         Text(
                           'Hello,',
-                          style: appBarLabel.copyWith(fontSize: 30),
+                          style: appBarLabel.copyWith(fontSize: 35),
                         ),
                         Text(
                           'Tutor XXX',
-                          style: appBarLabel.copyWith(fontSize: 18),
+                          style: appBarLabel.copyWith(fontSize: 26),
                         ),
                       ],
                     ),
@@ -192,14 +193,11 @@ class appBar_educator extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                    child: searchBar(
-                  width: 400,
-                  height: 30,
-                )),
+                // Container(
+                //     child: searchBar(
+                //   width: 400,
+                //   height: 30,
+                // )),
               ],
             ),
           ),
