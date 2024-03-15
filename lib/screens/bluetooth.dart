@@ -375,11 +375,32 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                   color: Colors.grey.withOpacity(0.3))),
                         ),
                         child: ListTile(
-                          title: Text(scanResults[index].device.name.isNotEmpty
-                              ? scanResults[index].device.name!
-                              : unknown),
-                          subtitle:
-                              Text(scanResults[index].device.id.toString()),
+                          tileColor: Colors.red,
+                          trailing: GestureDetector(
+                            onTap: () {
+                              showMenu(
+                                context: context,
+                                position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                                items: [
+                                  PopupMenuItem(
+                                    child: Text('Option 1'),
+                                    value: 'option1',
+                                  ),
+                                  PopupMenuItem(
+                                    child: Text('Option 2'),
+                                    value: 'option2',
+                                  ),
+                                ],
+                              );
+                            },
+                            child: Icon(Icons.more_vert),
+                          ),
+                          title: Text(
+                            scanResults[index].device.name.isNotEmpty
+                                ? scanResults[index].device.name!
+                                : unknown,
+                          ),
+                          subtitle: Text(scanResults[index].device.id.toString()),
                           onTap: () {
                             print(scanResults[index].device);
                             //connect
@@ -488,7 +509,6 @@ class _BluetoothPageState extends State<BluetoothPage> {
     try {
       await device.connect(autoConnect: false);
       //go to page
-      //vhjjhgj
       print('Connected to device: ${device.name}');
       // Navigate to a new page or perform other actions
 
