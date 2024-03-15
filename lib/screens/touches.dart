@@ -71,25 +71,34 @@ class _TouchesScreenState extends State<Touches> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(children: [
-                                    Column(children: [
-                                      Text(
-                                        'Location',
-                                        style: appLabelTextStyle.copyWith(
-                                            color: Colors.black, fontSize: 25),
-                                      ),
-                                      Text(
-                                        'Most touched areas',
-                                        style: appLabelTextStyle.copyWith(
-                                            fontSize: 14),
-                                      ),
-                                    ],),
-
-                                    IconButton(
-                                      icon: Icon(Icons.refresh),
-                                      onPressed: () {
-                                        setState(() {}); // This will trigger a rebuild of the FutureBuilder
-                                      },
+                                  Column(children: [
+                                    Row(
+                                      mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Location',
+                                                style: appLabelTextStyle.copyWith(
+                                                    color: Colors.black, fontSize: 25),
+                                              ),
+                                              Text(
+                                                'Most touched areas',
+                                                style: appLabelTextStyle.copyWith(
+                                                    fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.refresh),
+                                          onPressed: () {
+                                            setState(() {}); // This will trigger a rebuild of the FutureBuilder
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ],),
 
