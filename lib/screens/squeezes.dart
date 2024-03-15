@@ -69,27 +69,39 @@ class _SqueezesScreenState extends State<Squeezes> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 15.0, left: 15),
-                                  child: Text(
-                                    'Frequency of Squeeze',
-                                    style: appLabelTextStyle.copyWith(
-                                        color: Colors.black),
+                                  child: Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Frequency of Squeeze',
+                                              style: appLabelTextStyle.copyWith(
+                                                  color: Colors.black),
+                                            ),
+
+                                            Text(
+                                              'Average Squeeze Per Minute in a week',
+                                              style: appLabelTextStyle.copyWith(
+                                                  color: purple4, fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.refresh),
+                                          onPressed: () {
+                                            setState(() {}); // This will trigger a rebuild of the FutureBuilder
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
 
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0),
-                                  child: Text(
-                                    'Average Squeeze Per Minute in a week',
-                                    style: appLabelTextStyle.copyWith(
-                                        color: purple4, fontSize: 12),
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.refresh),
-                                  onPressed: () {
-                                    setState(() {}); // This will trigger a rebuild of the FutureBuilder
-                                  },
-                                ),
+
+
                                 SizedBox(
                                   height: 15,
                                 ),
@@ -116,11 +128,8 @@ class _SqueezesScreenState extends State<Squeezes> {
                                         style: appLabelTextStyle.copyWith(
                                             color: Colors.white, fontSize: 13),
                                       ),
-                                      Text(
-                                        'SPH XXX',
-                                        style: appLabelTextStyle.copyWith(
-                                            color: Colors.white, fontSize: 13),
-                                      ),
+                                      SizedBox(width: 45,)
+
                                     ],
                                   ),
                                 ),
