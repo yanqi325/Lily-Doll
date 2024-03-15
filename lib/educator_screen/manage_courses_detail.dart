@@ -22,20 +22,24 @@ class ManageCoursesDetail extends StatefulWidget {
   static const String id = 'manage_courses_detail';
 
   @override
-  _ManageCoursesDetailScreenState createState() => _ManageCoursesDetailScreenState();
+  _ManageCoursesDetailScreenState createState() =>
+      _ManageCoursesDetailScreenState();
 }
 
 class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
-
-  List<String?> statuses = ['Locked', 'Locked', 'Locked']; // Initial statuses for each lesson, get from firebase?
+  List<String?> statuses = [
+    'Locked',
+    'Locked',
+    'Locked'
+  ]; // Initial statuses for each lesson, get from firebase?
   DbHelper dbHelper = new DbHelper();
-  String courseTitle ='';
-
+  String courseTitle = '';
 
   late Future<List<Lessons>> _futureData;
   late Future<List<String>> _futureUsernames;
+
   //callback for widget
-  void _refreshPageAfterWidgetAction(){
+  void _refreshPageAfterWidgetAction() {
     print("called calllback");
     setState(() {
       _futureData = dbHelper.getALlLessonsOfCourse(courseTitle);
@@ -49,11 +53,10 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
   //
   // }
 
-
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
-    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
     _futureData = dbHelper.getALlLessonsOfCourse(args["courseTitle"]);
     courseTitle = args['courseTitle'];
@@ -64,13 +67,15 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: args["courseTitle"],
-        icon: null,), //Courses.label
+        child: appBar(
+          title: args["courseTitle"],
+          icon: null,
+        ), //Courses.label
       ),
-      body:
-      FutureBuilder(
-          future: Future.wait([_futureData,_futureUsernames]),
-          builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+      body: FutureBuilder(
+          future: Future.wait([_futureData, _futureUsernames]),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
@@ -83,10 +88,26 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('45 students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
-                      SizedBox(height: 10,),
-                      AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: false,refreshPage: _refreshPageAfterWidgetAction,),
-                      SizedBox(height: 10,),
+                      Text(
+                        '45 students enrolled in this course',
+                        style: appLabelTextStyle.copyWith(
+                            color: Colors.grey, fontSize: 15),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      AddButton(
+                        title: 'Add Lesson',
+                        path: AddLesson.id,
+                        courseName: args["courseTitle"],
+                        isCourse: false,
+                        isEnroll: false,
+                        isModify: false,
+                        refreshPage: _refreshPageAfterWidgetAction,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Flexible(
                         child: Container(
                           child: ListView.builder(
@@ -96,28 +117,40 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                               return Column(
                                 children: [
                                   ManageLessonCard(
-                                courseNameFull: 'Lesson ${index + 1}: ' + snapshot.data![0][index].lessonTitle,
-                                courseTitle: courseTitle,
-                                lessonTitle: snapshot.data![0][index].lessonTitle ,
-                                imagePath: 'images/sex_lesson1.png',
-                                status: snapshot.data![0][index].isLocked.toString().toLowerCase() == "true" ? "Locked" : "Unlocked",
-                                coursePath: CourseVideo.id,
-                                popupItems: snapshot.data![1],
-                                videoPage: LessonVideoYT(isUser: false,lessonNo:(index + 1).toString(),lessonTitle: snapshot.data![0][index].lessonTitle,courseTitle: args["courseTitle"],),
-
-                                onValueChanged: (value) {
-                                  setState(() {
-                                    // statuses[index] = value;
-                                  });
-                                },
-                              ),
-                                  SizedBox(height: 10), // Add a SizedBox after each ManageLessonCard
+                                    courseNameFull: 'Lesson ${index + 1}: ' +
+                                        snapshot.data![0][index].lessonTitle,
+                                    courseTitle: courseTitle,
+                                    lessonTitle:
+                                        snapshot.data![0][index].lessonTitle,
+                                    imagePath: 'images/sex_lesson1.png',
+                                    status: snapshot.data![0][index].isLocked
+                                                .toString()
+                                                .toLowerCase() ==
+                                            "true"
+                                        ? "Locked"
+                                        : "Unlocked",
+                                    coursePath: CourseVideo.id,
+                                    popupItems: snapshot.data![1],
+                                    videoPage: LessonVideoYT(
+                                      isUser: false,
+                                      lessonNo: (index + 1).toString(),
+                                      lessonTitle:
+                                          snapshot.data![0][index].lessonTitle,
+                                      courseTitle: args["courseTitle"],
+                                    ),
+                                    onValueChanged: (value) {
+                                      setState(() {
+                                        // statuses[index] = value;
+                                      });
+                                    },
+                                  ),
+                                  SizedBox(height: 10),
+                                  // Add a SizedBox after each ManageLessonCard
                                 ],
                               );
                             },
                           ),
                         ),
-
                       ),
                     ],
                   ),
@@ -125,7 +158,6 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
               );
             }
           }),
-
     );
   }
 }

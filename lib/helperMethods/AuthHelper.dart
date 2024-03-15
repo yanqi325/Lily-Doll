@@ -136,4 +136,15 @@ class AuthHelper {
       return null;
     }
   }
+
+  Future<void> signOutUser() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (error) {
+      // Handle sign-out errors
+      print('Error signing out: $error');
+      // You can throw the error if you want to handle it elsewhere
+      throw error;
+    }
+  }
 }
