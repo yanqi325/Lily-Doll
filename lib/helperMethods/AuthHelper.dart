@@ -113,12 +113,13 @@ class AuthHelper {
     return user?.uid;
   }
 
-  Future<String?> getCurrentUsername(String userId) async {
+  Future<String?> getCurrentUsername() async {
     try {
+      User? user = FirebaseAuth.instance.currentUser;
       // Reference to the document in the 'usersExtended' collection
       DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance
           .collection('usersExtended')
-          .doc(userId)
+          .doc(user?.uid)
           .get();
 
       // Check if the document exists and contains the 'Username' field
