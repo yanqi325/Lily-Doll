@@ -24,7 +24,7 @@ class _TouchesScreenState extends State<Touches> {
         ),
         body:
         FutureBuilder<Map<String, double>>(
-            future: dollDataAnalyzeHelper.calculateTouchPercentages("01-01-2024"),
+            future: dollDataAnalyzeHelper.calculateTouchPercentages("01-01-1970"),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -32,6 +32,7 @@ class _TouchesScreenState extends State<Touches> {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
                 Map<String, double> touchData = snapshot.data ?? {};
+                print(touchData);
                 return SingleChildScrollView(
                   child: Container(
                     color: backgroundColor,
@@ -69,23 +70,36 @@ class _TouchesScreenState extends State<Touches> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Location',
-                                    style: appLabelTextStyle.copyWith(
-                                        color: Colors.black, fontSize: 25),
-                                  ),
-                                  Text(
-                                    'Most touched areas',
-                                    style: appLabelTextStyle.copyWith(
-                                        fontSize: 14),
-                                  ),
+                                  Row(children: [
+                                    Column(children: [
+                                      Text(
+                                        'Location',
+                                        style: appLabelTextStyle.copyWith(
+                                            color: Colors.black, fontSize: 25),
+                                      ),
+                                      Text(
+                                        'Most touched areas',
+                                        style: appLabelTextStyle.copyWith(
+                                            fontSize: 14),
+                                      ),
+                                    ],),
+
+                                    IconButton(
+                                      icon: Icon(Icons.refresh),
+                                      onPressed: () {
+                                        setState(() {}); // This will trigger a rebuild of the FutureBuilder
+                                      },
+                                    ),
+                                  ],),
+
+
                                   SizedBox(
                                     height: 20,
                                   ),
                                   TouchesPart(
                                     label: 'Sensor 1',
                                     color: Colors.blue,
-                                    percentage: touchData["sensor1"],
+                                    percentage: touchData["sensor1"] != null? touchData["sensor1"]: 0,
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -93,7 +107,7 @@ class _TouchesScreenState extends State<Touches> {
                                   TouchesPart(
                                     label: 'Sensor 2',
                                     color: Colors.orangeAccent,
-                                    percentage: touchData["sensor2"],
+                                    percentage: touchData["sensor2"] != null? touchData["sensor2"]: 0,
                                   ),
                                   SizedBox(
                                     height: 10,
