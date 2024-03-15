@@ -155,9 +155,9 @@ class appBar_educator extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthHelper authHelper = new AuthHelper();
 
-
+//fgdgd
     return FutureBuilder<String?>(
-      future: authHelper.getCurrentUserId(),
+      future: authHelper.getCurrentUsername(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
         if (snapshot.hasData) {

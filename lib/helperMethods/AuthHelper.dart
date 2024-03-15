@@ -112,4 +112,28 @@ class AuthHelper {
     // Return the user ID if the user is not null
     return user?.uid;
   }
+
+  Future<String?> getCurrentUsername() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      // Reference to the document in the 'usersExtended' collection
+      DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(user?.uid)
+          .get();
+
+      // Check if the document exists and contains the 'Username' field
+      if (userDoc.exists && userDoc.data() != null && userDoc.data()!.containsKey('Username')) {
+        // Retrieve and return the 'Username' field from the document
+        return userDoc.data()!['Username'];
+      } else {
+        // Document does not exist or Username field is missing
+        return null;
+      }
+    } catch (error) {
+      // Handle any errors that occur during the process
+      print('Error retrieving Username: $error');
+      return null;
+    }
+  }
 }
