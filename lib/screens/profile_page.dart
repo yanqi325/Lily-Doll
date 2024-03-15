@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:project_lily/component/Avatar.dart';
 import 'package:project_lily/constants.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:project_lily/screens/welcome_screen.dart';
 import '../Data/Users.dart';
 import '../component/AppBar.dart';
 import '../component/Cardboard.dart';
 import '../component/NavigationBar.dart';
+import '../helperMethods/AuthHelper.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String id = 'profile_page';
@@ -54,6 +56,9 @@ class _ProfilePageScreenState extends State<ProfilePage> {
                     child: InkWell(
                       onTap: (){
                         print('Log out');
+                        AuthHelper authHelper = new AuthHelper();
+                        authHelper.signOutUser();
+                        Navigator.pushNamed(context, WelcomeScreen.id);
                       },
                       child: Text('LOG OUT',
                         style: signUpButtonTextStyle.copyWith(color: purple4, fontSize: 16, fontWeight: FontWeight.normal),
