@@ -224,6 +224,41 @@ class DbHelper {
     }
   }
 
+  Future<void> updateCourseInFirestore(Courses course) async {
+    try {
+      AuthHelper authHelper = new AuthHelper();
+      String? userId = await authHelper.getCurrentUserId();
+      // Update course object
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userId)
+          .collection('courses')
+          .doc(course.courseTitle);
+      await documentReference.update(course.toMap());
+      print("Success in updating course in Firestore");
+    } catch (e) {
+      print('Error updating course in Firestore: $e');
+    }
+  }
+
+  Future<void> deleteCourseFromFirestore(String courseId) async {
+    try {
+      AuthHelper authHelper = new AuthHelper();
+      String? userId = await authHelper.getCurrentUserId();
+      // Get the reference to the course document
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userId)
+          .collection('courses')
+          .doc(courseId);
+      // Delete the course document
+      await documentReference.delete();
+      print("Success in deleting course from Firestore");
+    } catch (e) {
+      print('Error deleting course from Firestore: $e');
+    }
+  }
+
   // Method to write the lesson object to Firestore
   Future<void> addLessonToFirestore(Lessons lesson, String courseTitle) async {
     AuthHelper authHelper = new AuthHelper();
@@ -244,6 +279,57 @@ class DbHelper {
       print('Error adding course to Firestore: $e');
     }
   }
+
+  Future<void> updateLessonInFirestore(Lessons lesson, String courseTitle) async {
+    try {
+      AuthHelper authHelper = new AuthHelper();
+      String? userId = await authHelper.getCurrentUserId();
+
+      CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userId)
+          .collection('courses')
+          .doc(courseTitle)
+          .collection('lessons');
+
+      // Get the reference to the lesson document
+      DocumentReference lessonDocRef = lessonsCollection.doc(lesson.lessonTitle);
+
+      // Update the lesson document with new data
+      await lessonDocRef.update(lesson.toMap());
+
+      print("Success in updating lesson in Firestore");
+    } catch (e) {
+      print('Error updating lesson in Firestore: $e');
+    }
+  }
+
+  Future<void> deleteLessonFromFirestore(String lessonTitle, String courseTitle) async {
+    try {
+      AuthHelper authHelper = new AuthHelper();
+      String? userId = await authHelper.getCurrentUserId();
+
+      CollectionReference lessonsCollection = FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userId)
+          .collection('courses')
+          .doc(courseTitle)
+          .collection('lessons');
+
+      // Get the reference to the lesson document
+      DocumentReference lessonDocRef = lessonsCollection.doc(lessonTitle);
+
+      // Delete the lesson document
+      await lessonDocRef.delete();
+
+      print("Success in deleting lesson from Firestore");
+    } catch (e) {
+      print('Error deleting lesson from Firestore: $e');
+    }
+  }
+
+
+
 
   //method to retrieve all courses
   Future<List<Courses>> getAllCoursesFromFirestore() async {
@@ -437,6 +523,30 @@ class DbHelper {
     }
   }
 
+  Future<void> deleteUserFromEnrolledUsers(String educatorId, String courseTitle, String userId) async {
+    try {
+      // Reference to the 'enrolledUsers' collection within the 'courses' subcollection
+      CollectionReference enrolledUsersRef = FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(educatorId)
+          .collection('courses')
+          .doc(courseTitle)
+          .collection('enrolledUsers');
+
+      // Get the reference to the user document
+      DocumentReference userDocRef = enrolledUsersRef.doc(userId);
+
+      // Delete the user document
+      await userDocRef.delete();
+
+      print('User $userId deleted from enrolledUsers collection in course $courseTitle');
+    } catch (error) {
+      // Handle any errors
+      print('Error deleting user from enrolledUsers collection: $error');
+    }
+  }
+
+
 //Add coursedetails into user account type inside 'usersExtended' -> 'enrolledCourses'
   Future<void> addUserToEnrolledCourses(
       String userId, String courseTitle, String educatorId) async {
@@ -457,6 +567,25 @@ class DbHelper {
     } catch (error) {
       // Handle any errors
       print('Error adding course to enrolledCourses collection: $error');
+    }
+  }
+
+  Future<void> deleteUserFromEnrolledCourses(String userId, String courseTitle) async {
+    try {
+      // Reference to the document of the enrolled course for the user
+      DocumentReference courseDocRef = FirebaseFirestore.instance
+          .collection('usersExtended')
+          .doc(userId)
+          .collection('enrolledCourses')
+          .doc(courseTitle);
+
+      // Delete the document from the 'enrolledCourses' collection
+      await courseDocRef.delete();
+
+      print('User $userId deleted from enrolledCourses collection for course $courseTitle');
+    } catch (error) {
+      // Handle any errors
+      print('Error deleting user from enrolledCourses collection: $error');
     }
   }
 

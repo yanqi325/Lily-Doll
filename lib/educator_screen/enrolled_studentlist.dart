@@ -82,6 +82,7 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
                               isCourse: false,
                               isEnroll: true,
                               courseName: courseTitle,
+                              isModify: false,
                               refreshPage: _refreshPageAfterWidgetAction,
                             ),
                             SizedBox(

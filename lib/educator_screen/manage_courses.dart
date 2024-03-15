@@ -66,6 +66,7 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                           path: UploadCourse.id,
                           isCourse: true,
                           isEnroll: false,
+                          isModify: false,
                           refreshPage: _refreshPageAfterWidgetAction,
                         ),
                         SizedBox(
@@ -96,6 +97,7 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                                   imagePath: snapshot.data![index].thumbnailUrl,
                                   courseName: snapshot.data![index].courseTitle,
                                   coursePath: ManageCoursesDetail.id,
+                                  refreshPageFromSecondWidget: _refreshPageAfterWidgetAction,
                                 ),
                                 SizedBox(
                                   height: 15,
