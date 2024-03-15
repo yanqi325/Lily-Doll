@@ -3,6 +3,7 @@ import 'package:project_lily/Data/Users.dart';
 import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/component/searchBar.dart';
 import 'package:project_lily/constants.dart';
+import 'package:project_lily/helperMethods/AuthHelper.dart';
 import 'package:project_lily/screens/courses_chapter.dart';
 import 'package:project_lily/screens/profile_page.dart';
 import 'package:project_lily/screens/squeezes.dart';
@@ -24,11 +25,14 @@ import 'manage_courses_detail.dart';
 class Dashboard extends StatefulWidget {
   static const String id = 'dashboard';
 
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<Dashboard> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,68 +145,85 @@ class _DashboardScreenState extends State<Dashboard> {
 
 
 class appBar_educator extends StatelessWidget {
+
   const appBar_educator({
     super.key,
   });
 
+
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      toolbarHeight: 180,
-      backgroundColor: purple4,
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(20),
-        ),
-      ),
-      title: Row(
-        children: [
-          SizedBox(width: 10,),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hello,',
-                          style: appBarLabel.copyWith(fontSize: 35),
-                        ),
-                        Text(
-                          'Tutor XXX',
-                          style: appBarLabel.copyWith(fontSize: 26),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      alignment: Alignment.topRight,
-                      color: Colors.white,
-                      icon: Icon(
-                        Icons.settings,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, SettingPage.id);
-                      },
-                    ),
-                  ],
-                ),
-                // Container(
-                //     child: searchBar(
-                //   width: 400,
-                //   height: 30,
-                // )),
-              ],
-            ),
+    AuthHelper authHelper = new AuthHelper();
+
+
+    return FutureBuilder<String?>(
+      future: authHelper.getCurrentUserId(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasData) {
+        String? tutorName = snapshot.data;
+        return AppBar(
+        automaticallyImplyLeading: false,
+        toolbarHeight: 180,
+        backgroundColor: purple4,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
           ),
-        ],
-      ),
+        ),
+        title: Row(
+          children: [
+            SizedBox(width: 10,),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hello,',
+                            style: appBarLabel.copyWith(fontSize: 35),
+                          ),
+                          Text(
+                            'Tutor $tutorName',
+                            style: appBarLabel.copyWith(fontSize: 26),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        alignment: Alignment.topRight,
+                        color: Colors.white,
+                        icon: Icon(
+                          Icons.settings,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, SettingPage.id);
+                        },
+                      ),
+                    ],
+                  ),
+                  // Container(
+                  //     child: searchBar(
+                  //   width: 400,
+                  //   height: 30,
+                  // )),
+                ],
+              ),
+            ),
+          ],
+        ),
+        );
+        }
+        }
+
+        return Container(); // Placeholder widget
+      },
     );
   }
 }
