@@ -383,11 +383,11 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                 position: RelativeRect.fromLTRB(100, 100, 0, 0),
                                 items: [
                                   PopupMenuItem(
-                                    child: Text('Option 1'),
+                                    child: Text('Connect'),
                                     value: 'option1',
                                   ),
                                   PopupMenuItem(
-                                    child: Text('Option 2'),
+                                    child: Text('Disconnect'),
                                     value: 'option2',
                                   ),
                                 ],
