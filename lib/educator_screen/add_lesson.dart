@@ -53,7 +53,8 @@ class _AddLessonScreenState extends State<AddLesson> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: widget.lessonTitleS), //Courses.label
+        child: appBar(title: widget.lessonTitleS,
+        icon: null,), //Courses.label
       ),
       body: SingleChildScrollView(
         child: Container(
