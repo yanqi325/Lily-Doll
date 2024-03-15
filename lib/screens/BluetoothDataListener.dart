@@ -33,6 +33,7 @@ class _BluetoothDataListenerState extends State<BluetoothDataListener> {
   @override
   void initState() {
     super.initState();
+
     _startListening();
   }
 

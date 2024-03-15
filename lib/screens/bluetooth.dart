@@ -255,27 +255,111 @@ class _BluetoothPageState extends State<BluetoothPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(90),
-        child: appBar(title: 'Bluetooth Scanner',
+        child: appBar(
+          title: 'Bluetooth Scanner',
           fontSize: 25,
           icon: null,
         ), //Courses.label
       ),
       body: Column(
         children: [
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
             onPressed: isScanning ? null : _startScan,
-            child: Text('Start Scan', style: appBarLabel,),
+            child: Text(
+              'Start Scan',
+              style: appBarLabel,
+            ),
             style: ElevatedButton.styleFrom(
               primary: purple1, // Change this to your desired color
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Align(
-            alignment: Alignment.centerLeft,
+              alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 25),
-                child: Text('Available Devices', style: appBarLabel.copyWith(color: purple4, fontSize: 18),),
+                child: Column(
+                  children: [
+                    Text(
+                      'Available Devices',
+                      style: appBarLabel.copyWith(color: purple4, fontSize: 18),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              Timer(Duration(seconds: 10), () {
+                                Navigator.of(context).pop();
+                                //checkmark screen
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                    Timer(Duration(seconds: 2), () {
+                                      Navigator.of(context).pop();
+                                    });
+                                      return Dialog(
+                                        backgroundColor: Colors.transparent,
+                                        elevation: 0,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          padding: EdgeInsets.all(20),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(Icons.done_outline_rounded,size: 80,),
+                                              SizedBox(height: 20),
+                                              Text('All data has been successfully fetched!',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(fontSize: 16,),
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                });
+                              });
+
+                              return Dialog(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircularProgressIndicator(),
+                                      SizedBox(height: 20),
+                                      Text('Fetching data ...',style: TextStyle(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                      child: Text(
+                        'Try',
+                        style: appBarLabel,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: purple1, // Change this to your desired color
+                      ),
+                    ),
+                  ],
+                ),
               )),
           Expanded(
             child: Padding(
@@ -285,16 +369,24 @@ class _BluetoothPageState extends State<BluetoothPage> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3))),
-                    ),
-                    child: ListTile(
-                    title: Text(scanResults[index].device.name.isNotEmpty ? scanResults[index].device.name! : unknown),
-                    subtitle: Text(scanResults[index].device.id.toString()),
-                    onTap: () {
-                      print(scanResults[index].device);
-                    _connectToDevice(scanResults[index].device);
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey.withOpacity(0.3))),
+                        ),
+                        child: ListTile(
+                          title: Text(scanResults[index].device.name.isNotEmpty
+                              ? scanResults[index].device.name!
+                              : unknown),
+                          subtitle:
+                              Text(scanResults[index].device.id.toString()),
+                          onTap: () {
+                            print(scanResults[index].device);
+                            //connect
+                            //direct ti page
+
+                            _connectToDevice(scanResults[index].device);
 
                       // Navigator.pushNamed(context, LoadingAnimation.id);
 
@@ -399,7 +491,6 @@ class _BluetoothPageState extends State<BluetoothPage> {
     try {
       await device.connect(autoConnect: false);
       //go to page
-      //vhjjhgj
       print('Connected to device: ${device.name}');
       // Navigate to a new page or perform other actions
       // Navigator.push(
