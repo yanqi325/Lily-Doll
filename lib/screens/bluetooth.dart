@@ -299,6 +299,10 @@ class _BluetoothPageState extends State<BluetoothPage> {
                       // Navigator.pushNamed(context, LoadingAnimation.id);
 
                     },
+                      onLongPress: () async {
+                       Object? result = await scanResults[index].device.disconnect();
+                       print(result);
+                      },
                     ),
                   ),
                       // ElevatedButton(onPressed: ()=>{}, child: Text("Connect"))
@@ -385,11 +389,17 @@ class _BluetoothPageState extends State<BluetoothPage> {
       }
     });
   }
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
 
   void _connectToDevice(BluetoothDevice device) async {
     try {
       await device.connect(autoConnect: false);
       //go to page
+      //vhjjhgj
       print('Connected to device: ${device.name}');
       // Navigate to a new page or perform other actions
       // Navigator.push(
