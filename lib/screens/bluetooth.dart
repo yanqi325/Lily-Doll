@@ -228,7 +228,6 @@ import '../Data/SqueezeTouchData.dart';
 import '../component/AppBar.dart';
 import '../helperMethods/DollDataAnalyzeHelper.dart';
 
-
 class BluetoothPage extends StatefulWidget {
   static const String id = 'bluetooth_page';
   @override
@@ -376,15 +375,37 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                   color: Colors.grey.withOpacity(0.3))),
                         ),
                         child: ListTile(
-                          title: Text(scanResults[index].device.name.isNotEmpty
-                              ? scanResults[index].device.name!
-                              : unknown),
-                          subtitle:
-                              Text(scanResults[index].device.id.toString()),
+                          tileColor: Colors.red,
+                          trailing: GestureDetector(
+                            onTap: () {
+                              showMenu(
+                                context: context,
+                                position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                                items: [
+                                  PopupMenuItem(
+                                    child: Text('Option 1'),
+                                    value: 'option1',
+                                  ),
+                                  PopupMenuItem(
+                                    child: Text('Option 2'),
+                                    value: 'option2',
+                                  ),
+                                ],
+                              );
+                            },
+                            child: Icon(Icons.more_vert),
+                          ),
+                          title: Text(
+                            scanResults[index].device.name.isNotEmpty
+                                ? scanResults[index].device.name!
+                                : unknown,
+                          ),
+                          subtitle: Text(scanResults[index].device.id.toString()),
                           onTap: () {
                             print(scanResults[index].device);
                             //connect
                             //direct ti page
+
                             _connectToDevice(scanResults[index].device);
 
                             showDialog(
@@ -455,10 +476,10 @@ class _BluetoothPageState extends State<BluetoothPage> {
                       },
                     ),
                   ),
+
                       // ElevatedButton(onPressed: ()=>{}, child: Text("Connect"))
                     ],
                   );
-
                 },
               ),
             ),
@@ -528,7 +549,6 @@ class _BluetoothPageState extends State<BluetoothPage> {
         scanResults = results;
       });
     });
-
 
     flutterBlue.isScanning.listen((isScanning) {
       print('Scanning: $isScanning');
