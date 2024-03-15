@@ -224,7 +224,9 @@ import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/BluetoothDataListener.dart';
 import 'package:project_lily/screens/loadingPage.dart';
 
+import '../Data/SqueezeTouchData.dart';
 import '../component/AppBar.dart';
+import '../helperMethods/DollDataAnalyzeHelper.dart';
 
 class BluetoothPage extends StatefulWidget {
   static const String id = 'bluetooth_page';
@@ -237,6 +239,13 @@ class _BluetoothPageState extends State<BluetoothPage> {
   List<ScanResult> scanResults = [];
   bool isScanning = false;
   String unknown = 'Unknown';
+
+  List<String> receivedData = [];
+  List<String> touchDataString = [];
+  // List<String> alreadyAddedData =[];
+  List<SqueezeTouchData> touchData = [];
+  DollDataAnalyzeHelper analyzeHelper = new DollDataAnalyzeHelper();
+  bool _isDisposed = false;
 
   //dsfsdf
 
@@ -378,10 +387,15 @@ class _BluetoothPageState extends State<BluetoothPage> {
 
                             _connectToDevice(scanResults[index].device);
 
-                            // Navigator.pushNamed(context, LoadingAnimation.id);
-                          },
-                        ),
-                      ),
+
+                    },
+                      onLongPress: () async {
+                       Object? result = await scanResults[index].device.disconnect();
+                       print(result);
+                      },
+                    ),
+                  ),
+
                       // ElevatedButton(onPressed: ()=>{}, child: Text("Connect"))
                     ],
                   );
@@ -392,6 +406,53 @@ class _BluetoothPageState extends State<BluetoothPage> {
         ],
       ),
     );
+  }
+
+  bool _isProcessingData = false;
+  List<String> _dataBuffer = [];
+
+  void _startListening(BluetoothDevice device) async {
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) {
+      service.characteristics.forEach((characteristic) {
+        if (characteristic.properties.notify) {
+          characteristic.setNotifyValue(true).then((value) {
+            if (!_isDisposed) {
+              // Check if widget is disposed
+              characteristic.value.listen((data) {
+                setState(() {
+                  if (!_isDisposed) {
+                    // Check if widget is disposed
+                    String dataString = String.fromCharCodes(data);
+                    if (dataString.toLowerCase() != "connecting" &&
+                        dataString != "0") {
+                      _dataBuffer.add(dataString);
+                    }// Add received data to buffer
+                    receivedData.add(String.fromCharCodes(data));
+                    _processData(); // Process the data
+                  }
+                });
+              });
+            }
+          });
+        }
+      });
+    });
+  }
+
+  void _processData() {
+    if (!_isProcessingData) {
+      _isProcessingData = true; // Set flag to indicate processing
+      Timer(Duration(seconds: 10), () {
+        // Schedule function call after 10 seconds
+        setState(() {
+          // Call the processing function with the buffered data
+          analyzeHelper.decodeDollDataBLE(_dataBuffer);
+          _dataBuffer.clear(); // Clear the data buffer
+          _isProcessingData = false; // Reset flag after processing
+        });
+      });
+    }
   }
 
   void _startScan() {
@@ -417,18 +478,27 @@ class _BluetoothPageState extends State<BluetoothPage> {
       }
     });
   }
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
 
   void _connectToDevice(BluetoothDevice device) async {
     try {
       await device.connect(autoConnect: false);
       //go to page
+      //vhjjhgj
       print('Connected to device: ${device.name}');
       // Navigate to a new page or perform other actions
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => BluetoothDataListener(device: device)),
-      );
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => BluetoothDataListener(device: device)),
+      // );
+      _startListening(device);
+
+
     } catch (e) {
       print('Failed to connect to device: $e');
     }

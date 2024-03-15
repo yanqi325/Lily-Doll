@@ -12,6 +12,7 @@ class AddButton extends StatelessWidget {
       this.courseName,
       required this.isCourse,
       required this.isEnroll,
+      required this.isModify,
       this.refreshPage});
 
   final String? title;
@@ -19,6 +20,7 @@ class AddButton extends StatelessWidget {
   String? courseName = "";
   bool isCourse;
   bool isEnroll;
+  bool isModify;
   final VoidCallback? refreshPage;
 
   @override

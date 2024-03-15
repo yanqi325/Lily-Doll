@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_lily/educator_screen/add_lesson.dart';
 
 import '../constants.dart';
+import '../educator_screen/upload_course.dart';
 import '../helperMethods/AuthHelper.dart';
+import 'AddCourseLesson.dart';
 
 class CourseAvailable extends StatefulWidget {
   static const String id = 'course_available';
@@ -13,7 +16,8 @@ class CourseAvailable extends StatefulWidget {
       this.courseName,
       this.status,
       this.moreOption,
-      this.refreshPage});
+      this.refreshPage,
+      this.refreshPageFromSecondWidget});
 
   final String? coursePath;
   final String? imagePath;
@@ -21,6 +25,7 @@ class CourseAvailable extends StatefulWidget {
   final String? status;
   final VoidCallback? moreOption;
   final VoidCallback? refreshPage;
+  final VoidCallback? refreshPageFromSecondWidget;
 
   @override
   _CourseAvailable createState() => _CourseAvailable();
@@ -137,6 +142,16 @@ class _CourseAvailable extends State<CourseAvailable> {
               icon: Icon(Icons.more_vert_rounded),
               color: purple4,
               onPressed: () {
+                //show pop up box here
+
+                // AddButton(
+                //   title: 'Modify Course',
+                //   path: UploadCourse.id,
+                //   isCourse: true,
+                //   isEnroll: false,
+                //   isModify: true,
+                //   refreshPage: widget.refreshPageFromSecondWidget,
+                // );
                 print('more option tapped');
               },
             ),
