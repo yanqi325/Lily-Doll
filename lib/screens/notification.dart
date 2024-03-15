@@ -25,7 +25,8 @@ class _NotificationPageScreenState extends State<NotificationPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: 'Notifications'),
+        child: appBar(title: 'Notifications',
+        icon: null,),
       ),
       body: Container(
         color: backgroundColor,

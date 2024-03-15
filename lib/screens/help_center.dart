@@ -25,7 +25,8 @@ class _HelpCenterScreenState extends State<HelpCenter> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: 'Help Center'),
+        child: appBar(title: 'Help Center',
+        icon: null,),
       ),
       body: Container(
         color: backgroundColor,

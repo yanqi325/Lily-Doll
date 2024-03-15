@@ -20,7 +20,8 @@ class _TouchesScreenState extends State<Touches> {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(85),
-          child: appBar(title: 'Touches'),
+          child: appBar(title: 'Touches',
+          icon: null,),
         ),
         body:
         FutureBuilder<Map<String, double>>(

@@ -21,7 +21,8 @@ class _ProfilePageScreenState extends State<ProfilePage> {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(85), // Set the preferred height
-          child: appBar(title: 'Profile'),
+          child: appBar(title: 'Profile',
+          icon: null,),
         ),
         body: Container(
           color: backgroundColor,

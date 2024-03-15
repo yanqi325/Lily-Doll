@@ -18,7 +18,8 @@ class _AboutUsScreenState extends State<AboutUs> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: 'About Us'),
+        child: appBar(title: 'About Us',
+        icon: null,),
       ),
       body: Container(
         color: backgroundColor,

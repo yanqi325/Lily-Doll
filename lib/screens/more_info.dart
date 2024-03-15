@@ -25,6 +25,8 @@ class _MoreInfoScreenState extends State<MoreInfo> {
         preferredSize: Size.fromHeight(85),
         child: appBar(
           title: 'More Information',
+          icon: null,
+          fontSize: 27,
         ),
       ),
       body: Container(
