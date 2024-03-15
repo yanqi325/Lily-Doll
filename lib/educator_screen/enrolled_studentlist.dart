@@ -75,6 +75,7 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
                               style: appLabelTextStyle.copyWith(
                                   color: Colors.grey, fontSize: 15),
                             ),
+                            SizedBox(height: 10,),
                             AddButton(
                               title: 'Enroll Student',
                               path: Enrollment.id,
@@ -84,7 +85,7 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
                               refreshPage: _refreshPageAfterWidgetAction,
                             ),
                             SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             Expanded(
                               child: ListView.builder(
