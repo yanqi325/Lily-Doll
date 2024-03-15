@@ -375,7 +375,6 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                   color: Colors.grey.withOpacity(0.3))),
                         ),
                         child: ListTile(
-                          tileColor: Colors.red,
                           trailing: GestureDetector(
                             onTap: () {
                               showMenu(
