@@ -61,7 +61,6 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                       SizedBox(
                         height: 7,
                       ),
-                      searchBar(),
                       SizedBox(
                         height: 20,
                       ),
