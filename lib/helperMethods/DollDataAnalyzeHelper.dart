@@ -73,10 +73,12 @@ class DollDataAnalyzeHelper {
         var date = DateTime.fromMillisecondsSinceEpoch(
             int.parse(singleEntry[2]) * 1000);
         var hour = date.hour;
-        SqueezeTouchData st = new SqueezeTouchData(
-            singleEntry[0], double.parse(singleEntry[1]), date);
-        st.hour = hour;
-        datalist.add(st);
+        if(double.parse(singleEntry[1]) != 0){
+          SqueezeTouchData st = new SqueezeTouchData(
+              singleEntry[0], double.parse(singleEntry[1]), date);
+          st.hour = hour;
+          datalist.add(st);
+        }
       }
     }
     return datalist;
@@ -133,10 +135,10 @@ class DollDataAnalyzeHelper {
       data.forEach((element) {
         if (element.isTouch) {
           switch (element.sensorPartName) {
-            case "sensor1":
+            case "headSensor":
               sensor1++;
               break;
-            case "sensor2":
+            case "legSensor":
               sensor2++;
               break;
           }

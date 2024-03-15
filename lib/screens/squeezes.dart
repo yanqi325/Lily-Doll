@@ -75,6 +75,7 @@ class _SqueezesScreenState extends State<Squeezes> {
                                         color: Colors.black),
                                   ),
                                 ),
+
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: Text(
@@ -82,6 +83,12 @@ class _SqueezesScreenState extends State<Squeezes> {
                                     style: appLabelTextStyle.copyWith(
                                         color: purple4, fontSize: 12),
                                   ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.refresh),
+                                  onPressed: () {
+                                    setState(() {}); // This will trigger a rebuild of the FutureBuilder
+                                  },
                                 ),
                                 SizedBox(
                                   height: 15,
