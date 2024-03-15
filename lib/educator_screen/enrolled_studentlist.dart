@@ -47,7 +47,8 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: courseTitle), //Courses.label
+        child: appBar(title: courseTitle,
+        icon: null,), //Courses.label
       ),
       body: Container(
         color: backgroundColor2,

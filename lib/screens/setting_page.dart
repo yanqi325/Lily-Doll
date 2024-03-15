@@ -29,7 +29,8 @@ class _SettingPageScreenState extends State<SettingPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85), // Set the preferred height
-        child: appBar(title: 'Settings'),
+        child: appBar(title: 'Settings',
+        icon: null,),
       ),
       body: Container(
         color: backgroundColor,

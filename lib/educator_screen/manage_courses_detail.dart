@@ -64,7 +64,8 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: args["courseTitle"]), //Courses.label
+        child: appBar(title: args["courseTitle"],
+        icon: null,), //Courses.label
       ),
       body:
       FutureBuilder(
