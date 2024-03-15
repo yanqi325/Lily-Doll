@@ -290,9 +290,9 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context){
-                                    Timer(Duration(seconds: 2), () {
-                                      Navigator.of(context).pop();
-                                    });
+                                      Timer(Duration(seconds: 2), () {
+                                        Navigator.of(context).pop();
+                                      });
                                       return Dialog(
                                         backgroundColor: Colors.transparent,
                                         elevation: 0,
@@ -310,12 +310,12 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                               Text('All data has been successfully fetched!',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(fontSize: 16,),
-                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),
                                       );
-                                });
+                                    });
                               });
 
                               return Dialog(
@@ -362,23 +362,43 @@ class _BluetoothPageState extends State<BluetoothPage> {
                       Container(
                         decoration: BoxDecoration(
                           border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3))),
+                            bottom: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                          ),
                         ),
                         child: ListTile(
-                          title: Text(scanResults[index].device.name.isNotEmpty
-                              ? scanResults[index].device.name!
-                              : unknown),
-                          subtitle:
-                              Text(scanResults[index].device.id.toString()),
+                          tileColor: Colors.red,
+                          trailing: GestureDetector(
+                            onTap: () {
+                              showMenu(
+                                context: context,
+                                position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                                items: [
+                                  PopupMenuItem(
+                                    child: Text('Option 1'),
+                                    value: 'option1',
+                                  ),
+                                  PopupMenuItem(
+                                    child: Text('Option 2'),
+                                    value: 'option2',
+                                  ),
+                                ],
+                              );
+                            },
+                            child: Icon(Icons.more_vert),
+                          ),
+                          title: Text(
+                            scanResults[index].device.name.isNotEmpty
+                                ? scanResults[index].device.name!
+                                : unknown,
+                          ),
+                          subtitle: Text(scanResults[index].device.id.toString()),
                           onTap: () {
                             print(scanResults[index].device);
                             //connect
-                            //direct ti page
-
+                            //direct to page
                             _connectToDevice(scanResults[index].device);
-
-                            // Navigator.pushNamed(context, LoadingAnimation.id);
                           },
                         ),
                       ),
