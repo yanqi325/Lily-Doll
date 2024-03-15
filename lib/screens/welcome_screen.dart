@@ -41,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
                   fontSize: 15,
                   fontColor: Colors.white,
                   onPressed:(){
-                    Navigator.pushNamed(context, UserPage.id);
+                    Navigator.pushNamed(context, LoginPage.id);
                   }
                   ), //add onPress
               SizedBox(height: 5,),
