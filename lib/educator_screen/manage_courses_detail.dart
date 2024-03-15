@@ -84,8 +84,9 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('45 students enrolled in this course', style: appLabelTextStyle.copyWith(color: Colors.grey, fontSize: 15),),
+                      SizedBox(height: 10,),
                       AddButton(title: 'Add Lesson', path: AddLesson.id,courseName:args["courseTitle"],isCourse: false,isEnroll: false,refreshPage: _refreshPageAfterWidgetAction,),
-                      SizedBox(height: 15,),
+                      SizedBox(height: 10,),
                       Flexible(
                         child: Container(
                           child: ListView.builder(
