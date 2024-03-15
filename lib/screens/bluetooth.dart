@@ -284,7 +284,8 @@ class _BluetoothPageState extends State<BluetoothPage> {
                     onTap: () {
                       print(scanResults[index].device);
                     _connectToDevice(scanResults[index].device);
-                      Navigator.pushNamed(context, LoadingAnimation.id);
+
+                      // Navigator.pushNamed(context, LoadingAnimation.id);
 
                     },
                     ),

@@ -47,18 +47,6 @@ class ScheduleClass extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              alignment: Alignment.topRight,
-              color: purple4,
-              icon: Icon(
-                Icons.navigate_next_outlined,
-                size: 40,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, coursePath!);
-                print('Bring to course description page');
-              },
-            ),
           ],
         ),
       ),
