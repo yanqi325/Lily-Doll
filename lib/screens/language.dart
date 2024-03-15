@@ -44,7 +44,8 @@ class _LanguagePageScreenState extends State<LanguagePage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: 'Language'),
+        child: appBar(title: 'Language',
+        icon: null,),
       ),
       body: Container(
         color: backgroundColor,

@@ -26,7 +26,8 @@ class _DataReportScreenState extends State<DataReport> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: appBar(title: 'Data Report'), //Courses.label
+        child: appBar(title: 'Data Report',
+        icon: null,), //Courses.label
       ),
       body: Container(
         color: backgroundColor2,
