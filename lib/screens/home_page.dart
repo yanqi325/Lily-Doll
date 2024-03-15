@@ -9,6 +9,7 @@ import 'package:project_lily/screens/setting_page.dart';
 import '../Data/Users.dart';
 import '../component/NavigationBar.dart';
 import '../component/ToggleButton.dart';
+import '../helperMethods/AuthHelper.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -22,51 +23,68 @@ class _HomePageScreenState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthHelper authHelper = new AuthHelper();
+
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          toolbarHeight: 100,
-          backgroundColor: purple4,
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20),
-            ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100), // Adjust the height as needed
+          child: FutureBuilder<String?>(
+            future: authHelper.getCurrentUsername(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  String? userName = snapshot.data;
+                  return AppBar(
+                    automaticallyImplyLeading: false,
+                    toolbarHeight: 100,
+                    backgroundColor: purple4,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(20),
+                      ),
+                    ),
+                    title: Row(
+                      children: [
+                        Avatar(
+                          radius: 30,
+                          align: Alignment.topLeft,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Welcome Back',
+                              style: appBarLabel,
+                            ),
+                            Text(
+                              userName!,
+                              style: appBarLabel.copyWith(fontSize: 30),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      IconButton(
+                        alignment: Alignment.topRight,
+                        color: Colors.white,
+                        icon: Icon(
+                          Icons.settings,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, SettingPage.id);
+                        },
+                      ),
+                    ],
+                  );
+                }
+              }
+
+              return Container(); // Placeholder widget
+            },
           ),
-          title: Row(
-            children: [
-              Avatar(
-                radius: 30,
-                align: Alignment.topLeft,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Welcome Back',
-                    style: appBarLabel,
-                  ),
-                  Text(
-                    Users.username,
-                    style: appBarLabel.copyWith(fontSize: 30),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              alignment: Alignment.topRight,
-              color: Colors.white,
-              icon: Icon(
-                Icons.settings,
-                size: 40,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, SettingPage.id);
-              },
-            ),
-          ], // Set the title
         ),
         body: Container(
           color: backgroundColor,
