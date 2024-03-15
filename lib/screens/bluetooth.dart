@@ -284,9 +284,39 @@ class _BluetoothPageState extends State<BluetoothPage> {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              // Timer(Duration(seconds: 10), () {
-                              //   Navigator.of(context).pop(); // Close the dialog
-                              // });
+                              Timer(Duration(seconds: 10), () {
+                                Navigator.of(context).pop();
+                                //checkmark screen
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                    Timer(Duration(seconds: 2), () {
+                                      Navigator.of(context).pop();
+                                    });
+                                      return Dialog(
+                                        backgroundColor: Colors.transparent,
+                                        elevation: 0,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          padding: EdgeInsets.all(20),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(Icons.done_outline_rounded,size: 80,),
+                                              SizedBox(height: 20),
+                                              Text('All data has been successfully fetched!',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(fontSize: 16,),
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                });
+                              });
 
                               return Dialog(
                                 backgroundColor: Colors.transparent,
@@ -302,7 +332,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                     children: [
                                       CircularProgressIndicator(),
                                       SizedBox(height: 20),
-                                      Text('Loading',style: TextStyle(fontSize: 16),
+                                      Text('Fetching data ...',style: TextStyle(fontSize: 16),
                                       ),
                                     ],
                                   ),
