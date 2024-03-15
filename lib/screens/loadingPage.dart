@@ -16,7 +16,7 @@ class _LoadingAnimationState extends State<LoadingAnimation>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: Duration(seconds: 10),
     )..repeat();
   }
 
