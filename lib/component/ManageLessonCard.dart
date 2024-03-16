@@ -304,7 +304,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         dbHelper.deleteLessonFromFirestore(widget.lessonTitle!, widget.courseTitle!);
         setState(() {
           if(widget.changeValueCallback != null){
-            widget.changeValueCallback;
+            widget.changeValueCallback!();
             print("refreshed page");
           }
         });

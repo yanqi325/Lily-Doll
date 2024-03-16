@@ -87,6 +87,7 @@ class _CourseAvailable extends State<CourseAvailable> {
                       if (widget.refreshPageFromSecondWidget != null) {
                         widget.refreshPageFromSecondWidget!();
                         print("refreshed page");
+                        //sdfsdf
                       }
                     });
                   }

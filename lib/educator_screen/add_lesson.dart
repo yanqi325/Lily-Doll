@@ -95,7 +95,8 @@ class _AddLessonScreenState extends State<AddLesson> {
                           educator_textField(
                             title: 'Title',
                             hintText: 'Enter course title here',
-                            onChanged: onChangedCallbackTitle, isSelection: false
+                            onChanged: onChangedCallbackTitle, isSelection: false,
+                              initialValue: ""
                           ),
                           SizedBox(
                             height: 15,
@@ -104,7 +105,8 @@ class _AddLessonScreenState extends State<AddLesson> {
                             title: 'Description',
                             hintText: 'Enter course description here',
                             onChanged: onChangedCallbackDesc,
-                            isSelection: false
+                            isSelection: false,
+                              initialValue: ""
                           ),
                           SizedBox(
                             height: 15,
@@ -149,7 +151,8 @@ class _AddLessonScreenState extends State<AddLesson> {
                                 educator_textField(
                                   title: 'Video Link',
                                   hintText: 'Enter course video link',
-                                    isSelection: false
+                                    isSelection: false,
+                                    initialValue: ""
                                 ),
                                 SizedBox(height: 3,),
                               ],

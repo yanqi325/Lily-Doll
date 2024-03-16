@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_lily/helperMethods/DbHelper.dart';
 import 'package:project_lily/screens/chatroom.dart';
 
 import '../Data/Users.dart';
@@ -13,14 +14,18 @@ class EnrolledStudentCard extends StatelessWidget {
     this.imagePath,
     this.studentName,
     this.moreOption,
-    required this.studentDetailsNewWidget
+    required this.studentDetailsNewWidget,
+    required this.courseTitle,
+    required this.refreshPage
   });
 
   final String? path;
   final String? imagePath;
   final String? studentName;
+  final String? courseTitle;
   final VoidCallback? moreOption;
   StudentDetails studentDetailsNewWidget;
+  final VoidCallback? refreshPage;
 
 AuthHelper authHelper = new AuthHelper();
 
@@ -112,8 +117,17 @@ AuthHelper authHelper = new AuthHelper();
         PopupMenuItem(
           child: Text('Delete'),
           value: 'delete',
-          onTap: (){
-
+          onTap: () async {
+//delete code here
+          DbHelper dbHelper = new DbHelper();
+          String userId = await dbHelper
+              .getUsernamesFromUsersExtended(
+              studentName!);
+          String? educatorId = await authHelper
+              .getCurrentUserId();
+          dbHelper.deleteUserFromEnrolledCourses(studentName!, courseTitle!);
+          dbHelper.deleteUserFromEnrolledUsers(educatorId!, courseTitle!, userId);
+          refreshPage!();
           },
         ),
       ],
