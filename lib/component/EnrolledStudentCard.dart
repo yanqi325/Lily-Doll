@@ -24,6 +24,7 @@ class EnrolledStudentCard extends StatelessWidget {
 
 AuthHelper authHelper = new AuthHelper();
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,6 +83,7 @@ AuthHelper authHelper = new AuthHelper();
               onPressed: () {
                 print('more option tapped');
                 moreOption;
+                showPopupMenu(context);
               },
             ),
           ),
@@ -89,7 +91,38 @@ AuthHelper authHelper = new AuthHelper();
       ),
     );
   }
+  void showPopupMenu(BuildContext context) {
+
+    GlobalKey _popupKey = GlobalKey();
+
+    // Find the RenderBox of the IconButton
+    RenderBox button = context.findRenderObject() as RenderBox;
+
+    // Get the global position of the button
+    var position = button.localToGlobal(Offset.zero);
+
+    // Calculate the offset for the PopupMenu
+    double topOffset = position.dy + button.size.height;
+    double leftOffset = position.dx;
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(leftOffset, topOffset, 20, 0),
+      items: [
+        PopupMenuItem(
+          child: Text('Delete'),
+          value: 'delete',
+          onTap: (){
+
+          },
+        ),
+      ],
+    );
+  }
+
 }
+
+
 
 
 
