@@ -230,6 +230,7 @@ import '../helperMethods/DollDataAnalyzeHelper.dart';
 
 class BluetoothPage extends StatefulWidget {
   static const String id = 'bluetooth_page';
+
   @override
   _BluetoothPageState createState() => _BluetoothPageState();
 }
@@ -242,6 +243,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
 
   List<String> receivedData = [];
   List<String> touchDataString = [];
+
   // List<String> alreadyAddedData =[];
   List<SqueezeTouchData> touchData = [];
   DollDataAnalyzeHelper analyzeHelper = new DollDataAnalyzeHelper();
@@ -298,33 +300,40 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                 //checkmark screen
                                 showDialog(
                                     context: context,
-                                    builder: (BuildContext context){
-                                    Timer(Duration(seconds: 2), () {
-                                      Navigator.of(context).pop();
-                                    });
+                                    builder: (BuildContext context) {
+                                      Timer(Duration(seconds: 2), () {
+                                        Navigator.of(context).pop();
+                                      });
                                       return Dialog(
                                         backgroundColor: Colors.transparent,
                                         elevation: 0,
                                         child: Container(
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                           padding: EdgeInsets.all(20),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Icon(Icons.done_outline_rounded,size: 80,),
+                                              Icon(
+                                                Icons.done_outline_rounded,
+                                                size: 80,
+                                              ),
                                               SizedBox(height: 20),
-                                              Text('All data has been successfully fetched!',
+                                              Text(
+                                                'All data has been successfully fetched!',
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(fontSize: 16,),
+                                                style: TextStyle(
+                                                  fontSize: 16,
                                                 ),
+                                              ),
                                             ],
                                           ),
                                         ),
                                       );
-                                });
+                                    });
                               });
 
                               return Dialog(
@@ -341,7 +350,9 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                     children: [
                                       CircularProgressIndicator(),
                                       SizedBox(height: 20),
-                                      Text('Fetching data ...',style: TextStyle(fontSize: 16),
+                                      Text(
+                                        'Fetching data ...',
+                                        style: TextStyle(fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -376,105 +387,119 @@ class _BluetoothPageState extends State<BluetoothPage> {
                         ),
                         child: ListTile(
                           trailing: GestureDetector(
-                            onTap: () {
-                              showMenu(
-                                context: context,
-                                position: RelativeRect.fromLTRB(100, 100, 0, 0),
-                                items: [
-                                  PopupMenuItem(
-                                    child: Text('Connect'),
-                                    value: 'option1',
-                                  ),
-                                  PopupMenuItem(
-                                    child: Text('Disconnect'),
-                                    value: 'option2',
-                                  ),
-                                ],
-                              );
-                            },
-                            child: Icon(Icons.more_vert),
-                          ),
-                          title: Text(
-                            scanResults[index].device.name.isNotEmpty
-                                ? scanResults[index].device.name!
-                                : unknown,
-                          ),
-                          subtitle: Text(scanResults[index].device.id.toString()),
-                          onTap: () {
-                            print(scanResults[index].device);
-                            //connect
-                            //direct ti page
-
-                            _connectToDevice(scanResults[index].device);
-
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  Timer(Duration(seconds: 10), () {
-                                    Navigator.of(context).pop();
-                                    //checkmark screen
+                              child: Icon(Icons.more_vert),
+                              onTap: () {
+                                showMenu(
+                                  context: context,
+                                  position:
+                                      RelativeRect.fromLTRB(100, 100, 0, 0),
+                                  items: [
+                                    PopupMenuItem(
+                                      child: Text('Connect'),
+                                      value: 'option1',
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text('Disconnect'),
+                                      value: 'option2',
+                                    ),
+                                  ],
+                                ).then((value) {
+                                  if (value == 'option1') {
+                                    // Run the function for connect
+                                    _connectToDevice(scanResults[index].device);
                                     showDialog(
                                         context: context,
-                                        builder: (BuildContext context){
-                                          Timer(Duration(seconds: 2), () {
+                                        builder: (BuildContext context) {
+                                          Timer(Duration(seconds: 10), () {
                                             Navigator.of(context).pop();
+                                            //checkmark screen
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  Timer(Duration(seconds: 2),
+                                                      () {
+                                                    Navigator.of(context).pop();
+                                                  });
+                                                  return Dialog(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    elevation: 0,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      padding:
+                                                          EdgeInsets.all(20),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .done_outline_rounded,
+                                                            size: 80,
+                                                          ),
+                                                          SizedBox(height: 20),
+                                                          Text(
+                                                            'All data has been successfully fetched!',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
                                           });
+
                                           return Dialog(
                                             backgroundColor: Colors.transparent,
                                             elevation: 0,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius: BorderRadius.circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
                                               padding: EdgeInsets.all(20),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Icon(Icons.done_outline_rounded,size: 80,),
+                                                  CircularProgressIndicator(),
                                                   SizedBox(height: 20),
-                                                  Text('All data has been successfully fetched!',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(fontSize: 16,),
+                                                  Text(
+                                                    'Fetching data ...',
+                                                    style:
+                                                        TextStyle(fontSize: 16),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                           );
                                         });
-                                  });
-
-                                  return Dialog(
-                                    backgroundColor: Colors.transparent,
-                                    elevation: 0,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      padding: EdgeInsets.all(20),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          CircularProgressIndicator(),
-                                          SizedBox(height: 20),
-                                          Text('Fetching data ...',style: TextStyle(fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                                  } else if (value == 'option2') {
+                                    // Run the function for disconnect
+                                    scanResults[index].device.disconnect();
+                                  }
+                                  ;
                                 });
-
-                      // Navigator.pushNamed(context, LoadingAnimation.id);
-
-                    },
-                      onLongPress: () async {
-                       Object? result = await scanResults[index].device.disconnect();
-                       print(result);
-                      },
-                    ),
-                  ),
+                              }),
+                          title: Text(
+                            scanResults[index].device.name.isNotEmpty
+                                ? scanResults[index].device.name!
+                                : unknown,
+                          ),
+                          subtitle:
+                              Text(scanResults[index].device.id.toString()),
+                        ),
+                      ),
 
                       // ElevatedButton(onPressed: ()=>{}, child: Text("Connect"))
                     ],
@@ -507,7 +532,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
                     if (dataString.toLowerCase() != "connecting" &&
                         dataString != "0") {
                       _dataBuffer.add(dataString);
-                    }// Add received data to buffer
+                    } // Add received data to buffer
                     receivedData.add(String.fromCharCodes(data));
                     _processData(); // Process the data
                   }
@@ -558,6 +583,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
       }
     });
   }
+
   @override
   void dispose() {
     _isDisposed = true;
@@ -575,7 +601,6 @@ class _BluetoothPageState extends State<BluetoothPage> {
       //   MaterialPageRoute(builder: (context) => BluetoothDataListener(device: device)),
       // );
       _startListening(device);
-
     } catch (e) {
       print('Failed to connect to device: $e');
     }

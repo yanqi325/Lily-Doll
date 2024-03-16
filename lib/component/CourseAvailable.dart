@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/educator_screen/add_lesson.dart';
+import 'package:project_lily/helperMethods/DbHelper.dart';
 
 import '../constants.dart';
 import '../educator_screen/upload_course.dart';
@@ -136,23 +137,65 @@ class _CourseAvailable extends State<CourseAvailable> {
               ),
             ),
           ),
+          // Container(
+          //   width: 25,
+          //   child: IconButton(
+          //     icon: Icon(Icons.more_vert_rounded),
+          //     color: purple4,
+          //     onPressed: () {
+          //       //show pop up box here
+          //
+          //
+          //       print('more option tapped');
+          //     },
+          //   ),
+          // )
           Container(
             width: 25,
             child: IconButton(
               icon: Icon(Icons.more_vert_rounded),
               color: purple4,
               onPressed: () {
-                //show pop up box here
-
-                // AddButton(
-                //   title: 'Modify Course',
-                //   path: UploadCourse.id,
-                //   isCourse: true,
-                //   isEnroll: false,
-                //   isModify: true,
-                //   refreshPage: widget.refreshPageFromSecondWidget,
-                // );
-                print('more option tapped');
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                  items: [
+                    PopupMenuItem(
+                      child: Text('Modify'),
+                      value: 'modify',
+                    ),
+                    PopupMenuItem(
+                      child: Text('Delete'),
+                      value: 'delete',
+                    ),
+                  ],
+                ).then((value) {
+                  if (value == 'modify') {
+                    // Run the function for option 1
+                    //open AddCourse page with isModify
+                    Navigator.pushNamed(context,UploadCourse.id);
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AddButton(
+                    //   title: 'Modify Course',
+                    //   path: UploadCourse.id,
+                    //   isCourse: true,
+                    //   isEnroll: false,
+                    //   isModify: true,
+                    //   refreshPage: widget.refreshPageFromSecondWidget,
+                    // )));
+                  } else if (value == 'delete') {
+                    // Run the function for option 2
+                    DbHelper dbHelper = new DbHelper();
+                    if(widget.courseName != null){
+                      dbHelper.deleteCourseFromFirestore(widget.courseName!);
+                      setState(() {
+                        if(widget.refreshPageFromSecondWidget != null){
+                          widget.refreshPageFromSecondWidget!();
+                          print("refreshed page");
+                        }
+                      });
+                    }
+                  }
+                });
               },
             ),
           )
