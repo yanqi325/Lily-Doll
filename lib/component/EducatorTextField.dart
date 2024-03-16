@@ -11,6 +11,7 @@ class educator_textField extends StatefulWidget {
   List<Map<String,dynamic>>? popupItems;
   Widget? dropdown;
   String initialValue;
+  bool hasSetDefaultText = false;
 
 
 
@@ -34,6 +35,9 @@ class _EducatorTextFieldState extends State<educator_textField > {
 
   void setDefaultValue(){
     _controller.text = widget.initialValue;
+    if(widget.onChanged != null) {
+      widget.onChanged!(widget.initialValue);
+    }
   }
 
   // Function to show the popup menu
@@ -67,7 +71,18 @@ class _EducatorTextFieldState extends State<educator_textField > {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Perform your custom initialization here
+    if(!widget.hasSetDefaultText){
+      setDefaultValue();
+widget.hasSetDefaultText = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

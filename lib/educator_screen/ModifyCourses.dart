@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_lily/Data/Courses.dart';
 import 'package:project_lily/component/CourseAvailable.dart';
@@ -18,8 +19,14 @@ class ModifyCourse extends StatefulWidget {
   static const String id = 'upload_course';
   String? courseName;
   String? lessonTitle;
+  bool isLesson;
+  bool isCourse;
 
-  ModifyCourse({this.courseName, this.lessonTitle});
+  ModifyCourse(
+      {this.courseName,
+      this.lessonTitle,
+      required this.isLesson,
+      required this.isCourse});
 
   @override
   _ModifyCourseScreenState createState() => _ModifyCourseScreenState();
@@ -31,6 +38,7 @@ class _ModifyCourseScreenState extends State<ModifyCourse> {
   String courseDesc = '';
   String courseCategory = '';
   String thumbnailUrl = '';
+
   DbHelper dbHelper = new DbHelper();
 
   String? selectedValue; // Default selected value
@@ -44,8 +52,16 @@ class _ModifyCourseScreenState extends State<ModifyCourse> {
     courseDesc = value;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+courseCategory = coursesCategory.first;
+    String educatorId = (FirebaseAuth.instance.currentUser)!.uid;
+    // _futureCourse = dbHelper.getCourseDocument(educatorId, widget.courseName!);
+    // print(educatorId);
+    // print(course)
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -84,10 +100,10 @@ class _ModifyCourseScreenState extends State<ModifyCourse> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Upload Course',
+                                    'Modify Course',
                                     style: appLabelTextStyle,
                                   ),
                                   IconButton(
@@ -103,46 +119,113 @@ class _ModifyCourseScreenState extends State<ModifyCourse> {
                               SizedBox(
                                 height: 10,
                               ),
-                          FutureBuilder<Lessons?>(
-                            future: dbHelper.getLessonFromFirestore(widget.lessonTitle ?? '', widget.courseName ?? ''),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                // While waiting for the future to resolve, return a loading indicator or placeholder.
-                                return CircularProgressIndicator(); // Or any loading indicator widget
-                              } else if (snapshot.hasError) {
-                                // If an error occurs while fetching data, return an error message or handle the error gracefully.
-                                return Text('Error: ${snapshot.error}');
-                              } else {
-                                // If the future completes successfully, extract the lesson data from the snapshot and populate the educator_textField widget with it.
-                                Lessons? lesson = snapshot.data;
-                                if (lesson != null) {
-                                  return Column(
-                                    children: [
-                                      educator_textField(
-                                        title: 'Course Title',
-                                        hintText: 'Enter course title here',
-                                        initialValue: lesson.lessonTitle, // Populate with course title
-                                        isSelection: false,
-                                        onChanged: onChangedCallbackTitle,
-                                      ),
-                                      SizedBox(height: 15),
-                                      educator_textField(
-                                        title: 'Course Description',
-                                        hintText: 'Enter course description here',
-                                        initialValue: lesson.lessonDesc, // Populate with course description
-                                        isSelection: false,
-                                        onChanged: onChangedCallbackDesc,
-                                      ),
-                                      // Add more educator_textField widgets for other fields if needed
-                                    ],
-                                  );
-                                } else {
-                                  // Handle the case where the lesson data is null.
-                                  return Text('Lesson data is null.');
-                                }
-                              }
-                            },
-                          ),
+                              widget.isLesson
+                                  ? FutureBuilder<Lessons?>(
+                                      future: dbHelper.getLessonFromFirestore(
+                                          widget.lessonTitle ?? '',
+                                          widget.courseName ?? ''),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          // While waiting for the future to resolve, return a loading indicator or placeholder.
+                                          return CircularProgressIndicator(); // Or any loading indicator widget
+                                        } else if (snapshot.hasError) {
+                                          // If an error occurs while fetching data, return an error message or handle the error gracefully.
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        } else {
+                                          // If the future completes successfully, extract the lesson data from the snapshot and populate the educator_textField widget with it.
+                                          Lessons? lesson = snapshot.data;
+
+                                          if (lesson != null) {
+                                            return Column(
+                                              children: [
+                                                educator_textField(
+                                                  title: 'Lesson Title',
+                                                  hintText:
+                                                      'Enter lesson title here',
+                                                  initialValue:
+                                                      lesson.lessonTitle,
+                                                  // Populate with course title
+                                                  isSelection: false,
+                                                  onChanged:
+                                                      onChangedCallbackTitle,
+                                                ),
+                                                SizedBox(height: 15),
+                                                educator_textField(
+                                                  title: 'Lesson Description',
+                                                  hintText:
+                                                      'Enter lesson description here',
+                                                  initialValue:
+                                                      lesson.lessonDesc,
+                                                  // Populate with course description
+                                                  isSelection: false,
+                                                  onChanged:
+                                                      onChangedCallbackDesc,
+                                                ),
+                                                // Add more educator_textField widgets for other fields if needed
+                                              ],
+                                            );
+                                          } else {
+                                            // Handle the case where the lesson data is null.
+                                            return Text('Lesson data is null.');
+                                          }
+                                        }
+                                      },
+                                    )
+                                  : FutureBuilder<Courses?>(
+                                      future: dbHelper.getCourseDocument(
+                                          educatorId, widget.courseName!),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          // While waiting for the future to resolve, return a loading indicator or placeholder.
+                                          return CircularProgressIndicator(); // Or any loading indicator widget
+                                        } else if (snapshot.hasError) {
+                                          // If an error occurs while fetching data, return an error message or handle the error gracefully.
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        } else {
+                                          // If the future completes successfully, extract the lesson data from the snapshot and populate the educator_textField widget with it.
+                                          Courses? course = snapshot.data;
+                                          print(course!.courseTitle);
+                                          print(course!.courseDesc);
+                                          if (course != null) {
+                                            return Column(
+                                              children: [
+                                                educator_textField(
+                                                  title: 'Course Title',
+                                                  hintText:
+                                                      'Enter course title here',
+                                                  initialValue:
+                                                      course.courseTitle,
+                                                  // Populate with course title
+                                                  isSelection: false,
+                                                  onChanged:
+                                                      onChangedCallbackTitle,
+                                                ),
+                                                SizedBox(height: 15),
+                                                educator_textField(
+                                                  title: 'Course Description',
+                                                  hintText:
+                                                      'Enter course description here',
+                                                  initialValue:
+                                                      course.courseDesc,
+                                                  // Populate with course description
+                                                  isSelection: false,
+                                                  onChanged:
+                                                      onChangedCallbackDesc,
+                                                ),
+                                                // Add more educator_textField widgets for other fields if needed
+                                              ],
+                                            );
+                                          } else {
+                                            // Handle the case where the lesson data is null.
+                                            return Text('Course data is null.');
+                                          }
+                                        }
+                                      },
+                                    ),
                               // educator_textField(
                               //     title: 'Course Title',
                               //     hintText: 'Enter course title here',
@@ -194,9 +277,9 @@ class _ModifyCourseScreenState extends State<ModifyCourse> {
                                       dropdownMenuEntries: coursesCategory
                                           .map<DropdownMenuEntry<String>>(
                                               (String value) {
-                                            return DropdownMenuEntry<String>(
-                                                value: value, label: value);
-                                          }).toList(),
+                                        return DropdownMenuEntry<String>(
+                                            value: value, label: value);
+                                      }).toList(),
                                     ),
                                   ],
                                 ),
@@ -222,38 +305,66 @@ class _ModifyCourseScreenState extends State<ModifyCourse> {
                                         //show file picker to upload files
                                         DbHelper dbHelper = new DbHelper();
                                         thumbnailUrl =
-                                        await dbHelper.uploadImage();
+                                            await dbHelper.uploadImage();
                                       },
                                     )
                                   ],
                                 ),
                               ),
                               UploadAddButton(
-                                title: 'Upload',
+                                title: 'Modify',
                                 onPressed: () {
                                   //find enum value based on string
                                   courseCategory = courseCategory.toLowerCase();
                                   CourseCategory? selectedCategory;
+                                  LessonCategory? selectedCategoryLesson;
                                   for (var category in CourseCategory.values) {
                                     if (category.toString().toLowerCase() ==
                                         'coursecategory.$courseCategory') {
                                       selectedCategory = category;
+
+                                      break;
+                                    }
+                                  }
+                                  for (var category in LessonCategory.values) {
+                                    if (category.toString().toLowerCase() ==
+                                        'coursecategory.$courseCategory') {
+                                      selectedCategoryLesson = category;
+
                                       break;
                                     }
                                   }
                                   //try adding courses to firebase
-                                  if (selectedCategory != null) {
+                                  //modify course func
+
+                                  DbHelper dbHelper = new DbHelper();
+                                  if (widget.isCourse) {
                                     Courses courseEnteredByUser = new Courses(
-                                        courseTitle,
+                                        widget.courseName!,
                                         courseDesc,
                                         selectedCategory!,
                                         thumbnailUrl,
                                         0);
-                                    DbHelper dbHelper = new DbHelper();
-                                    dbHelper.addCourseToFirestore(
+                                    print(courseEnteredByUser.courseTitle);
+                                    dbHelper.updateCourseInFirestore(
                                         courseEnteredByUser);
+                                    // dbHelper.addCourseToFirestore(courseEnteredByUser);
+                                    print("sdf");
+
+                                    // dbHelper.addCourseToFirestore(
+                                    //     courseEnteredByUser);
                                     Navigator.pop(context);
-                                  } else {}
+                                  } else {
+                                    Lessons lessonEnteredByUser = new Lessons(
+                                      widget.courseName!,
+                                      courseDesc,
+                                      selectedCategoryLesson!,
+                                      thumbnailUrl,
+                                    );
+                                    dbHelper.updateLessonInFirestore(
+                                        lessonEnteredByUser, courseTitle);
+                                    print("sdf2");
+                                  }
                                 },
                               )
                             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_lily/educator_screen/ModifyCourses.dart';
 import 'package:project_lily/educator_screen/add_lesson.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
 
@@ -77,7 +78,13 @@ class _CourseAvailable extends State<CourseAvailable> {
               ).then((value) {
                 if (value == 'modify') {
                   // Run the function for option 1
-                  Navigator.pushNamed(context, UploadCourse.id);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      //sdfdf
+                      builder: (context) => ModifyCourse(isLesson: false, isCourse: true,courseName: widget.courseName,),
+                    ),
+                  );
                 } else if (value == 'delete') {
                   // Run the function for option 2
                   DbHelper dbHelper = DbHelper();
