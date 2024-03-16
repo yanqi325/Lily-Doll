@@ -49,10 +49,22 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
   TextEditingController _controller = TextEditingController();
 
   void showPopup(BuildContext context) async {
+
+    // Find the RenderBox of the IconButton
+    RenderBox button = context.findRenderObject() as RenderBox;
+
+    // Get the global position of the button
+    var position = button.localToGlobal(Offset.zero);
+
+    // Calculate the offset for the PopupMenu
+    double topOffset = position.dy + button.size.height;
+    double leftOffset = position.dx;
+
+
     if (widget.popupItems != null) {
       final String? selectedItem = await showMenu(
         context: context,
-        position: RelativeRect.fromLTRB(0, 0, 0, 0),
+        position: RelativeRect.fromLTRB(leftOffset, topOffset, 0, 0),
         items: widget.popupItems!.map((item) {
           return PopupMenuItem<String>(
             value: item,
