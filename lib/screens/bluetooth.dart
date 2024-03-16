@@ -407,6 +407,66 @@ class _BluetoothPageState extends State<BluetoothPage> {
 
                             _connectToDevice(scanResults[index].device);
 
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  Timer(Duration(seconds: 10), () {
+                                    Navigator.of(context).pop();
+                                    //checkmark screen
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context){
+                                          Timer(Duration(seconds: 2), () {
+                                            Navigator.of(context).pop();
+                                          });
+                                          return Dialog(
+                                            backgroundColor: Colors.transparent,
+                                            elevation: 0,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              padding: EdgeInsets.all(20),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(Icons.done_outline_rounded,size: 80,),
+                                                  SizedBox(height: 20),
+                                                  Text('All data has been successfully fetched!',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(fontSize: 16,),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  });
+
+                                  return Dialog(
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      padding: EdgeInsets.all(20),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CircularProgressIndicator(),
+                                          SizedBox(height: 20),
+                                          Text('Fetching data ...',style: TextStyle(fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+
+                      // Navigator.pushNamed(context, LoadingAnimation.id);
 
                     },
                       onLongPress: () async {
@@ -510,13 +570,11 @@ class _BluetoothPageState extends State<BluetoothPage> {
       //go to page
       print('Connected to device: ${device.name}');
       // Navigate to a new page or perform other actions
-
       // Navigator.push(
       //   context,
       //   MaterialPageRoute(builder: (context) => BluetoothDataListener(device: device)),
       // );
       _startListening(device);
-
 
     } catch (e) {
       print('Failed to connect to device: $e');
