@@ -98,6 +98,7 @@ class _ManageCoursesScreenState extends State<ManageCourses> {
                                   courseName: snapshot.data![index].courseTitle,
                                   coursePath: ManageCoursesDetail.id,
                                   refreshPageFromSecondWidget: _refreshPageAfterWidgetAction,
+                                  icons: Icons.more_vert_rounded,
                                 ),
                                 SizedBox(
                                   height: 15,

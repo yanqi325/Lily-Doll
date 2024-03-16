@@ -73,6 +73,7 @@ class _StudentScreenState extends State<Students> {
                               courseName:
                               snapshot.data![index].courseTitle,
                               coursePath: EnrolledStudentList.id,
+                              icons: null,
                             ),
                             SizedBox(
                               height: 15,
