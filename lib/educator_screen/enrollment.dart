@@ -148,6 +148,7 @@ class _EnrollmentScreenState extends State<Enrollment> {
                                             title: 'User ID',
                                             hintText: 'Enter user id here',
                                             onChanged: onChangedCallbackId,
+                                            initialValue: "",
                                             isSelection: false),
                                         SizedBox(
                                           height: 170,

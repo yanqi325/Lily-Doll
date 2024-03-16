@@ -280,6 +280,34 @@ class DbHelper {
     }
   }
 
+  //
+  Future<Lessons?> getLessonFromFirestore(String lessonTitle, String courseTitle) async {
+    AuthHelper authHelper = AuthHelper();
+    String? userId = await authHelper.getCurrentUserId();
+
+    try {
+      DocumentSnapshot lessonSnapshot = await FirebaseFirestore.instance
+          .collection("usersExtended")
+          .doc(userId)
+          .collection('courses')
+          .doc(courseTitle)
+          .collection('lessons')
+          .doc(lessonTitle)
+          .get();
+
+      if (lessonSnapshot.exists) {
+        // Convert the data from Firestore into a Lessons object
+        return Lessons.fromMap(lessonSnapshot.data() as Map<String, dynamic>);
+      } else {
+        print('Lesson not found');
+        return null;
+      }
+    } catch (e) {
+      print('Error getting lesson data from Firestore: $e');
+      return null;
+    }
+  }
+
   Future<void> updateLessonInFirestore(Lessons lesson, String courseTitle) async {
     try {
       AuthHelper authHelper = new AuthHelper();

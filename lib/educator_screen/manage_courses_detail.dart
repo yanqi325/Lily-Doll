@@ -123,6 +123,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                         snapshot.data![0][index].lessonTitle,
                                     changeValueCallback:_refreshPageAfterWidgetAction,
                                     courseTitle: courseTitle,
+
                                     lessonTitle:
                                         snapshot.data![0][index].lessonTitle,
                                     imagePath: 'images/sex_lesson1.png',

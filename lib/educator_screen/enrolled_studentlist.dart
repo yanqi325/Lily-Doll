@@ -99,8 +99,10 @@ class _EnrolledStudentListScreenState extends State<EnrolledStudentList> {
                                             ['Username'],
                                         imagePath: "",
                                         path: StudentDetails.id,
+                                        courseTitle: courseTitle,
                                         studentDetailsNewWidget: StudentDetails(courseTitle:args["courseTitle"],userName: enrolledStudents[index]
                                         ['Username']),
+                                        refreshPage: _refreshPageAfterWidgetAction,
                                       ),
                                       SizedBox(
                                         height: 10,

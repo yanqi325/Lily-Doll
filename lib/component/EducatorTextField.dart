@@ -10,6 +10,9 @@ class educator_textField extends StatefulWidget {
   bool isSelection = false;
   List<Map<String,dynamic>>? popupItems;
   Widget? dropdown;
+  String initialValue;
+  bool hasSetDefaultText = false;
+
 
 
   educator_textField ({
@@ -19,6 +22,7 @@ class educator_textField extends StatefulWidget {
     required this.isSelection,
     this.popupItems,
     this.dropdown,
+    required this.initialValue
   });
 
   @override
@@ -28,6 +32,13 @@ class educator_textField extends StatefulWidget {
 class _EducatorTextFieldState extends State<educator_textField > {
   String userEnteredValue = "";
   TextEditingController _controller = TextEditingController();
+
+  void setDefaultValue(){
+    _controller.text = widget.initialValue;
+    if(widget.onChanged != null) {
+      widget.onChanged!(widget.initialValue);
+    }
+  }
 
   // Function to show the popup menu
   void showPopup(BuildContext context) async {
@@ -60,7 +71,18 @@ class _EducatorTextFieldState extends State<educator_textField > {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Perform your custom initialization here
+    if(!widget.hasSetDefaultText){
+      setDefaultValue();
+widget.hasSetDefaultText = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,6 +110,7 @@ class _EducatorTextFieldState extends State<educator_textField > {
               }
               //open popup box
             },
+
             controller: _controller,
             decoration: kTextFieldDecoration.copyWith(
               hintText: widget.hintText!,

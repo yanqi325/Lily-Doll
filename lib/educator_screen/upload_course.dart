@@ -105,7 +105,8 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                   title: 'Course Title',
                                   hintText: 'Enter course title here',
                                   onChanged: onChangedCallbackTitle,
-                                  isSelection: false),
+                                  isSelection: false,
+                              initialValue: "",),
                               SizedBox(
                                 height: 15,
                               ),
@@ -113,7 +114,8 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                   title: 'Course Description',
                                   hintText: 'Enter course description here',
                                   onChanged: onChangedCallbackDesc,
-                                  isSelection: false),
+                                  isSelection: false,
+                                  initialValue: ""),
                               SizedBox(
                                 height: 15,
                               ),

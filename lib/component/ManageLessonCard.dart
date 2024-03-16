@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_lily/educator_screen/ModifyLessons.dart';
 import 'package:project_lily/screens/chatroom.dart';
 
 import '../Data/Users.dart';
 import '../constants.dart';
+import '../educator_screen/ModifyCourses.dart';
 import '../helperMethods/AuthHelper.dart';
 import '../helperMethods/DbHelper.dart';
 import '../screens/lessonVideoYT.dart';
@@ -298,13 +300,20 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         dbHelper.updateLessonLockStatusEducator(widget.courseTitle!,widget.lessonTitle!, true);
       } else if (value== "modify"){
         //add modify code
+        print(widget.courseTitle!);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              //sdfdf
+              builder: (context) => ModifyLesson(lessonTitle:widget.lessonTitle!,lessonTitleS: widget.courseTitle,)
+            ));
       }else if (value == "delete"){
         //delete code
         DbHelper dbHelper = new DbHelper();
         dbHelper.deleteLessonFromFirestore(widget.lessonTitle!, widget.courseTitle!);
         setState(() {
           if(widget.changeValueCallback != null){
-            widget.changeValueCallback;
+            widget.changeValueCallback!();
             print("refreshed page");
           }
         });
