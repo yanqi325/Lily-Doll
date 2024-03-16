@@ -18,7 +18,8 @@ class CourseAvailable extends StatefulWidget {
       this.status,
       this.moreOption,
       this.refreshPage,
-      this.refreshPageFromSecondWidget});
+      this.refreshPageFromSecondWidget,
+      this.icons});
 
   final String? coursePath;
   final String? imagePath;
@@ -27,6 +28,7 @@ class CourseAvailable extends StatefulWidget {
   final VoidCallback? moreOption;
   final VoidCallback? refreshPage;
   final VoidCallback? refreshPageFromSecondWidget;
+  IconData? icons;
 
   @override
   _CourseAvailable createState() => _CourseAvailable();
@@ -41,6 +43,63 @@ class _CourseAvailable extends State<CourseAvailable> {
 
   @override
   Widget build(BuildContext context) {
+
+    Widget _buildIconButton() {
+      if (widget.icons != null) {
+        return Container(
+          width: 25,
+          child: IconButton(
+            icon: Icon(widget.icons),
+            color: purple4,
+            onPressed: () {
+              // Find the RenderBox of the IconButton
+              RenderBox button = context.findRenderObject() as RenderBox;
+
+              // Get the global position of the button
+              var position = button.localToGlobal(Offset.zero);
+
+              // Calculate the offset for the PopupMenu
+              double topOffset = position.dy + button.size.height;
+              double leftOffset = position.dx;
+              showMenu(
+                context: context,
+                position: RelativeRect.fromLTRB(leftOffset, topOffset, 0, 0),
+                items: [
+                  PopupMenuItem(
+                    child: Text('Modify'),
+                    value: 'modify',
+                  ),
+                  PopupMenuItem(
+                    child: Text('Delete'),
+                    value: 'delete',
+                  ),
+                ],
+              ).then((value) {
+                if (value == 'modify') {
+                  // Run the function for option 1
+                  Navigator.pushNamed(context, UploadCourse.id);
+                } else if (value == 'delete') {
+                  // Run the function for option 2
+                  DbHelper dbHelper = DbHelper();
+                  if (widget.courseName != null) {
+                    dbHelper.deleteCourseFromFirestore(widget.courseName!);
+                    setState(() {
+                      if (widget.refreshPageFromSecondWidget != null) {
+                        widget.refreshPageFromSecondWidget!();
+                        print("refreshed page");
+                      }
+                    });
+                  }
+                }
+              });
+            },
+          ),
+        );
+      } else {
+        return SizedBox(); // Return an empty widget if icons is null
+      }
+    }
+
     String backupUrl = "";
     if (widget.courseName == "Sex Education") {
       backupUrl = "images/sex_education.png";
@@ -150,57 +209,71 @@ class _CourseAvailable extends State<CourseAvailable> {
           //     },
           //   ),
           // )
-          Container(
-            width: 25,
-            child: IconButton(
-              icon: Icon(Icons.more_vert_rounded),
-              color: purple4,
-              onPressed: () {
-                showMenu(
-                  context: context,
-                  position: RelativeRect.fromLTRB(100, 100, 0, 0),
-                  items: [
-                    PopupMenuItem(
-                      child: Text('Modify'),
-                      value: 'modify',
-                    ),
-                    PopupMenuItem(
-                      child: Text('Delete'),
-                      value: 'delete',
-                    ),
-                  ],
-                ).then((value) {
-                  if (value == 'modify') {
-                    // Run the function for option 1
-                    //open AddCourse page with isModify
-                    Navigator.pushNamed(context,UploadCourse.id);
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AddButton(
-                    //   title: 'Modify Course',
-                    //   path: UploadCourse.id,
-                    //   isCourse: true,
-                    //   isEnroll: false,
-                    //   isModify: true,
-                    //   refreshPage: widget.refreshPageFromSecondWidget,
-                    // )));
-                  } else if (value == 'delete') {
-                    // Run the function for option 2
-                    DbHelper dbHelper = new DbHelper();
-                    if(widget.courseName != null){
-                      dbHelper.deleteCourseFromFirestore(widget.courseName!);
-                      setState(() {
-                        if(widget.refreshPageFromSecondWidget != null){
-                          widget.refreshPageFromSecondWidget!();
-                          print("refreshed page");
-                        }
-                      });
-                    }
-                  }
-                });
-              },
-            ),
-          )
+          // Container(
+          //   width: 25,
+          //   child: IconButton(
+          //     icon: Icon(widget.icons),
+          //     color: purple4,
+          //     onPressed: () {
+          //       // Find the RenderBox of the IconButton
+          //       RenderBox button = context.findRenderObject() as RenderBox;
+          //
+          //       // Get the global position of the button
+          //       var position = button.localToGlobal(Offset.zero);
+          //
+          //       // Calculate the offset for the PopupMenu
+          //       double topOffset = position.dy + button.size.height;
+          //       double leftOffset = position.dx;
+          //       showMenu(
+          //         context: context,
+          //         position: RelativeRect.fromLTRB(leftOffset, topOffset, 0, 0),
+          //         items: [
+          //           PopupMenuItem(
+          //             child: Text('Modify'),
+          //             value: 'modify',
+          //           ),
+          //           PopupMenuItem(
+          //             child: Text('Delete'),
+          //             value: 'delete',
+          //           ),
+          //         ],
+          //       ).then((value) {
+          //         if (value == 'modify') {
+          //           // Run the function for option 1
+          //           //open AddCourse page with isModify
+          //           Navigator.pushNamed(context,UploadCourse.id);
+          //           // Navigator.push(context, MaterialPageRoute(builder: (context) => AddButton(
+          //           //   title: 'Modify Course',
+          //           //   path: UploadCourse.id,
+          //           //   isCourse: true,
+          //           //   isEnroll: false,
+          //           //   isModify: true,
+          //           //   refreshPage: widget.refreshPageFromSecondWidget,
+          //           // )));
+          //         } else if (value == 'delete') {
+          //           // Run the function for option 2
+          //           DbHelper dbHelper = new DbHelper();
+          //           if(widget.courseName != null){
+          //             dbHelper.deleteCourseFromFirestore(widget.courseName!);
+          //             setState(() {
+          //               if(widget.refreshPageFromSecondWidget != null){
+          //                 widget.refreshPageFromSecondWidget!();
+          //                 print("refreshed page");
+          //               }
+          //             });
+          //           }
+          //         }
+          //       });
+          //     },
+          //   ),
+          // )
+
+          _buildIconButton(),
+
         ],
       ),
     );
   }
 }
+
+
