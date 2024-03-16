@@ -59,10 +59,10 @@ class _EducatorNavigationBarState extends State<EducatorNavigationBar> {
               icon: Icon(Icons.person),
               label: 'Student',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.message_rounded),
-              label: 'Messages',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.message_rounded),
+            //   label: 'Messages',
+            // ),
           ],
           onTap: (index) {
             setState(() {
@@ -79,9 +79,9 @@ class _EducatorNavigationBarState extends State<EducatorNavigationBar> {
               case 2:
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Students()),);
                 break;
-              case 3:
+              // case 3:
               //Navigator.push(context, MaterialPageRoute(builder: (context) => Chat()),);
-                break;
+              //   break;
               default:
               // Handle other cases if needed
             }

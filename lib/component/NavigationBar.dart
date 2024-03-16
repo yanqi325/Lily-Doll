@@ -55,10 +55,10 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 icon: Icon(Icons.bar_chart),
                 label: 'Report',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.message_rounded),
-                label: 'Messages',
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.message_rounded),
+              //   label: 'Messages',
+              // ),
             ],
             onTap: (index) {
               setState(() {
@@ -75,9 +75,9 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 case 2:
                   Navigator.push(context, MaterialPageRoute(builder: (context) => DataReport()),);
                   break;
-                case 3:
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Chat()),);
-                  break;
+                // case 3:
+                //   Navigator.push(context, MaterialPageRoute(builder: (context) => Chat()),);
+                //   break;
                 default:
                 // Handle other cases if needed
               }
