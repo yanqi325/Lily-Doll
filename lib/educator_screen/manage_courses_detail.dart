@@ -146,7 +146,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                     ),
                                     onValueChanged: (value) {
                                       setState(() {
-                                        // statuses[index] = value;
+                                         statuses[index] = value;
                                       });
                                     },
                                   ),
