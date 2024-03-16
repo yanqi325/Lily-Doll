@@ -33,6 +33,8 @@ class _CustomWebViewState extends State<CustomWebView> {
         appBar(
           title: widget.articleTitle,
           colors: purple7,
+          icon: null,
+          fontSize: 25,
         ),
       ),
       body: WebViewWidget(
