@@ -19,6 +19,7 @@ class ManageLessonCard extends StatefulWidget {
   final void Function(String?)? onValueChanged;
   LessonVideoYT videoPage;
   List<String>? popupItems;
+  final VoidCallback? changeValueCallback;
 
   ManageLessonCard({
     this.coursePath,
@@ -30,7 +31,8 @@ class ManageLessonCard extends StatefulWidget {
     this.onValueChanged,
     this.lessonTitle,
     required this.videoPage,
-    this.popupItems
+    this.popupItems,
+    required this.changeValueCallback
   });
 
   @override
@@ -243,6 +245,14 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
             title: Text('Lock this course'),
           ),
         ),
+        PopupMenuItem(
+          child: Text('Modify'),
+          value: 'modify',
+        ),
+        PopupMenuItem(
+          child: Text('Delete'),
+          value: 'delete',
+        ),
       ],
       elevation: 8.0,
     ).then((value) async {
@@ -286,6 +296,18 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         //lock lesson in backend here
         onValueChanged!('Unlocked');
         dbHelper.updateLessonLockStatusEducator(widget.courseTitle!,widget.lessonTitle!, true);
+      } else if (value== "modify"){
+        //add modify code
+      }else if (value == "delete"){
+        //delete code
+        DbHelper dbHelper = new DbHelper();
+        dbHelper.deleteLessonFromFirestore(widget.lessonTitle!, widget.courseTitle!);
+        setState(() {
+          if(widget.changeValueCallback != null){
+            widget.changeValueCallback;
+            print("refreshed page");
+          }
+        });
       }
     });
   }

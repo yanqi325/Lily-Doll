@@ -570,6 +570,7 @@ class DbHelper {
     }
   }
 
+  //sdfsd
   Future<void> deleteUserFromEnrolledCourses(String userId, String courseTitle) async {
     try {
       // Reference to the document of the enrolled course for the user

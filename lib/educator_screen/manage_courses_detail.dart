@@ -42,8 +42,10 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
   void _refreshPageAfterWidgetAction() {
     print("called calllback");
     setState(() {
+      Future.delayed(new Duration(seconds: 2));
       _futureData = dbHelper.getALlLessonsOfCourse(courseTitle);
     });
+    print("SDF");
   }
 
   // @override
@@ -119,6 +121,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                   ManageLessonCard(
                                     courseNameFull: 'Lesson ${index + 1}: ' +
                                         snapshot.data![0][index].lessonTitle,
+                                    changeValueCallback:_refreshPageAfterWidgetAction,
                                     courseTitle: courseTitle,
                                     lessonTitle:
                                         snapshot.data![0][index].lessonTitle,
@@ -137,6 +140,8 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                       lessonTitle:
                                           snapshot.data![0][index].lessonTitle,
                                       courseTitle: args["courseTitle"],
+
+
                                     ),
                                     onValueChanged: (value) {
                                       setState(() {
