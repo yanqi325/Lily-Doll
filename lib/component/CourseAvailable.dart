@@ -156,9 +156,18 @@ class _CourseAvailable extends State<CourseAvailable> {
               icon: Icon(Icons.more_vert_rounded),
               color: purple4,
               onPressed: () {
+                // Find the RenderBox of the IconButton
+                RenderBox button = context.findRenderObject() as RenderBox;
+
+                // Get the global position of the button
+                var position = button.localToGlobal(Offset.zero);
+
+                // Calculate the offset for the PopupMenu
+                double topOffset = position.dy + button.size.height;
+                double leftOffset = position.dx;
                 showMenu(
                   context: context,
-                  position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                  position: RelativeRect.fromLTRB(leftOffset, topOffset, 0, 0),
                   items: [
                     PopupMenuItem(
                       child: Text('Modify'),
