@@ -219,7 +219,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/BluetoothDataListener.dart';
@@ -623,6 +622,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
       }
     });
   }
+
   @override
   void dispose() {
     _isDisposed = true;
