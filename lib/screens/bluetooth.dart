@@ -393,6 +393,10 @@ class _BluetoothPageState extends State<BluetoothPage> {
                       Positioned(
                         right: 0,
                         child: PopupMenuButton(
+                          icon: Padding(
+                            padding: const EdgeInsets.only(top: 18.0),
+                            child: Icon(Icons.more_vert_rounded),
+                          ),
                           itemBuilder: (BuildContext context) => [
                             PopupMenuItem(
                               child: Text('Connect'),
