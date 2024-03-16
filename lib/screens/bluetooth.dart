@@ -219,6 +219,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/BluetoothDataListener.dart';
@@ -288,75 +289,75 @@ class _BluetoothPageState extends State<BluetoothPage> {
                       'Available Devices',
                       style: appBarLabel.copyWith(color: purple4, fontSize: 18),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              Timer(Duration(seconds: 10), () {
-                                Navigator.of(context).pop();
-                                //checkmark screen
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context){
-                                    Timer(Duration(seconds: 2), () {
-                                      Navigator.of(context).pop();
-                                    });
-                                      return Dialog(
-                                        backgroundColor: Colors.transparent,
-                                        elevation: 0,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          padding: EdgeInsets.all(20),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(Icons.done_outline_rounded,size: 80,),
-                                              SizedBox(height: 20),
-                                              Text('All data has been successfully fetched!',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(fontSize: 16,),
-                                                ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                });
-                              });
-
-                              return Dialog(
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      CircularProgressIndicator(),
-                                      SizedBox(height: 20),
-                                      Text('Fetching data ...',style: TextStyle(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            });
-                      },
-                      child: Text(
-                        'Try',
-                        style: appBarLabel,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: purple1, // Change this to your desired color
-                      ),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     showDialog(
+                    //         context: context,
+                    //         builder: (BuildContext context) {
+                    //           Timer(Duration(seconds: 10), () {
+                    //             Navigator.of(context).pop();
+                    //             //checkmark screen
+                    //             showDialog(
+                    //                 context: context,
+                    //                 builder: (BuildContext context){
+                    //                 Timer(Duration(seconds: 2), () {
+                    //                   Navigator.of(context).pop();
+                    //                 });
+                    //                   return Dialog(
+                    //                     backgroundColor: Colors.transparent,
+                    //                     elevation: 0,
+                    //                     child: Container(
+                    //                       decoration: BoxDecoration(
+                    //                         color: Colors.white,
+                    //                         borderRadius: BorderRadius.circular(10),
+                    //                       ),
+                    //                       padding: EdgeInsets.all(20),
+                    //                       child: Column(
+                    //                         mainAxisSize: MainAxisSize.min,
+                    //                         children: [
+                    //                           Icon(Icons.done_outline_rounded,size: 80,),
+                    //                           SizedBox(height: 20),
+                    //                           Text('All data has been successfully fetched!',
+                    //                             textAlign: TextAlign.center,
+                    //                             style: TextStyle(fontSize: 16,),
+                    //                             ),
+                    //                         ],
+                    //                       ),
+                    //                     ),
+                    //                   );
+                    //             });
+                    //           });
+                    //
+                    //           return Dialog(
+                    //             backgroundColor: Colors.transparent,
+                    //             elevation: 0,
+                    //             child: Container(
+                    //               decoration: BoxDecoration(
+                    //                 color: Colors.white,
+                    //                 borderRadius: BorderRadius.circular(10),
+                    //               ),
+                    //               padding: EdgeInsets.all(20),
+                    //               child: Column(
+                    //                 mainAxisSize: MainAxisSize.min,
+                    //                 children: [
+                    //                   CircularProgressIndicator(),
+                    //                   SizedBox(height: 20),
+                    //                   Text('Fetching data ...',style: TextStyle(fontSize: 16),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           );
+                    //         });
+                    //   },
+                    //   child: Text(
+                    //     'Try',
+                    //     style: appBarLabel,
+                    //   ),
+                    //   style: ElevatedButton.styleFrom(
+                    //     primary: purple1, // Change this to your desired color
+                    //   ),
+                    // ),
                   ],
                 ),
               )),
@@ -366,34 +367,17 @@ class _BluetoothPageState extends State<BluetoothPage> {
               child: ListView.builder(
                 itemCount: scanResults.length,
                 itemBuilder: (context, index) {
-                  return Column(
+                  return Stack(
                     children: [
                       Container(
                         decoration: BoxDecoration(
                           border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3))),
+                            bottom: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                          ),
                         ),
                         child: ListTile(
-                          trailing: GestureDetector(
-                            onTap: () {
-                              showMenu(
-                                context: context,
-                                position: RelativeRect.fromLTRB(100, 100, 0, 0),
-                                items: [
-                                  PopupMenuItem(
-                                    child: Text('Connect'),
-                                    value: 'option1',
-                                  ),
-                                  PopupMenuItem(
-                                    child: Text('Disconnect'),
-                                    value: 'option2',
-                                  ),
-                                ],
-                              );
-                            },
-                            child: Icon(Icons.more_vert),
-                          ),
                           title: Text(
                             scanResults[index].device.name.isNotEmpty
                                 ? scanResults[index].device.name!
@@ -401,86 +385,167 @@ class _BluetoothPageState extends State<BluetoothPage> {
                           ),
                           subtitle: Text(scanResults[index].device.id.toString()),
                           onTap: () {
-                            print(scanResults[index].device);
-                            //connect
-                            //direct ti page
-
                             _connectToDevice(scanResults[index].device);
+                            // Add your dialog code here
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: PopupMenuButton(
+                          itemBuilder: (BuildContext context) => [
+                            PopupMenuItem(
+                              child: Text('Connect'),
+                              value: 'connect',
+                            ),
+                            PopupMenuItem(
+                              child: Text('Disconnect'),
+                              value: 'disconnect',
+                            ),
+                          ],
+                          onSelected: (value) async {
+                            if (value == 'connect') {
+                              _connectToDevice(scanResults[index].device);
 
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  Timer(Duration(seconds: 10), () {
-                                    Navigator.of(context).pop();
-                                    //checkmark screen
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context){
-                                          Timer(Duration(seconds: 2), () {
-                                            Navigator.of(context).pop();
+                              //establishing connection
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    Timer(Duration(seconds: 5), () {
+                                      Navigator.of(context).pop();
+
+                                      //downloading data
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context){
+                                            Timer(Duration(seconds: 5), () {
+                                              Navigator.of(context).pop();
+
+                                              //done screen
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context){
+                                                    Timer(Duration(seconds: 2), () {
+                                                      Navigator.of(context).pop();
+                                                    });
+                                                    return Dialog(
+                                                      backgroundColor: Colors.transparent,
+                                                      elevation: 0,
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                        ),
+                                                        padding: EdgeInsets.all(20),
+                                                        child: Column(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            Icon(Icons.done_outline_rounded,size: 60,color: Colors.deepPurple,)
+                                                                .animate().fade(delay: 400.ms),
+                                                            SizedBox(height: 8),
+                                                            Text('All data has been successfully fetched!',
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(fontSize: 16,),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  });
+
+                                            });
+                                            return Dialog(
+                                              backgroundColor: Colors.transparent,
+                                              elevation: 0,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                padding: EdgeInsets.all(20),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Icon(Icons.download,size: 60,color: Colors.deepPurple,)
+                                                        .animate(onPlay: (controller) => controller.repeat(), // loop
+                                                ).fade(delay: 650.ms),
+                                                    SizedBox(height: 8,),
+                                                    Text('Downloading data...',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(fontSize: 16,),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
                                           });
-                                          return Dialog(
-                                            backgroundColor: Colors.transparent,
-                                            elevation: 0,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              padding: EdgeInsets.all(20),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(Icons.done_outline_rounded,size: 80,),
-                                                  SizedBox(height: 20),
-                                                  Text('All data has been successfully fetched!',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(fontSize: 16,),
-                                                  ),
-                                                ],
-                                              ),
+
+                                    });
+
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        padding: EdgeInsets.all(20),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CircularProgressIndicator(),
+                                            SizedBox(height: 20),
+                                            Text('Establishing connection...',style: TextStyle(fontSize: 16),
                                             ),
-                                          );
-                                        });
+                                          ],
+                                        ),
+                                      ),
+                                    );
                                   });
 
-                                  return Dialog(
-                                    backgroundColor: Colors.transparent,
-                                    elevation: 0,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
+                              // Navigator.pushNamed(context, LoadingAnimation.id);
+
+
+                            } else if (value == 'disconnect') {
+                              Object? result = await scanResults[index].device.disconnect();
+                              print(result);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context){
+                                    Timer(Duration(seconds: 1), () {
+                                      Navigator.of(context).pop();
+                                    });
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        padding: EdgeInsets.all(20),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text('Disconnected',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 16,),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      padding: EdgeInsets.all(20),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          CircularProgressIndicator(),
-                                          SizedBox(height: 20),
-                                          Text('Fetching data ...',style: TextStyle(fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                });
-
-                      // Navigator.pushNamed(context, LoadingAnimation.id);
-
-                    },
-                      onLongPress: () async {
-                       Object? result = await scanResults[index].device.disconnect();
-                       print(result);
-                      },
-                    ),
-                  ),
-
-                      // ElevatedButton(onPressed: ()=>{}, child: Text("Connect"))
+                                    );
+                                  });
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   );
                 },
               ),
+
             ),
           ),
         ],
