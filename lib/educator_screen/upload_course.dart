@@ -15,17 +15,21 @@ import '../component/searchBar.dart';
 
 class UploadCourse extends StatefulWidget {
   static const String id = 'upload_course';
+  String? courseName;
+  String? lessonTitle;
+
+  UploadCourse({this.courseName, this.lessonTitle});
 
   @override
   _UploadCourseScreenState createState() => _UploadCourseScreenState();
 }
 
 class _UploadCourseScreenState extends State<UploadCourse> {
-  List<String> coursesCategory = ["DailyHabits","Science","Maths"];
-  String courseTitle='';
-  String courseDesc='';
-  String courseCategory='';
-  String thumbnailUrl='';
+  List<String> coursesCategory = ["DailyHabits", "Science", "Maths"];
+  String courseTitle = '';
+  String courseDesc = '';
+  String courseCategory = '';
+  String thumbnailUrl = '';
 
   String? selectedValue; // Default selected value
 
@@ -34,7 +38,7 @@ class _UploadCourseScreenState extends State<UploadCourse> {
     // print(enteredValue); // Print the entered value
   }
 
-  void onChangedCallbackDesc(String value){
+  void onChangedCallbackDesc(String value) {
     courseDesc = value;
   }
 
@@ -71,41 +75,45 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 19.0, right: 19, bottom: 12, top: 5),
+                          padding: EdgeInsets.only(
+                              left: 19.0, right: 19, bottom: 12, top: 5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Upload Course',
                                     style: appLabelTextStyle,
                                   ),
                                   IconButton(
-                                      onPressed: (){Navigator.pop(context);},
-                                      icon: Icon(Icons.cancel_outlined, color: purple4,))
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.cancel_outlined,
+                                        color: purple4,
+                                      ))
                                 ],
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               educator_textField(
-                                title: 'Course Title',
-                                hintText: 'Enter course title here',
-                                onChanged: onChangedCallbackTitle,
-                                  isSelection: false
-                              ),
+                                  title: 'Course Title',
+                                  hintText: 'Enter course title here',
+                                  onChanged: onChangedCallbackTitle,
+                                  isSelection: false),
                               SizedBox(
                                 height: 15,
                               ),
                               educator_textField(
-                                title: 'Course Description',
-                                hintText: 'Enter course description here',
-                                onChanged: onChangedCallbackDesc,
-                                  isSelection: false
-        
-                              ),
+                                  title: 'Course Description',
+                                  hintText: 'Enter course description here',
+                                  onChanged: onChangedCallbackDesc,
+                                  isSelection: false),
                               SizedBox(
                                 height: 15,
                               ),
@@ -118,13 +126,22 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                       style: appLabelTextStyle.copyWith(
                                           fontSize: 15, color: Colors.black),
                                     ),
-                                    SizedBox(height: 17,),
+                                    SizedBox(
+                                      height: 17,
+                                    ),
                                     DropdownMenu<String>(
                                       width: 260,
                                       menuHeight: 150,
                                       inputDecorationTheme: dropDownStyle,
-                                      textStyle: appLabelTextStyle.copyWith(fontSize: 12, color: Colors.grey, fontFamily: fontFamily2,fontWeight: FontWeight.bold,),
-                                      menuStyle: MenuStyle(maximumSize: MaterialStatePropertyAll(Size(300,100))),
+                                      textStyle: appLabelTextStyle.copyWith(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                        fontFamily: fontFamily2,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      menuStyle: MenuStyle(
+                                          maximumSize: MaterialStatePropertyAll(
+                                              Size(300, 100))),
                                       initialSelection: "DailyHabits",
                                       onSelected: (String? value) {
                                         // This is called when the user selects an item.
@@ -132,7 +149,8 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                           courseCategory = value!;
                                         });
                                       },
-                                      dropdownMenuEntries: coursesCategory.map<DropdownMenuEntry<String>>(
+                                      dropdownMenuEntries: coursesCategory
+                                          .map<DropdownMenuEntry<String>>(
                                               (String value) {
                                         return DropdownMenuEntry<String>(
                                             value: value, label: value);
@@ -141,7 +159,9 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 15,),
+                              SizedBox(
+                                height: 15,
+                              ),
                               Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,38 +171,49 @@ class _UploadCourseScreenState extends State<UploadCourse> {
                                       style: appLabelTextStyle.copyWith(
                                           fontSize: 15, color: Colors.black),
                                     ),
-                                    SizedBox(height: 2,),
-                                    AddAttachment(title: 'Add File', onPressed: () async {
-                                      //show file picker to upload files
-                                      DbHelper dbHelper = new DbHelper();
-                                      thumbnailUrl= await dbHelper.uploadImage();
-                                    },)
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    AddAttachment(
+                                      title: 'Add File',
+                                      onPressed: () async {
+                                        //show file picker to upload files
+                                        DbHelper dbHelper = new DbHelper();
+                                        thumbnailUrl =
+                                            await dbHelper.uploadImage();
+                                      },
+                                    )
                                   ],
                                 ),
                               ),
-                              UploadAddButton(title: 'Upload',onPressed: (){
-        
-                                //find enum value based on string
-                                courseCategory = courseCategory.toLowerCase();
-                                CourseCategory? selectedCategory;
-                                for (var category in CourseCategory.values) {
-                                  if (category.toString().toLowerCase() == 'coursecategory.$courseCategory') {
-                                    selectedCategory = category;
-                                    break;
+                              UploadAddButton(
+                                title: 'Upload',
+                                onPressed: () {
+                                  //find enum value based on string
+                                  courseCategory = courseCategory.toLowerCase();
+                                  CourseCategory? selectedCategory;
+                                  for (var category in CourseCategory.values) {
+                                    if (category.toString().toLowerCase() ==
+                                        'coursecategory.$courseCategory') {
+                                      selectedCategory = category;
+                                      break;
+                                    }
                                   }
-                                }
-                                //try adding courses to firebase
-                                if(selectedCategory != null){
-                                  Courses courseEnteredByUser= new Courses(courseTitle, courseDesc, selectedCategory!, thumbnailUrl,0);
-                                  DbHelper dbHelper = new DbHelper();
-                                  dbHelper.addCourseToFirestore(courseEnteredByUser);
-                                  Navigator.pop(context);
-                                }else{
-        
-                                }
-                              },)
-        
-        
+                                  //try adding courses to firebase
+                                  if (selectedCategory != null) {
+                                    Courses courseEnteredByUser = new Courses(
+                                        courseTitle,
+                                        courseDesc,
+                                        selectedCategory!,
+                                        thumbnailUrl,
+                                        0);
+                                    DbHelper dbHelper = new DbHelper();
+                                    dbHelper.addCourseToFirestore(
+                                        courseEnteredByUser);
+                                    Navigator.pop(context);
+                                  } else {}
+                                },
+                              )
                             ],
                           ),
                         ),
@@ -199,5 +230,3 @@ class _UploadCourseScreenState extends State<UploadCourse> {
     );
   }
 }
-
-
