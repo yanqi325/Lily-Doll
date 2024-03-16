@@ -48,46 +48,74 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
   String studentName = "";
   TextEditingController _controller = TextEditingController();
 
-  void showPopup(BuildContext context) async {
-
-    // Find the RenderBox of the IconButton
-    RenderBox button = context.findRenderObject() as RenderBox;
-
-    // Get the global position of the button
-    var position = button.localToGlobal(Offset.zero);
-
-    // Calculate the offset for the PopupMenu
-    double topOffset = position.dy + button.size.height;
-    double leftOffset = position.dx;
-
-
-    if (widget.popupItems != null) {
-      final String? selectedItem = await showMenu(
-        context: context,
-        position: RelativeRect.fromLTRB(leftOffset, topOffset, 0, 0),
-        items: widget.popupItems!.map((item) {
-          return PopupMenuItem<String>(
-            value: item,
-            child: Text(item),
-          );
-        }).toList(),
-      );
-      if (selectedItem != null) {
-        // Handle the selected item
-        setState(() {
-          userEnteredValue = selectedItem;
-          changeTextFieldText(selectedItem);
-          print("changed text to " + selectedItem);
-        });
-        if (widget.onValueChanged != null) {
-          widget.onValueChanged!(selectedItem);
-        }
-      }
-    }
-  }
+  // void showPopup(BuildContext context) async {
+  //
+  //   // Find the RenderBox of the IconButton
+  //   RenderBox button = context.findRenderObject() as RenderBox;
+  //
+  //   // Get the global position of the button
+  //   var position = button.localToGlobal(Offset.zero);
+  //
+  //   // Calculate the offset for the PopupMenu
+  //   double topOffset = position.dy + button.size.height;
+  //   double leftOffset = position.dx;
+  //
+  //
+  //   if (widget.popupItems != null) {
+  //     final String? selectedItem = await showMenu(
+  //       context: context,
+  //       position: RelativeRect.fromLTRB(leftOffset, topOffset, 0, 0),
+  //       items: widget.popupItems!.map((item) {
+  //         return PopupMenuItem<String>(
+  //           value: item,
+  //           child: Text(item),
+  //         );
+  //       }).toList(),
+  //     );
+  //     if (selectedItem != null) {
+  //       // Handle the selected item
+  //       setState(() {
+  //         userEnteredValue = selectedItem;
+  //         changeTextFieldText(selectedItem);
+  //         print("changed text to " + selectedItem);
+  //       });
+  //       if (widget.onValueChanged != null) {
+  //         widget.onValueChanged!(selectedItem);
+  //       }
+  //     }
+  //   }
+  // }
   void changeTextFieldText(String newText) {
     _controller.text = newText;
     studentName = newText;// Set the text using the controller
+  }
+
+
+  Widget showDropDown(){
+    return DropdownMenu<String>(
+      width: 120,
+      menuHeight: 250,
+      inputDecorationTheme: dropDownStyle,
+      textStyle: appLabelTextStyle.copyWith(fontSize: 12, color: Colors.grey, fontFamily: fontFamily2,fontWeight: FontWeight.bold,),
+      menuStyle: MenuStyle(maximumSize: MaterialStatePropertyAll(Size(300,100))),
+      hintText: 'Student',
+      // initialSelection: userName,
+      onSelected: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          userEnteredValue = value!;
+          changeTextFieldText(value);
+          widget.onValueChanged!(value);
+        });
+      },
+      dropdownMenuEntries: widget.popupItems!.map((item) {
+        return DropdownMenuEntry<String>(
+          value: item,
+          label: item,);
+      }).toList(),
+
+    );
+
   }
 
   TextEditingController searchController = TextEditingController();
@@ -175,6 +203,8 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
     );
   }
 
+
+
   void showPopupMenu(BuildContext context) {
 
     GlobalKey _popupKey = GlobalKey();
@@ -213,40 +243,43 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
                   width: 100,
                   height: 30,
                   child: Center(
-                    child: SearchBar(
-                      elevation: MaterialStateProperty.all(0.0),
-                      textStyle: MaterialStateProperty.all( const TextStyle(
-                        color: Colors.black,
-                        fontFamily: fontFamily2,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      )),
-
-                      hintText: 'Student',
-                      hintStyle: MaterialStateProperty.all(const TextStyle(
-                        color: Colors.grey,
-                        fontFamily: fontFamily2,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      )),
-                      controller: _controller,
-                      onTap: (){
-                        showPopup(context);
-                        print("show pop up");
-                      },
-                      onSubmitted: (String value) async {
-                        print('value15332: $value');
-                        studentName = value;
-                        // searchController.clear();
-                        onValueChanged!('Unlocked for $studentName');
-                        //unlock for user -> lesson (set)
-                        //serach by user
-
-                        Navigator.of(context).pop();
-                      },
-
-                    ),
+                    child: showDropDown(),
                   ),
+                  // child: Center(
+                  //   child: SearchBar(
+                  //     elevation: MaterialStateProperty.all(0.0),
+                  //     textStyle: MaterialStateProperty.all( const TextStyle(
+                  //       color: Colors.black,
+                  //       fontFamily: fontFamily2,
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 14,
+                  //     )),
+                  //
+                  //     hintText: 'Student',
+                  //     hintStyle: MaterialStateProperty.all(const TextStyle(
+                  //       color: Colors.grey,
+                  //       fontFamily: fontFamily2,
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 14,
+                  //     )),
+                  //     controller: _controller,
+                  //     onTap: (){
+                  //       showPopup(context);
+                  //       print("show pop up");
+                  //     },
+                  //     onSubmitted: (String value) async {
+                  //       print('value15332: $value');
+                  //       studentName = value;
+                  //       // searchController.clear();
+                  //       onValueChanged!('Unlocked for $studentName');
+                  //       //unlock for user -> lesson (set)
+                  //       //serach by user
+                  //
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //
+                  //   ),
+                  // ),
 
                 ),
               ],
