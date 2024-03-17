@@ -28,9 +28,6 @@ class ManageCoursesDetail extends StatefulWidget {
 
 class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
   List<String?> statuses = [
-    'Locked',
-    'Locked',
-    'Locked'
   ]; // Initial statuses for each lesson, get from firebase?
   DbHelper dbHelper = new DbHelper();
   String courseTitle = '';
@@ -83,6 +80,10 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
+              for (int i = 0; i < snapshot.data![0].length; i++) {
+                statuses.add('');
+              }
+
               return Container(
                 color: backgroundColor2,
                 child: Padding(
@@ -127,12 +128,13 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                                     lessonTitle:
                                         snapshot.data![0][index].lessonTitle,
                                     imagePath: 'images/sex_lesson1.png',
-                                    status: snapshot.data![0][index].isLocked
-                                                .toString()
-                                                .toLowerCase() ==
-                                            "true"
-                                        ? "Locked"
-                                        : "Unlocked",
+                                    status: statuses[index],
+                                    // status: snapshot.data![0][index].isLocked
+                                    //             .toString()
+                                    //             .toLowerCase() ==
+                                    //         "true"
+                                    //     ? "Locked"
+                                    //     : "Unlocked",
                                     coursePath: CourseVideo.id,
                                     popupItems: snapshot.data![1],
                                     videoPage: LessonVideoYT(

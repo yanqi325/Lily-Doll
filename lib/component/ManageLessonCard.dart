@@ -105,7 +105,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
         setState(() {
           userEnteredValue = value!;
           changeTextFieldText(value);
-          widget.onValueChanged!(value);
+          // widget.onValueChanged!(value);
         });
       },
       dropdownMenuEntries: widget.popupItems!.map((item) {
@@ -171,7 +171,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
                           softWrap: true,
                         ),
                       ),
-                      if (widget.status != null) ...[
+                      // if (widget.status != null) ...[
                         Text(
                           widget.status!,
                           style: appLabelTextStyle.copyWith(
@@ -180,7 +180,7 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
                             color: Colors.grey,
                           ),
                         )
-                      ],
+                      // ],
                     ],
                   ),
                 ],
@@ -337,11 +337,12 @@ class ManageLessonCardClass extends State<ManageLessonCard> {
             .getCurrentUserId();
         dbHelper.addFieldsToLessonDocumentUserSingle(userId, widget.courseTitle!,widget.lessonTitle!,educatorId!, true);
         print("changed isUnlocked status");
+        onValueChanged!('Unlocked for $studentName');
       }
       else if (value == 'lock') {
         onValueChanged!('Locked');
         //lock lesson in backend here
-        onValueChanged!('Unlocked');
+        // onValueChanged!('Unlocked');
         dbHelper.updateLessonLockStatusEducator(widget.courseTitle!,widget.lessonTitle!, true);
       } else if (value== "modify"){
         //add modify code
