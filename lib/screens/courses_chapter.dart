@@ -53,7 +53,7 @@ class _CoursesChapterScreenState extends State<CoursesChapter> {
                         print(lesson.lessonTitle + " : " + lesson.isLocked.toString());
                         return LessonCard(
                           lessonTitle: lesson.lessonTitle,
-                          lessonNo: index.toString(),
+                          lessonNo: (index+1).toString(),
                           lessonProgress: 54,
                           minutesLeft: 34,
                           isLocked: lesson.isLocked != null? lesson.isLocked! : true,
