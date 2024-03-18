@@ -68,6 +68,7 @@ class _SettingPageScreenState extends State<SettingPage> {
                         ),
                         height: 110,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(width: 10,),
                             Avatar(radius: 40,),
