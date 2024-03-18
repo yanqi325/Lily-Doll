@@ -70,28 +70,35 @@ class _SettingPageScreenState extends State<SettingPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(width: 10,),
-                            Avatar(radius: 40,),
-                            SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 20,),
-                                Text(
-                                  userName!,
-                                  style: appBarLabel.copyWith(
-                                      fontSize: 22, color: Colors.black),
-                                ),
-                                SizedBox(height: 1),
-                                Text(
-                                  'LilyDoll123',
-                                  style: appBarLabel.copyWith(
-                                      fontSize: 12, color: purple4),
-                                ),
-                              ],
+                            Container(
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 10,),
+                                  Avatar(radius: 40,),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 20,),
+                                      Text(
+                                        userName!,
+                                        style: appBarLabel.copyWith(
+                                            fontSize: 22, color: Colors.black),
+                                      ),
+                                      SizedBox(height: 1),
+                                      Text(
+                                        'LilyDoll123',
+                                        style: appBarLabel.copyWith(
+                                            fontSize: 12, color: purple4),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
+
                             Padding(
-                              padding: const EdgeInsets.only(left: 30.0),
+                              padding: const EdgeInsets.only(left: 30.0, right: 10),
                               child: IconButton(
                                 icon: Icon(Icons.bluetooth_rounded,
                                     size: 40,
