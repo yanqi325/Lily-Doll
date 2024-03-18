@@ -130,11 +130,11 @@ class _HomePageScreenState extends State<HomePage> {
                           Container(
                             child: Image.asset(
                               'images/bunny.png',
-                              width: 300,
-                              height: 340,
+                              width: 400,
+                              height: 500,
                             ),
                           ),
-                          SizedBox(height: 25,),
+                          SizedBox(height: 40,),
                           Row(
                             children: [
                               Text(
