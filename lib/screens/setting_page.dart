@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_lily/BluetoothService.dart';
 import 'package:project_lily/component/Avatar.dart';
 import 'package:project_lily/component/ElevatedButton.dart';
 import 'package:project_lily/constants.dart';
@@ -19,10 +18,6 @@ import '../helperMethods/AuthHelper.dart';
 
 class SettingPage extends StatefulWidget {
   static const String id = 'setting_page';
-  LocalBluetoothService? bleService;
-
-  SettingPage({this.bleService});
-
   @override
   _SettingPageScreenState createState() => _SettingPageScreenState();
 }
@@ -34,13 +29,12 @@ class _SettingPageScreenState extends State<SettingPage> {
   Widget build(BuildContext context) {
     AuthHelper authHelper = new AuthHelper();
 
+
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(85), // Set the preferred height
-          child: appBar(
-            title: 'Settings',
-            icon: null,
-          ),
+          child: appBar(title: 'Settings',
+            icon: null,),
         ),
         body: FutureBuilder<String?>(
           future: authHelper.getCurrentUsername(),
@@ -51,19 +45,14 @@ class _SettingPageScreenState extends State<SettingPage> {
                 return Container(
                   color: backgroundColor,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 15, left: 20, right: 20),
+                    padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Account',
+                        Text('Account',
                           style: appBarLabel.copyWith(
-                              color: purple4, fontSize: 22),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                              color: purple4, fontSize: 22),),
+                        SizedBox(height: 10,),
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
@@ -79,20 +68,15 @@ class _SettingPageScreenState extends State<SettingPage> {
                           ),
                           height: 110,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Avatar(
-                                radius: 40,
-                              ),
+                              SizedBox(width: 10,),
+                              Avatar(radius: 40,),
                               SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    height: 20,
-                                  ),
+                                  SizedBox(height: 20,),
                                   Text(
                                     userName!,
                                     style: appBarLabel.copyWith(
@@ -122,27 +106,20 @@ class _SettingPageScreenState extends State<SettingPage> {
                                     if (isPressed == true) {
                                       Navigator.pushNamed(
                                           context, BluetoothPage.id);
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => BluetoothPage(bleService: widget.bleService,))
-                                    // ;
                                     }
                                   },
                                 ),
                               ),
                             ],
+
                           ),
                         ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Text(
-                          'Settings',
+                        SizedBox(height: 18,),
+                        Text('Settings',
                           style: appBarLabel.copyWith(
                               color: purple4, fontSize: 22),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10,),
                         elevatedButton(
                           title: 'Notifications',
                           fontColor: Colors.black,
@@ -156,9 +133,7 @@ class _SettingPageScreenState extends State<SettingPage> {
                             Navigator.pushNamed(context, NotificationPage.id);
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10,),
                         elevatedButton(
                           title: 'Language',
                           fontColor: Colors.black,
@@ -172,9 +147,7 @@ class _SettingPageScreenState extends State<SettingPage> {
                             Navigator.pushNamed(context, LanguagePage.id);
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10,),
                         elevatedButton(
                           title: 'Help Center',
                           fontColor: Colors.black,
@@ -188,9 +161,7 @@ class _SettingPageScreenState extends State<SettingPage> {
                             Navigator.pushNamed(context, HelpCenter.id);
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10,),
                         elevatedButton(
                           title: 'About Us',
                           fontColor: Colors.black,
@@ -204,9 +175,7 @@ class _SettingPageScreenState extends State<SettingPage> {
                             Navigator.pushNamed(context, AboutUs.id);
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10,),
                         elevatedButton(
                           title: 'Account',
                           fontColor: Colors.black,
@@ -220,6 +189,8 @@ class _SettingPageScreenState extends State<SettingPage> {
                             Navigator.pushNamed(context, ProfilePage.id);
                           },
                         ),
+
+
                       ],
                     ),
                   ),
@@ -228,6 +199,9 @@ class _SettingPageScreenState extends State<SettingPage> {
             }
             return Container();
           },
-        ));
+        )
+
+
+    );
   }
 }
