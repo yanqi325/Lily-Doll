@@ -7,6 +7,7 @@ import '../Data/Courses.dart';
 import '../component/CoursesCard.dart';
 import '../component/IconButton.dart';
 import '../component/NavigationBar.dart';
+import '../helperMethods/AuthHelper.dart';
 import '../helperMethods/DbHelper.dart';
 
 class CoursesPage extends StatefulWidget {
@@ -20,36 +21,37 @@ class _CoursesPageScreenState extends State<CoursesPage> {
   @override
   Widget build(BuildContext context) {
     DbHelper dbHelper = new DbHelper();
+    AuthHelper authHelper = new AuthHelper();
 
     //hard coded values: do not touch
     Widget course1 = CourseDescription(
-        courseTitle: "Sex Education",
+        courseTitle: "Maths",
         numOfStudents: 190,
         descText:
-            "This is a course where students will learn about their rights of their body",
-        imagePath: 'images/sex_education.png',
+            "A math course tailored for autistic children utilizes visual aids and structured, repetitive exercises to facilitate understanding and engagement. Through personalized support and a sensory-friendly environment, it aims to foster confidence and success in mathematical concepts.",
+        imagePath: 'images/maths.png',
         altText: "You are not enrolled in this course!",
         isEnrolled: false,
         isEducatorMode: false,
         isOnlineAsset: false);
 
     Widget course2 = CourseDescription(
-        courseTitle: "Daily Life",
+        courseTitle: "Reading",
         numOfStudents: 3,
         descText:
-            "This is a course where students will learn about the ins and outs of life",
-        imagePath: 'images/daily_life.png',
+            "Tailored to the unique needs of autistic children, our reading course offers a supportive environment where every child can thrive. With specialized techniques and personalized attention, we foster a love for reading while nurturing individual strengths.",
+        imagePath: 'images/reading.png',
         altText: "You are not enrolled in this course!",
         isEnrolled: false,
         isEducatorMode: false,
         isOnlineAsset: false);
 
     Widget course3 = CourseDescription(
-        courseTitle: "Shapes",
+        courseTitle: "Speaking",
         numOfStudents: 65,
         descText:
-            "This is a course where students will learn about the different types of shapes",
-        imagePath: 'images/shape.png',
+            "A specialized speaking course tailored for autistic children provides structured and supportive communication environments, fostering their confidence and language skills. Through personalized approaches and understanding of their unique needs, these courses aim to empower autistic children to express themselves more effectively.",
+        imagePath: 'images/speaking.png',
         altText: "You are not enrolled in this course!",
         isEnrolled: false,
         isEducatorMode: false,
@@ -58,14 +60,20 @@ class _CoursesPageScreenState extends State<CoursesPage> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarWidget(initialIndex: 0),
       body: FutureBuilder(
-          future: dbHelper.getEnrolledCourses(),
+          future: Future.wait([
+            dbHelper.getEnrolledCourses(),
+            authHelper.getCurrentUsername(),
+          ]),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
-              print(snapshot.data!.length);
+              // print(snapshot.data!.length);
+
+              String? username = snapshot.data![1] as String?;
+
               return Container(
                 color: backgroundColor,
                 child: Padding(
@@ -76,7 +84,7 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            Users.username,
+                            username!,
                             style: appLabelTextStyle.copyWith(fontSize: 28),
                           ),
                           Text(
@@ -133,9 +141,9 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                             child: Row(
                               children: [
                                 iconButton(
-                                  label: 'Sex Education',
+                                  label: 'Maths',
                                   //extract from Courses class?
-                                  image: 'images/sex_education.png',
+                                  image: 'images/maths.png',
                                   //extract from Courses class?
                                   route: course1,
                                 ), //add route
@@ -143,8 +151,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                   width: 20,
                                 ),
                                 iconButton(
-                                  label: 'Daily Life',
-                                  image: 'images/daily_life.png',
+                                  label: 'Reading',
+                                  image: 'images/reading.png',
                                   route: course2,
                                 ),
                                 //add route
@@ -152,8 +160,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                   width: 20,
                                 ),
                                 iconButton(
-                                  label: 'Shape',
-                                  image: 'images/shape.png',
+                                  label: 'Speaking',
+                                  image: 'images/speaking.png',
                                   route: course3,
                                 ), //add route
                               ],
@@ -172,34 +180,33 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                           //Generate user courses based on firebase
                           Expanded(
                             child: ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      CoursesCard(
-                                        courseTitle:
-                                            snapshot.data![index].courseTitle,
-                                        thumbnailUrl:
-                                            snapshot.data![index].thumbnailUrl,
-                                        courseDescWidget: CourseDescription(
-                                            courseTitle: snapshot
-                                                .data![index].courseTitle,
-                                            numOfStudents: 190,
-                                            descText: snapshot
-                                                .data![index].courseDesc,
-                                            imagePath: snapshot
-                                                .data![index].thumbnailUrl,
-                                            altText: "",
-                                            isEnrolled: true,
-                                            isEducatorMode: false,
-                                            isOnlineAsset: true),
+                              itemCount: (snapshot.data![0] as List).length,
+                              itemBuilder: (context, index) {
+                                List courses = snapshot.data![0] as List;
+                                return Column(
+                                  children: [
+                                    CoursesCard(
+                                      courseTitle: courses[index].courseTitle,
+                                      thumbnailUrl: courses[index].thumbnailUrl,
+                                      courseDescWidget: CourseDescription(
+                                        courseTitle: courses[index].courseTitle,
+                                        numOfStudents: 190,
+                                        descText: courses[index].courseDesc,
+                                        imagePath: courses[index].thumbnailUrl,
+                                        altText: "",
+                                        isEnrolled: true,
+                                        isEducatorMode: false,
+                                        isOnlineAsset: true,
                                       ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                    ],
-                                  );
-                                }),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+
                           ),
                           SizedBox(
                             width: 20,
