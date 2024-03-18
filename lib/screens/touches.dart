@@ -49,6 +49,7 @@ class _TouchesScreenState extends State<Touches> {
                 print(touchData);
                 return SingleChildScrollView(
                   child: Container(
+                    height: MediaQuery.of(context).size.height -85, // Adjust the multiplier as needed
                     color: backgroundColor,
                     child: Column(
                       children: [
