@@ -50,6 +50,7 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
               show: false,
             ),
             titlesData: FlTitlesData(
+              show: true,
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(showTitles: false),
               ),
@@ -66,21 +67,7 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
             ),
             groupsSpace: 10,
             barGroups: _chartGroups(),
-            barTouchData: BarTouchData(
-              touchTooltipData: BarTouchTooltipData(
-                tooltipBgColor: Colors.blueAccent,
-              ),
-              touchCallback: (event, touchResponse) {
-                // Handle touch interaction here
-                if (touchResponse?.spot != null) {
-                  // A bar was touched
-                  SqueezeBarChart.touchedBarIndex = touchResponse?.spot!.touchedBarGroupIndex!;
-                  print('Touched bar at index: $touchedBarIndex');
-                  onIndexChanged(touchedBarIndex);
-
-                }
-              },
-            ),
+            barTouchData:barTouchData,
 
           ),
         ),
@@ -88,6 +75,40 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
     );
   }
   int? get getTouchedBarIndex => touchedBarIndex;
+
+  BarTouchData get barTouchData => BarTouchData(
+    enabled: false,
+    touchTooltipData: BarTouchTooltipData(
+      tooltipBgColor: Colors.transparent,
+      tooltipPadding: EdgeInsets.zero,
+      tooltipMargin: 0,
+      getTooltipItem: (
+          BarChartGroupData group,
+          int groupIndex,
+          BarChartRodData rod,
+          int rodIndex,
+          ) {
+        return BarTooltipItem(
+          rod.toY.round().toString(),
+          const TextStyle(
+            color: Colors.black,
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      },
+    ),
+    touchCallback: (event, touchResponse) {
+      // Handle touch interaction here
+      if (touchResponse?.spot != null) {
+        // A bar was touched
+        SqueezeBarChart.touchedBarIndex = touchResponse?.spot!.touchedBarGroupIndex!;
+        print('Touched bar at index: $touchedBarIndex');
+        onIndexChanged(touchedBarIndex);
+
+      }
+    },
+  );
 
 
   SideTitles get _bottomTiles =>
@@ -132,10 +153,14 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
     List<BarChartGroupData> list = List<BarChartGroupData>.empty(
         growable: true);
     for (int i = 1; i <= 7; i++) {
-      list.add(BarChartGroupData(x: i, barRods: [
+      list.add(BarChartGroupData(x: i,
+          barRods: [
         BarChartRodData(
             toY: widget.dailySqueeze![i]!.toDouble(), color: Color(0xFFDA7BFC), width: 15)
-      ]));
+      ],
+          showingTooltipIndicators: [0],
+      )
+      );
     }
     return list;
   }
