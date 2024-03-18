@@ -147,7 +147,7 @@ class _SqueezesScreenState extends State<Squeezes> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 30,
                                 ),
                                 SqueezesBarChartWidget(
                                   dailySqueeze: weeklyData,
