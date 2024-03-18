@@ -38,6 +38,7 @@ import 'package:project_lily/screens/web_view.dart';
 import 'package:project_lily/screens/welcome_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'BluetoothService.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -68,8 +69,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  //pass this to bluetooth connection page, and to the squeeze data page
+  LocalBluetoothService bleService = LocalBluetoothService();
+
+
+
   @override
   Widget build(BuildContext context) {
+    bleService.initServices();
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: WelcomeScreen.id,
@@ -115,7 +123,7 @@ class MyApp extends StatelessWidget {
           Enrollment.id: (context) => Enrollment(),
           StudentDetails.id: (context) => StudentDetails(courseTitle: "",userName: ""),
           SignUpUserPage.id: (context) => SignUpUserPage(),
-          BluetoothPage.id: (context) => BluetoothPage(),
+          BluetoothPage.id: (context) => BluetoothPage(bleService: bleService,),
           LoadingAnimation.id: (context) => LoadingAnimation(),
         });
   }

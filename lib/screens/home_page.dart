@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_lily/BluetoothService.dart';
 import 'package:project_lily/component/Avatar.dart';
 import 'package:project_lily/constants.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -20,6 +21,8 @@ class HomePage extends StatefulWidget {
 class _HomePageScreenState extends State<HomePage> {
   double? battPercent = 1.0; //get from the doll
   bool isSwitched = false;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +78,12 @@ class _HomePageScreenState extends State<HomePage> {
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, SettingPage.id);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => SettingPage(bleService: bleService,)),
+                          //   );
+
                         },
                       ),
                     ],
