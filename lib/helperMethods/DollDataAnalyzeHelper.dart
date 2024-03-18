@@ -11,6 +11,21 @@ import 'AuthHelper.dart';
 class DollDataAnalyzeHelper {
   //contains methods on analyzing and sorting data from the doll
 
+  //create variable to store how many additions to each date
+  //initialize this with already existing data
+  static Map<String,int> totalAdditions = new Map<String,int>();
+
+
+  Future<void> initializeTotalAdditions() async {
+
+    var date = DateFormat('dd-MM-y').format(DateTime.now());
+    Map<int,String> allDatesInWeek = getDatesInWeek(date);
+    for(int i =1; i <8;i++){
+      totalAdditions[(allDatesInWeek[i]!)] = await getTotalSqueezePerday(allDatesInWeek[i]!);
+    }
+print(totalAdditions);
+  }
+
   Future<List<List<String>>> parseTextFile() async {
     // Load the text file from assets
     //TODO: Change to get data from bluetooth
@@ -60,47 +75,107 @@ class DollDataAnalyzeHelper {
   }
 
   void decodeDollDataBLE(List<String> lines) async {
-    List<SqueezeTouchData> SqueezeTouchDataList = [];
-    //decode doll data
+    List<SqueezeTouchData> squeezeTouchDataList = [];
+    // Decode doll data
     List<List<String>> data = await parseTextFileBLE(lines);
 
-    //create list of squeeze touch objects
-    SqueezeTouchDataList = await addToList(data);
+    // Create list of squeeze touch objects
+    squeezeTouchDataList = await addToList(data);
 
-    //create variable to store how many additions to each date
-    Map<String,int> totalAdditions = new Map<String,int>();
+    // Save objects into Firebase
+    DbHelper dbHelper = DbHelper();
+    // Iterate over squeezeTouchDataList using for loop
+    for (final element in squeezeTouchDataList) {
+      // Add the document to the Firestore subcollection
+      await dbHelper.addDocumentToDateSubcollection(element);
 
-    //save objects into firebase
-    DbHelper dbHelper = new DbHelper();
-    SqueezeTouchDataList.forEach((element) async {
-
-      //add random timestamp between this current week
-      dbHelper.addDocumentToDateSubcollection(element);
-      // Define start and end dates
-      // DateTime startDate = DateTime(2024, 3, 17);
-      // DateTime endDate = DateTime(2024, 3, 19);
-
-      // Generate a random DateTime within the range
-      // DateTime randomDate = randomizeDateTime(startDate, endDate);
-      // var date = DateFormat('dd-MM-y').format(randomDate);
+      // Get the date from the squeeze touch data
       var date = DateFormat('dd-MM-y').format(element.timestamp);
-      if (totalAdditions.containsKey(date)){
-        //if contains, then add one to the value
+      print("totalAdditions: ${totalAdditions}");
+      print("Date is + ${date}");
+
+      if (totalAdditions.containsKey(date)) {
+        // If contains, then add one to the value
         int totalFromFirebase = totalAdditions[date]!;
         totalFromFirebase++;
         totalAdditions[date] = totalFromFirebase;
-      }else{
-        //create new key
+      } else {
+        // Create new key
         totalAdditions[date] = 1;
       }
       print(totalAdditions);
+    }
 
-    });
-    //last resort method to add total at the end
+    // Last resort method to add total at the end
     totalAdditions.forEach((key, value) {
       dbHelper.incrementCounter(key, value);
     });
   }
+
+  // void decodeDollDataBLE(List<String> lines) async {
+  //
+  //   List<SqueezeTouchData> SqueezeTouchDataList = [];
+  //   //decode doll data
+  //   List<List<String>> data = await parseTextFileBLE(lines);
+  //
+  //   //create list of squeeze touch objects
+  //   SqueezeTouchDataList = await addToList(data);
+  //
+  //
+  //
+  //   //save objects into firebase
+  //   DbHelper dbHelper = new DbHelper();
+  //   SqueezeTouchDataList.forEach((element) async {
+  //   //
+  //   //   //add random timestamp between this current week
+  //     dbHelper.addDocumentToDateSubcollection(element);
+  //   //   // Define start and end dates
+  //   //   // DateTime startDate = DateTime(2024, 3, 17);
+  //   //   // DateTime endDate = DateTime(2024, 3, 19);
+  //   //
+  //   //   // Generate a random DateTime within the range
+  //   //   // DateTime randomDate = randomizeDateTime(startDate, endDate);
+  //     // var date = DateFormat('dd-MM-y').format(randomDate);
+  //     var date = DateFormat('dd-MM-y').format(element.timestamp);
+  //     print("totalAdditions: ${totalAdditions}");
+  //     print("Date is + ${date}");
+  //
+  //     if (totalAdditions.containsKey(date)){
+  //       //if contains, then add one to the value
+  //       int totalFromFirebase = totalAdditions[date]!;
+  //       totalFromFirebase++;
+  //       totalAdditions[date] = totalFromFirebase;
+  //     }
+  //     // else{
+  //     //   //create new key
+  //     //   totalAdditions[date] = 1;
+  //     // }
+  //     print(totalAdditions);
+  //
+  //   });
+  //
+  //   // for (final squeezeTouchData in SqueezeTouchDataList) {
+  //   //   // Add the document to the Firestore subcollection
+  //   //   await dbHelper.addDocumentToDateSubcollection(squeezeTouchData);
+  //   //
+  //   //   // Get the date from the squeeze touch data
+  //   //   var date = DateFormat('dd-MM-y').format(squeezeTouchData.timestamp);
+  //   //
+  //   //   // Update totalAdditions map
+  //   //   if (totalAdditions.containsKey(date)) {
+  //   //     // If contains, then add one to the value
+  //   //     totalAdditions[date] = totalAdditions[date]! + 1;
+  //   //   }
+  //   //   // } else {
+  //   //   //   // Create new key
+  //   //   //   totalAdditions[date] = 1;
+  //   //   // }
+  //   // }
+  //   //last resort method to add total at the end
+  //   totalAdditions.forEach((key, value) {
+  //     dbHelper.incrementCounter(key, value);
+  //   });
+  // }
 
   List<SqueezeTouchData> addToList(List<List<String>> dummy) {
     List<SqueezeTouchData> datalist = [];
@@ -108,11 +183,11 @@ class DollDataAnalyzeHelper {
     for (List<String> singleEntry in dummy) {
       if (singleEntry.isNotEmpty && singleEntry.length == 3) {
         //TODO: Change this on presentation date
-        // DateTime startDate = DateTime(2024, 3, 17);
-        // DateTime endDate = DateTime(2024, 3, 19);
-
-        DateTime startDate = DateTime(2024, 3, 20,0,0,0);
-        DateTime endDate = DateTime(2024, 3, 20,23,59,59);
+        DateTime startDate = DateTime(2024, 3, 19);
+        DateTime endDate = DateTime(2024, 3, 19,23,59,59);
+        //
+        // DateTime startDate = DateTime(2024, 3, 20,0,0,0);
+        // DateTime endDate = DateTime(2024, 3, 20,23,59,59);
 
         // Generate a random DateTime within the range
         DateTime randomDate = randomizeDateTime(startDate, endDate);
@@ -132,41 +207,41 @@ class DollDataAnalyzeHelper {
   }
 
   //get data from bluetooth, and transform data into object, and upload to firebase
-  void decodeDollData() async {
-    List<SqueezeTouchData> SqueezeTouchDataList = [];
-    //decode doll data
-    List<List<String>> data = await parseTextFile();
-
-    //create list of squeeze touch objects
-    SqueezeTouchDataList = await addToList(data);
-
-    //create variable to store how many additions to each date
-    Map<String,int> totalAdditions = new Map<String,int>();
-
-    //save objects into firebase
-    DbHelper dbHelper = new DbHelper();
-    SqueezeTouchDataList.forEach((element) async {
-
-      dbHelper.addDocumentToDateSubcollection(element);
-      var date = DateFormat('dd-MM-y').format(element.timestamp);
-      print(totalAdditions);
-      if (totalAdditions.containsKey(date)){
-        //if contains, then add one to the value
-        int totalFromFirebase = totalAdditions[date]!;
-        totalFromFirebase++;
-        totalAdditions[date] = totalFromFirebase;
-      }else{
-        //create new key
-        totalAdditions[date] = 1;
-      }
-      print(totalAdditions);
-
-    });
-    //last resort method to add total at the end
-    totalAdditions.forEach((key, value) {
-      dbHelper.incrementCounter(key, value);
-    });
-  }
+  // void decodeDollData() async {
+  //   List<SqueezeTouchData> SqueezeTouchDataList = [];
+  //   //decode doll data
+  //   List<List<String>> data = await parseTextFile();
+  //
+  //   //create list of squeeze touch objects
+  //   SqueezeTouchDataList = await addToList(data);
+  //
+  //   //create variable to store how many additions to each date
+  //   Map<String,int> totalAdditions = new Map<String,int>();
+  //
+  //   //save objects into firebase
+  //   DbHelper dbHelper = new DbHelper();
+  //   SqueezeTouchDataList.forEach((element) async {
+  //
+  //     dbHelper.addDocumentToDateSubcollection(element);
+  //     var date = DateFormat('dd-MM-y').format(element.timestamp);
+  //     print(totalAdditions);
+  //     if (totalAdditions.containsKey(date)){
+  //       //if contains, then add one to the value
+  //       int totalFromFirebase = totalAdditions[date]!;
+  //       totalFromFirebase++;
+  //       totalAdditions[date] = totalFromFirebase;
+  //     }else{
+  //       //create new key
+  //       totalAdditions[date] = 1;
+  //     }
+  //     print(totalAdditions);
+  //
+  //   });
+  //   //last resort method to add total at the end
+  //   totalAdditions.forEach((key, value) {
+  //     dbHelper.incrementCounter(key, value);
+  //   });
+  // }
 
   //get touch percentages in the past 24 hours
   Future<Map<String, double>> calculateTouchPercentages(
@@ -268,6 +343,7 @@ class DollDataAnalyzeHelper {
 
   //get total SqueezeTouchData for the current week
   Future<Map<int, int>> getDataProcessedForThisWeek(String currentDate) async {
+
     DbHelper dbHelper = new DbHelper();
     //get range of dates to find
     Map<int, String> allDatesInWeek = getDatesInWeek(currentDate);

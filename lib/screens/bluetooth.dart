@@ -1,229 +1,10 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_blue/flutter_blue.dart';
-// import 'package:permission_handler/permission_handler.dart';
-// import 'package:project_lily/component/Avatar.dart';
-// import 'package:project_lily/component/ElevatedButton.dart';
-// import 'package:project_lily/constants.dart';
-// import 'package:percent_indicator/percent_indicator.dart';
-// import '../Data/Users.dart';
-// import '../component/AppBar.dart';
-// import '../component/Cardboard.dart';
-// import '../component/NavigationBar.dart';
-// import '../component/ToggleButton.dart';
-// import '../component/ToggleButtonCard.dart';
-//
-// class BluetoothPage extends StatefulWidget {
-//   static const String id = 'bluetooth_page';
-//
-//   @override
-//   _BluetoothPageScreenState createState() => _BluetoothPageScreenState();
-// }
-//
-// class _BluetoothPageScreenState extends State<BluetoothPage> {
-//   bool isPressed = false;
-//   bool isConnect = false;
-//   String isConnectLabel = '';
-//
-//   List<BluetoothDevice> devices = [];
-//   final FlutterBlue flutterBlue = FlutterBlue.instance;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _startScan();
-//     // startScanCustom();
-//   }
-//
-//   Future<void> _startScan() async {
-//     // Request permission
-//     PermissionStatus status = await Permission.bluetoothScan.request();
-//     PermissionStatus connectStatus = await Permission.bluetoothConnect.request();
-//
-//     flutterBlue.startScan();
-//
-//     if(status.isGranted && connectStatus.isGranted){
-//       flutterBlue.scanResults.listen((List<ScanResult> scanResults) {
-//         for (ScanResult scanResult in scanResults) {
-//           if (!devices.contains(scanResult.device) && scanResult.device.name.toLowerCase() =="DHT22") {
-//             setState(() {
-//               devices.add(scanResult.device);
-//               print("added devices");
-//             });
-//             // print("Added device based on bluetooth:" + scanResult.device.name);
-//           }
-//         }
-//       });
-//
-//     }
-//
-//
-//
-//   }
-//
-//   void _connectToDevice(BluetoothDevice device) async {
-//     try{
-//       device.connect().then((value) => print("Connected"));
-//     }catch (e){
-//       print("Error is" +  e.toString());
-//     }
-//
-//     // Connection established, now you can exchange data
-//   }
-//
-//   Future<void> checkServices(BluetoothDevice device) async {
-//     List<BluetoothService> services = await device.discoverServices();
-//     services.forEach((service) {
-//       // do something with service
-//       print("Service name: " + service.uuid.toString());
-//
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: PreferredSize(
-//         preferredSize: Size.fromHeight(85),
-//         child: appBar(title: 'Bluetooth'),
-//       ),
-//       body: Container(
-//         color: backgroundColor,
-//         child: Padding(
-//           padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
-//           child: ListView(
-//             // crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               ToggleButtonCard(
-//                 label: 'Bluetooth',
-//                 onChange: () =>{
-//                   // startScanCustom()
-//                   _startScan()
-//                 },
-//               ),
-//               SizedBox(
-//                 height: 20,
-//               ),
-//               Text(
-//                 'Devices',
-//                 style: appBarLabel.copyWith(color: purple4, fontSize: 18),
-//               ),
-//               SizedBox(
-//                 height: 12,
-//               ),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   if (isConnect == false) {
-//                     showDialog(
-//                       context: context,
-//                       builder: (BuildContext context) {
-//                         return AlertDialog(
-//                           title:
-//                               Text('Connect Device', style: appLabelTextStyle),
-//                           content: Text('Do you wish to connect this device?'),
-//                           actions: [
-//                             ElevatedButton(
-//                               onPressed: () {
-//                                 Navigator.pop(context);
-//                               },
-//                               child: Text('CANCEL'),
-//                             ),
-//                             ElevatedButton(
-//                               onPressed: () {
-//                                 setState(() {
-//                                   isConnect = true;
-//                                   isConnectLabel = 'Connected';
-//                                 });
-//                                 Navigator.pop(context);
-//                               },
-//                               child: Text('Connect'),
-//                             ),
-//                           ],
-//                         );
-//                       },
-//                     );
-//                   } else {
-//                     showDialog(
-//                       context: context,
-//                       builder: (BuildContext context) {
-//                         return AlertDialog(
-//                           title: Text('Disconnect Device',
-//                               style: appLabelTextStyle),
-//                           content:
-//                               Text('Do you wish to disconnect this device?'),
-//                           actions: [
-//                             ElevatedButton(
-//                               onPressed: () {
-//                                 Navigator.pop(context);
-//                               },
-//                               child: Text('CANCEL'),
-//                             ),
-//                             ElevatedButton(
-//                               onPressed: () {
-//                                 setState(() {
-//                                   isConnect = false;
-//                                   isConnectLabel = '';
-//                                 });
-//                                 Navigator.pop(context);
-//                               },
-//                               child: Text('Disconnect'),
-//                             ),
-//                           ],
-//                         );
-//                       },
-//                     );
-//                   }
-//                 },
-//                 style: ElevatedButton.styleFrom(
-//                   primary: Color(0xDDE6D3F6),
-//                   onPrimary: Colors.black,
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(13),
-//                   ),
-//                 ),
-//                 child: ListView.builder(
-//                     itemCount: devices.length,
-//                     shrinkWrap: true,
-//                     itemBuilder: (BuildContext context, int index) {
-//                       BluetoothDevice device = devices[index];
-//                       return ListTile(
-//                         title: Text(device.name),
-//                         onTap: () {
-//                           _connectToDevice(device);
-//                           checkServices(device);
-//                         },
-//                       );
-//                     }
-//                     // Row(
-//                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     // children: [
-//                     //   Text(
-//                     //     'LilyDoll',
-//                     //     style: appBarLabel.copyWith(color: Colors.black, fontSize: 16),
-//                     //   ),
-//                     //   SizedBox(width: 50),
-//                     //   Text(
-//                     //     '$isConnectLabel',style: appLabelTextStyle.copyWith(color: Colors.lightGreen),
-//                     //   ),
-//                     // ],
-//                     ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:project_lily/BluetoothService.dart';
 import 'package:project_lily/constants.dart';
-import 'package:project_lily/screens/BluetoothDataListener.dart';
-import 'package:project_lily/screens/loadingPage.dart';
 
 import '../Data/SqueezeTouchData.dart';
 import '../component/AppBar.dart';
@@ -231,6 +12,10 @@ import '../helperMethods/DollDataAnalyzeHelper.dart';
 
 class BluetoothPage extends StatefulWidget {
   static const String id = 'bluetooth_page';
+  LocalBluetoothService? bleService;
+
+  BluetoothPage({this.bleService});
+
   @override
   _BluetoothPageState createState() => _BluetoothPageState();
 }
@@ -243,6 +28,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
 
   List<String> receivedData = [];
   List<String> touchDataString = [];
+
   // List<String> alreadyAddedData =[];
   List<SqueezeTouchData> touchData = [];
   DollDataAnalyzeHelper analyzeHelper = new DollDataAnalyzeHelper();
@@ -383,7 +169,8 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                 ? scanResults[index].device.name!
                                 : unknown,
                           ),
-                          subtitle: Text(scanResults[index].device.id.toString()),
+                          subtitle:
+                              Text(scanResults[index].device.id.toString()),
                           // onTap: () {
                           //   _connectToDevice(scanResults[index].device);
                           //   // Add your dialog code here
@@ -409,8 +196,9 @@ class _BluetoothPageState extends State<BluetoothPage> {
                           ],
                           onSelected: (value) async {
                             if (value == 'connect') {
-                              _connectToDevice(scanResults[index].device);
-
+                              // _connectToDevice(scanResults[index].device);
+                              widget.bleService!
+                                  .connectToDevice(scanResults[index].device);
                               //establishing connection
                               showDialog(
                                   context: context,
@@ -421,69 +209,104 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                       //downloading data
                                       showDialog(
                                           context: context,
-                                          builder: (BuildContext context){
+                                          builder: (BuildContext context) {
                                             Timer(Duration(seconds: 5), () {
                                               Navigator.of(context).pop();
 
                                               //done screen
                                               showDialog(
                                                   context: context,
-                                                  builder: (BuildContext context){
-                                                    Timer(Duration(seconds: 2), () {
-                                                      Navigator.of(context).pop();
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    Timer(Duration(seconds: 2),
+                                                        () {
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     });
                                                     return Dialog(
-                                                      backgroundColor: Colors.transparent,
+                                                      backgroundColor:
+                                                          Colors.transparent,
                                                       elevation: 0,
                                                       child: Container(
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: Colors.white,
-                                                          borderRadius: BorderRadius.circular(10),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
                                                         ),
-                                                        padding: EdgeInsets.all(20),
+                                                        padding:
+                                                            EdgeInsets.all(20),
                                                         child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
-                                                            Icon(Icons.done_outline_rounded,size: 60,color: Colors.deepPurple,)
-                                                                .animate().fade(delay: 400.ms),
+                                                            Icon(
+                                                              Icons
+                                                                  .done_outline_rounded,
+                                                              size: 60,
+                                                              color: Colors
+                                                                  .deepPurple,
+                                                            ).animate().fade(
+                                                                delay: 400.ms),
                                                             SizedBox(height: 8),
-                                                            Text('All data has been successfully fetched!',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(fontSize: 16,),
+                                                            Text(
+                                                              'All data has been successfully fetched!',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
                                                       ),
                                                     );
                                                   });
-
                                             });
                                             return Dialog(
-                                              backgroundColor: Colors.transparent,
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               elevation: 0,
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
                                                 padding: EdgeInsets.all(20),
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
-                                                    Icon(Icons.download,size: 60,color: Colors.deepPurple,)
-                                                        .animate(onPlay: (controller) => controller.repeat(), // loop
-                                                ).fade(delay: 650.ms),
-                                                    SizedBox(height: 8,),
-                                                    Text('Downloading data...',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(fontSize: 16,),
+                                                    Icon(
+                                                      Icons.download,
+                                                      size: 60,
+                                                      color: Colors.deepPurple,
+                                                    )
+                                                        .animate(
+                                                          onPlay: (controller) =>
+                                                              controller
+                                                                  .repeat(), // loop
+                                                        )
+                                                        .fade(delay: 650.ms),
+                                                    SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    Text(
+                                                      'Downloading data...',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                             );
                                           });
-
                                     });
 
                                     return Dialog(
@@ -492,7 +315,8 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         padding: EdgeInsets.all(20),
                                         child: Column(
@@ -500,7 +324,9 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                           children: [
                                             CircularProgressIndicator(),
                                             SizedBox(height: 20),
-                                            Text('Establishing connection...',style: TextStyle(fontSize: 16),
+                                            Text(
+                                              'Establishing connection...',
+                                              style: TextStyle(fontSize: 16),
                                             ),
                                           ],
                                         ),
@@ -509,14 +335,13 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                   });
 
                               // Navigator.pushNamed(context, LoadingAnimation.id);
-
-
                             } else if (value == 'disconnect') {
-                              Object? result = await scanResults[index].device.disconnect();
+                              Object? result =
+                                  await scanResults[index].device.disconnect();
                               print(result);
                               showDialog(
                                   context: context,
-                                  builder: (BuildContext context){
+                                  builder: (BuildContext context) {
                                     Timer(Duration(seconds: 1), () {
                                       Navigator.of(context).pop();
                                     });
@@ -526,15 +351,19 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         padding: EdgeInsets.all(20),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text('Disconnected',
+                                            Text(
+                                              'Disconnected',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(fontSize: 16,),
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -549,7 +378,6 @@ class _BluetoothPageState extends State<BluetoothPage> {
                   );
                 },
               ),
-
             ),
           ),
         ],
@@ -560,34 +388,71 @@ class _BluetoothPageState extends State<BluetoothPage> {
   bool _isProcessingData = false;
   List<String> _dataBuffer = [];
 
-  void _startListening(BluetoothDevice device) async {
-    List<BluetoothService> services = await device.discoverServices();
-    services.forEach((service) {
-      service.characteristics.forEach((characteristic) {
-        if (characteristic.properties.notify) {
-          characteristic.setNotifyValue(true).then((value) {
-            if (!_isDisposed) {
-              // Check if widget is disposed
-              characteristic.value.listen((data) {
-                setState(() {
-                  if (!_isDisposed) {
-                    // Check if widget is disposed
-                    String dataString = String.fromCharCodes(data);
-                    if (dataString.toLowerCase() != "connecting" &&
-                        dataString != "0") {
-                      _dataBuffer.add(dataString);
-                    }// Add received data to buffer
-                    receivedData.add(String.fromCharCodes(data));
-                    _processData(); // Process the data
-                  }
-                });
-              });
-            }
-          });
-        }
-      });
-    });
-  }
+  // void _startListening(BluetoothDevice device) async {
+  //   List<BluetoothService> services = await device.discoverServices();
+  //   services.forEach((service) {
+  //     service.characteristics.forEach((characteristic) {
+  //       if (characteristic.properties.notify) {
+  //         characteristic.setNotifyValue(true).then((value) {
+  //           if (!_isDisposed) {
+  //             // Check if widget is disposed
+  //             characteristic.value.listen((data) {
+  //               setState(() {
+  //                 if (!_isDisposed) {
+  //                   // Check if widget is disposed
+  //                   String dataString = String.fromCharCodes(data);
+  //                   if (dataString.toLowerCase() != "connecting" &&
+  //                       dataString != "0") {
+  //                     _dataBuffer.add(dataString);
+  //                     print(dataString);
+  //                   }// Add received data to buffer
+  //                   receivedData.add(String.fromCharCodes(data));
+  //                   _processData(); // Process the data
+  //                 }
+  //               });
+  //             });
+  //           }
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
+
+  // void _startListening(BluetoothDevice device) async {
+  //   List<BluetoothService> services = await device.discoverServices();
+  //   services.forEach((service) {
+  //     service.characteristics.forEach((characteristic) {
+  //       if (characteristic.properties.notify) {
+  //         characteristic.setNotifyValue(true).then((value) {
+  //           if (!mounted) {
+  //             // Check if the widget is disposed
+  //             return;
+  //           }
+  //           if (!_isDisposed) {
+  //             // Check if widget is disposed
+  //             characteristic.value.listen((data) {
+  //               setState(() {
+  //                 if (!_isDisposed) {
+  //                   // Check if widget is disposed
+  //                   String dataString = String.fromCharCodes(data);
+  //                   // String dataString = String.fromCharCodes(data);
+  //                   print(dataString);
+  //                   if (dataString.toLowerCase() != "connecting" &&
+  //                       dataString != "0") {
+  //                     _dataBuffer.add(dataString);
+  //                     print(dataString);
+  //                   }
+  //                   receivedData.add(String.fromCharCodes(data));
+  //                   _processData(); // Process the data
+  //                 }
+  //               });
+  //             });
+  //           }
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
 
   void _processData() {
     if (!_isProcessingData) {
@@ -644,8 +509,8 @@ class _BluetoothPageState extends State<BluetoothPage> {
       //   context,
       //   MaterialPageRoute(builder: (context) => BluetoothDataListener(device: device)),
       // );
-      _startListening(device);
-
+      widget.bleService!.startListening(device);
+      // _startListening(device);
     } catch (e) {
       print('Failed to connect to device: $e');
     }
