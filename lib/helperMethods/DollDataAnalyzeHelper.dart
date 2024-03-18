@@ -13,7 +13,7 @@ class DollDataAnalyzeHelper {
 
   //create variable to store how many additions to each date
   //initialize this with already existing data
-  Map<String,int> totalAdditions = new Map<String,int>();
+  static Map<String,int> totalAdditions = new Map<String,int>();
 
 
   Future<void> initializeTotalAdditions() async {
@@ -75,51 +75,107 @@ print(totalAdditions);
   }
 
   void decodeDollDataBLE(List<String> lines) async {
-
-    List<SqueezeTouchData> SqueezeTouchDataList = [];
-    //decode doll data
+    List<SqueezeTouchData> squeezeTouchDataList = [];
+    // Decode doll data
     List<List<String>> data = await parseTextFileBLE(lines);
 
-    //create list of squeeze touch objects
-    SqueezeTouchDataList = await addToList(data);
+    // Create list of squeeze touch objects
+    squeezeTouchDataList = await addToList(data);
 
+    // Save objects into Firebase
+    DbHelper dbHelper = DbHelper();
+    // Iterate over squeezeTouchDataList using for loop
+    for (final element in squeezeTouchDataList) {
+      // Add the document to the Firestore subcollection
+      await dbHelper.addDocumentToDateSubcollection(element);
 
-
-    //save objects into firebase
-    DbHelper dbHelper = new DbHelper();
-    SqueezeTouchDataList.forEach((element) async {
-
-      //add random timestamp between this current week
-      dbHelper.addDocumentToDateSubcollection(element);
-      // Define start and end dates
-      // DateTime startDate = DateTime(2024, 3, 17);
-      // DateTime endDate = DateTime(2024, 3, 19);
-
-      // Generate a random DateTime within the range
-      // DateTime randomDate = randomizeDateTime(startDate, endDate);
-      // var date = DateFormat('dd-MM-y').format(randomDate);
+      // Get the date from the squeeze touch data
       var date = DateFormat('dd-MM-y').format(element.timestamp);
       print("totalAdditions: ${totalAdditions}");
       print("Date is + ${date}");
 
-      if (totalAdditions.containsKey(date)){
-        //if contains, then add one to the value
+      if (totalAdditions.containsKey(date)) {
+        // If contains, then add one to the value
         int totalFromFirebase = totalAdditions[date]!;
         totalFromFirebase++;
         totalAdditions[date] = totalFromFirebase;
-      }else{
-        //create new key
+      } else {
+        // Create new key
         totalAdditions[date] = 1;
       }
       print(totalAdditions);
+    }
 
-    });
-
-    //last resort method to add total at the end
+    // Last resort method to add total at the end
     totalAdditions.forEach((key, value) {
       dbHelper.incrementCounter(key, value);
     });
   }
+
+  // void decodeDollDataBLE(List<String> lines) async {
+  //
+  //   List<SqueezeTouchData> SqueezeTouchDataList = [];
+  //   //decode doll data
+  //   List<List<String>> data = await parseTextFileBLE(lines);
+  //
+  //   //create list of squeeze touch objects
+  //   SqueezeTouchDataList = await addToList(data);
+  //
+  //
+  //
+  //   //save objects into firebase
+  //   DbHelper dbHelper = new DbHelper();
+  //   SqueezeTouchDataList.forEach((element) async {
+  //   //
+  //   //   //add random timestamp between this current week
+  //     dbHelper.addDocumentToDateSubcollection(element);
+  //   //   // Define start and end dates
+  //   //   // DateTime startDate = DateTime(2024, 3, 17);
+  //   //   // DateTime endDate = DateTime(2024, 3, 19);
+  //   //
+  //   //   // Generate a random DateTime within the range
+  //   //   // DateTime randomDate = randomizeDateTime(startDate, endDate);
+  //     // var date = DateFormat('dd-MM-y').format(randomDate);
+  //     var date = DateFormat('dd-MM-y').format(element.timestamp);
+  //     print("totalAdditions: ${totalAdditions}");
+  //     print("Date is + ${date}");
+  //
+  //     if (totalAdditions.containsKey(date)){
+  //       //if contains, then add one to the value
+  //       int totalFromFirebase = totalAdditions[date]!;
+  //       totalFromFirebase++;
+  //       totalAdditions[date] = totalFromFirebase;
+  //     }
+  //     // else{
+  //     //   //create new key
+  //     //   totalAdditions[date] = 1;
+  //     // }
+  //     print(totalAdditions);
+  //
+  //   });
+  //
+  //   // for (final squeezeTouchData in SqueezeTouchDataList) {
+  //   //   // Add the document to the Firestore subcollection
+  //   //   await dbHelper.addDocumentToDateSubcollection(squeezeTouchData);
+  //   //
+  //   //   // Get the date from the squeeze touch data
+  //   //   var date = DateFormat('dd-MM-y').format(squeezeTouchData.timestamp);
+  //   //
+  //   //   // Update totalAdditions map
+  //   //   if (totalAdditions.containsKey(date)) {
+  //   //     // If contains, then add one to the value
+  //   //     totalAdditions[date] = totalAdditions[date]! + 1;
+  //   //   }
+  //   //   // } else {
+  //   //   //   // Create new key
+  //   //   //   totalAdditions[date] = 1;
+  //   //   // }
+  //   // }
+  //   //last resort method to add total at the end
+  //   totalAdditions.forEach((key, value) {
+  //     dbHelper.incrementCounter(key, value);
+  //   });
+  // }
 
   List<SqueezeTouchData> addToList(List<List<String>> dummy) {
     List<SqueezeTouchData> datalist = [];
