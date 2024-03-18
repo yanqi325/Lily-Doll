@@ -119,7 +119,7 @@ class _DashboardScreenState extends State<Dashboard> {
                 ),
                 SizedBox(height: 12,),
                 Container(
-                  height: 130,
+                  height: 150,
                   child: ListView(
                     scrollDirection: Axis.vertical,
                     children: [
