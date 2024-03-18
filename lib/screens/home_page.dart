@@ -134,6 +134,7 @@ class _HomePageScreenState extends State<HomePage> {
                               height: 340,
                             ),
                           ),
+                          SizedBox(height: 25,),
                           Row(
                             children: [
                               Text(
@@ -156,19 +157,19 @@ class _HomePageScreenState extends State<HomePage> {
                               style: appBarLabel.copyWith(color: purple4, fontSize: 12),),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'Bluetooth',
-                                textAlign: TextAlign.left,
-                                style: appLabelTextStyle,
-                              ),
-                              SizedBox(
-                                width: 40,
-                              ),
-                              ToggleButton(isSwitched: isSwitched),
-                            ],
-                          )
+                          // Row(
+                          //   children: [
+                          //     Text(
+                          //       'Bluetooth',
+                          //       textAlign: TextAlign.left,
+                          //       style: appLabelTextStyle,
+                          //     ),
+                          //     SizedBox(
+                          //       width: 40,
+                          //     ),
+                          //     ToggleButton(isSwitched: isSwitched),
+                          //   ],
+                          // )
                         ],
                       ),
                     ),
