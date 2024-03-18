@@ -43,6 +43,9 @@ class _AddLessonScreenState extends State<AddLesson> {
   void onChangedCallbackDesc(String value){
     lessonDesc = value;
   }
+  void onChangedCallbackVideo(String value) {
+    thumbnailUrl = value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +155,8 @@ class _AddLessonScreenState extends State<AddLesson> {
                                   title: 'Video Link',
                                   hintText: 'Enter course video link',
                                     isSelection: false,
-                                    initialValue: ""
+                                    initialValue: "",
+                                  onChanged: onChangedCallbackVideo,
                                 ),
                                 SizedBox(height: 3,),
                               ],

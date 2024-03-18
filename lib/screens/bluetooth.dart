@@ -384,10 +384,10 @@ class _BluetoothPageState extends State<BluetoothPage> {
                                 : unknown,
                           ),
                           subtitle: Text(scanResults[index].device.id.toString()),
-                          onTap: () {
-                            _connectToDevice(scanResults[index].device);
-                            // Add your dialog code here
-                          },
+                          // onTap: () {
+                          //   _connectToDevice(scanResults[index].device);
+                          //   // Add your dialog code here
+                          // },
                         ),
                       ),
                       Positioned(

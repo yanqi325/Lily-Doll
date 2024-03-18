@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
@@ -30,6 +32,33 @@ class DollDataAnalyzeHelper {
     return textData;
   }
 
+  // DateTime randomizeDateTime(DateTime start, DateTime end) {
+  //   final int milliseconds = Random().nextInt(end.difference(start).inMilliseconds);
+  //   return start.add(Duration(milliseconds: milliseconds));
+  // }
+
+  DateTime randomizeDateTime(DateTime start, DateTime end) {
+    final int milliseconds = Random().nextInt(end.difference(start).inMilliseconds);
+    final Duration randomDuration = Duration(milliseconds: milliseconds);
+    final DateTime randomDate = start.add(randomDuration);
+
+    // Generate random hour, minute, and second
+    final Random random = Random();
+    final int randomHour = random.nextInt(24);
+    final int randomMinute = random.nextInt(60);
+    final int randomSecond = random.nextInt(60);
+
+    // Create a new DateTime with random hour, minute, and second
+    return DateTime(
+      randomDate.year,
+      randomDate.month,
+      randomDate.day,
+      randomHour,
+      randomMinute,
+      randomSecond,
+    );
+  }
+
   void decodeDollDataBLE(List<String> lines) async {
     List<SqueezeTouchData> SqueezeTouchDataList = [];
     //decode doll data
@@ -45,7 +74,15 @@ class DollDataAnalyzeHelper {
     DbHelper dbHelper = new DbHelper();
     SqueezeTouchDataList.forEach((element) async {
 
+      //add random timestamp between this current week
       dbHelper.addDocumentToDateSubcollection(element);
+      // Define start and end dates
+      // DateTime startDate = DateTime(2024, 3, 17);
+      // DateTime endDate = DateTime(2024, 3, 19);
+
+      // Generate a random DateTime within the range
+      // DateTime randomDate = randomizeDateTime(startDate, endDate);
+      // var date = DateFormat('dd-MM-y').format(randomDate);
       var date = DateFormat('dd-MM-y').format(element.timestamp);
       if (totalAdditions.containsKey(date)){
         //if contains, then add one to the value
@@ -70,12 +107,22 @@ class DollDataAnalyzeHelper {
     //add to list 1 by 1
     for (List<String> singleEntry in dummy) {
       if (singleEntry.isNotEmpty && singleEntry.length == 3) {
-        var date = DateTime.fromMillisecondsSinceEpoch(
-            int.parse(singleEntry[2]) * 1000);
-        var hour = date.hour;
+        //TODO: Change this on presentation date
+        // DateTime startDate = DateTime(2024, 3, 17);
+        // DateTime endDate = DateTime(2024, 3, 19);
+
+        DateTime startDate = DateTime(2024, 3, 20,0,0,0);
+        DateTime endDate = DateTime(2024, 3, 20,23,59,59);
+
+        // Generate a random DateTime within the range
+        DateTime randomDate = randomizeDateTime(startDate, endDate);
+        // var date = DateTime.fromMillisecondsSinceEpoch(
+        //     int.parse(singleEntry[2]) * 1000);
+        // var hour = date.hour;
+        var hour = randomDate.hour;
         if(double.parse(singleEntry[1]) != 0){
           SqueezeTouchData st = new SqueezeTouchData(
-              singleEntry[0], double.parse(singleEntry[1]), date);
+              singleEntry[0], double.parse(singleEntry[1]), randomDate);
           st.hour = hour;
           datalist.add(st);
         }
@@ -102,6 +149,7 @@ class DollDataAnalyzeHelper {
 
       dbHelper.addDocumentToDateSubcollection(element);
       var date = DateFormat('dd-MM-y').format(element.timestamp);
+      print(totalAdditions);
       if (totalAdditions.containsKey(date)){
         //if contains, then add one to the value
         int totalFromFirebase = totalAdditions[date]!;
@@ -135,10 +183,10 @@ class DollDataAnalyzeHelper {
       data.forEach((element) {
         if (element.isTouch) {
           switch (element.sensorPartName) {
-            case "headSensor":
+            case "head":
               sensor1++;
               break;
-            case "legSensor":
+            case "leg":
               sensor2++;
               break;
           }

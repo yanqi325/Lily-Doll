@@ -96,6 +96,9 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
         getTitlesWidget: (double value, meta) {
           String text = '';
           switch (value.toInt()) {
+            case 0:
+              text = "Sun";
+              break;
             case 1:
               text = 'Mon';
               break;
@@ -128,7 +131,7 @@ class SqueezeBarChart extends State<SqueezesBarChartWidget> {
   List<BarChartGroupData> _chartGroups() {
     List<BarChartGroupData> list = List<BarChartGroupData>.empty(
         growable: true);
-    for (int i = 1; i < 7; i++) {
+    for (int i = 1; i <= 7; i++) {
       list.add(BarChartGroupData(x: i, barRods: [
         BarChartRodData(
             toY: widget.dailySqueeze![i]!.toDouble(), color: Color(0xFFDA7BFC), width: 15)
