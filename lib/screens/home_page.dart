@@ -134,7 +134,7 @@ class _HomePageScreenState extends State<HomePage> {
                               height: 500,
                             ),
                           ),
-                          SizedBox(height: 40,),
+                          SizedBox(height: 25,),
                           Row(
                             children: [
                               Text(
