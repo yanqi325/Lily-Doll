@@ -76,24 +76,24 @@ class DbHelper {
           dateSubcollectionRef.collection(data.hour.toString());
 
       // Add a 'total' collection to ease data retrieval
-      CollectionReference totalItemRef =
-          dateSubcollectionRef.collection("TotalItems");
-      DocumentReference totalDocRef = totalItemRef.doc("total");
+      // CollectionReference totalItemRef =
+      //     dateSubcollectionRef.collection("TotalItems");
+      // DocumentReference totalDocRef = totalItemRef.doc("total");
 
       //modify total doc ref
-      DocumentSnapshot totalDocSnapshot = await totalItemRef.doc("total").get();
-      if (totalDocSnapshot.exists) {
-        num existingTotal =
-            (totalDocSnapshot.data() as Map<String, dynamic>)["Total"];
-        print("existingTotal is" + existingTotal.toString());
-        existingTotal++;
-        //alter it
-        totalDocRef.set({"Total": existingTotal});
-        print("Set Existing Total as: " + existingTotal.toString());
-      } else {
-        //create new document
-        totalDocRef.set({"Total": 0});
-      }
+      // DocumentSnapshot totalDocSnapshot = await totalItemRef.doc("total").get();
+      // if (totalDocSnapshot.exists) {
+      //   num existingTotal =
+      //       (totalDocSnapshot.data() as Map<String, dynamic>)["Total"];
+      //   print("existingTotal is" + existingTotal.toString());
+      //   existingTotal++;
+      //   //alter it
+      //   totalDocRef.set({"Total": existingTotal});
+      //   print("Set Existing Total as: " + existingTotal.toString());
+      // } else {
+      //   //create new document
+      //   totalDocRef.set({"Total": 0});
+      // }
 
       await hourRef.add(squeezeTouchData);
 

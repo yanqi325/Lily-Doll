@@ -1,6 +1,7 @@
 import 'package:circular_chart_flutter/circular_chart_flutter.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_lily/component/SqueezesCircularChart.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/screens/help_center.dart';
@@ -20,9 +21,21 @@ class Squeezes extends StatefulWidget {
 class _SqueezesScreenState extends State<Squeezes> {
   int? touchedBarIndex = 0;
 
+  String getFormattedDate(DateTime date) {
+    // Define the date format
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    // Format the date using the formatter
+    return formatter.format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
     DollDataAnalyzeHelper dollDataAnalyzeHelper = new DollDataAnalyzeHelper();
+
+    // Get today's date
+    DateTime now = DateTime.now();
+    // Format the date
+    String formattedDate = getFormattedDate(now);
 
     return Scaffold(
         appBar: PreferredSize(
@@ -34,7 +47,7 @@ class _SqueezesScreenState extends State<Squeezes> {
           ),
         ),
         body: FutureBuilder(
-            future: Future.wait([dollDataAnalyzeHelper.calculateSqueezePercentages("01-01-2024"),dollDataAnalyzeHelper.getDataProcessedForThisWeek("01-01-2024")]),
+            future: Future.wait([dollDataAnalyzeHelper.calculateSqueezePercentages(formattedDate),dollDataAnalyzeHelper.getDataProcessedForThisWeek(formattedDate)]),
             builder: (context,snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());

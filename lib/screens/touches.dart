@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_lily/constants.dart';
 import 'package:project_lily/helperMethods/DbHelper.dart';
 import 'package:project_lily/helperMethods/DollDataAnalyzeHelper.dart';
@@ -13,9 +14,21 @@ class Touches extends StatefulWidget {
 }
 
 class _TouchesScreenState extends State<Touches> {
+
+  String getFormattedDate(DateTime date) {
+    // Define the date format
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    // Format the date using the formatter
+    return formatter.format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
     DollDataAnalyzeHelper dollDataAnalyzeHelper = new DollDataAnalyzeHelper();
+    // Get today's date
+    DateTime now = DateTime.now();
+    // Format the date
+    String formattedDate = getFormattedDate(now);
 
     return Scaffold(
         appBar: PreferredSize(
@@ -25,7 +38,7 @@ class _TouchesScreenState extends State<Touches> {
         ),
         body:
         FutureBuilder<Map<String, double>>(
-            future: dollDataAnalyzeHelper.calculateTouchPercentages("01-01-1970"),
+            future: dollDataAnalyzeHelper.calculateTouchPercentages(formattedDate),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -107,7 +120,7 @@ class _TouchesScreenState extends State<Touches> {
                                     height: 20,
                                   ),
                                   TouchesPart(
-                                    label: 'Sensor 1',
+                                    label: 'Head',
                                     color: Colors.blue,
                                     percentage: touchData["sensor1"] != null? touchData["sensor1"]: 0,
                                   ),
@@ -115,7 +128,7 @@ class _TouchesScreenState extends State<Touches> {
                                     height: 10,
                                   ),
                                   TouchesPart(
-                                    label: 'Sensor 2',
+                                    label: 'Body',
                                     color: Colors.orangeAccent,
                                     percentage: touchData["sensor2"] != null? touchData["sensor2"]: 0,
                                   ),
@@ -123,17 +136,17 @@ class _TouchesScreenState extends State<Touches> {
                                     height: 10,
                                   ),
                                   TouchesPart(
-                                    label: 'Crotch',
+                                    label: 'Leg',
                                     color: purple5,
-                                    percentage: 0.1,
+                                    percentage: 0,
                                   ),
                                   SizedBox(
                                     height: 10,
                                   ),
                                   TouchesPart(
-                                    label: 'Behind',
+                                    label: 'Hand',
                                     color: purple4,
-                                    percentage: 0.3,
+                                    percentage: 0,
                                   ),
                                 ],
                               ),
