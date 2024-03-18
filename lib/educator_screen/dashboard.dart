@@ -42,7 +42,7 @@ class _DashboardScreenState extends State<Dashboard> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 450,
+          height: MediaQuery.of(context).size.height -180, // Adjust the multiplier as needed
           color: backgroundColor,
           child: Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 25),
