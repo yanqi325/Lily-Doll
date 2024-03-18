@@ -23,33 +23,33 @@ class _CoursesPageScreenState extends State<CoursesPage> {
 
     //hard coded values: do not touch
     Widget course1 = CourseDescription(
-        courseTitle: "Sex Education",
+        courseTitle: "Maths",
         numOfStudents: 190,
         descText:
-            "This is a course where students will learn about their rights of their body",
-        imagePath: 'images/sex_education.png',
+            "A math course tailored for autistic children utilizes visual aids and structured, repetitive exercises to facilitate understanding and engagement. Through personalized support and a sensory-friendly environment, it aims to foster confidence and success in mathematical concepts.",
+        imagePath: 'images/maths.png',
         altText: "You are not enrolled in this course!",
         isEnrolled: false,
         isEducatorMode: false,
         isOnlineAsset: false);
 
     Widget course2 = CourseDescription(
-        courseTitle: "Daily Life",
+        courseTitle: "Reading",
         numOfStudents: 3,
         descText:
-            "This is a course where students will learn about the ins and outs of life",
-        imagePath: 'images/daily_life.png',
+            "Tailored to the unique needs of autistic children, our reading course offers a supportive environment where every child can thrive. With specialized techniques and personalized attention, we foster a love for reading while nurturing individual strengths.",
+        imagePath: 'images/reading.png',
         altText: "You are not enrolled in this course!",
         isEnrolled: false,
         isEducatorMode: false,
         isOnlineAsset: false);
 
     Widget course3 = CourseDescription(
-        courseTitle: "Shapes",
+        courseTitle: "Speaking",
         numOfStudents: 65,
         descText:
-            "This is a course where students will learn about the different types of shapes",
-        imagePath: 'images/shape.png',
+            "A specialized speaking course tailored for autistic children provides structured and supportive communication environments, fostering their confidence and language skills. Through personalized approaches and understanding of their unique needs, these courses aim to empower autistic children to express themselves more effectively.",
+        imagePath: 'images/speaking.png',
         altText: "You are not enrolled in this course!",
         isEnrolled: false,
         isEducatorMode: false,
@@ -133,9 +133,9 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                             child: Row(
                               children: [
                                 iconButton(
-                                  label: 'Sex Education',
+                                  label: 'Maths',
                                   //extract from Courses class?
-                                  image: 'images/sex_education.png',
+                                  image: 'images/maths.png',
                                   //extract from Courses class?
                                   route: course1,
                                 ), //add route
@@ -143,8 +143,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                   width: 20,
                                 ),
                                 iconButton(
-                                  label: 'Daily Life',
-                                  image: 'images/daily_life.png',
+                                  label: 'Reading',
+                                  image: 'images/reading.png',
                                   route: course2,
                                 ),
                                 //add route
@@ -152,8 +152,8 @@ class _CoursesPageScreenState extends State<CoursesPage> {
                                   width: 20,
                                 ),
                                 iconButton(
-                                  label: 'Shape',
-                                  image: 'images/shape.png',
+                                  label: 'Speaking',
+                                  image: 'images/speaking.png',
                                   route: course3,
                                 ), //add route
                               ],
