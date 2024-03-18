@@ -108,11 +108,11 @@ class DollDataAnalyzeHelper {
     for (List<String> singleEntry in dummy) {
       if (singleEntry.isNotEmpty && singleEntry.length == 3) {
         //TODO: Change this on presentation date
-        // DateTime startDate = DateTime(2024, 3, 17);
-        // DateTime endDate = DateTime(2024, 3, 19);
-
-        DateTime startDate = DateTime(2024, 3, 20,0,0,0);
-        DateTime endDate = DateTime(2024, 3, 20,23,59,59);
+        DateTime startDate = DateTime(2024, 3, 17);
+        DateTime endDate = DateTime(2024, 3, 19);
+        //
+        // DateTime startDate = DateTime(2024, 3, 20,0,0,0);
+        // DateTime endDate = DateTime(2024, 3, 20,23,59,59);
 
         // Generate a random DateTime within the range
         DateTime randomDate = randomizeDateTime(startDate, endDate);
