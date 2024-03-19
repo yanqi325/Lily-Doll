@@ -62,6 +62,7 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
 
     _futureUsernames = dbHelper.getAllUsernames();
 
+
     print("At manage course details: " + args["courseTitle"]);
     return Scaffold(
       appBar: PreferredSize(
@@ -84,6 +85,9 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                 statuses.add('');
               }
 
+              List<String> userList = snapshot.data![1];
+
+
               return Container(
                 color: backgroundColor2,
                 child: Padding(
@@ -91,11 +95,11 @@ class _ManageCoursesDetailScreenState extends State<ManageCoursesDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '45 students enrolled in this course',
-                        style: appLabelTextStyle.copyWith(
-                            color: Colors.grey, fontSize: 15),
-                      ),
+                      // Text(
+                      //   '${userList.length} students enrolled in this course',
+                      //   style: appLabelTextStyle.copyWith(
+                      //       color: Colors.grey, fontSize: 15),
+                      // ),
                       SizedBox(
                         height: 10,
                       ),

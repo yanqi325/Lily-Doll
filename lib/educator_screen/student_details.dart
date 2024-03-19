@@ -75,7 +75,7 @@ class _StudentDetailsScreenState extends State<StudentDetails> {
                       SizedBox(height: 20,),
                       CircleAvatar(
                         radius: 40, // Adjust the radius according to your needs
-                        backgroundImage: AssetImage('images/profile.png',), // retrieve from firebase?
+                        backgroundImage: AssetImage(""), // retrieve from firebase?
                       ),
                       SizedBox(height: 8,),
                       Text(

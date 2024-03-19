@@ -183,8 +183,8 @@ print(totalAdditions);
     for (List<String> singleEntry in dummy) {
       if (singleEntry.isNotEmpty && singleEntry.length == 3) {
         //TODO: Change this on presentation date
-        DateTime startDate = DateTime(2024, 3, 19);
-        DateTime endDate = DateTime(2024, 3, 19,23,59,59);
+        DateTime startDate = DateTime(2024, 3, 20);
+        DateTime endDate = DateTime(2024, 3, 20,10,59,59);
         //
         // DateTime startDate = DateTime(2024, 3, 20,0,0,0);
         // DateTime endDate = DateTime(2024, 3, 20,23,59,59);
